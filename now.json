@@ -1,0 +1,19 @@
+{
+  "scope": "me-myself-and-i",
+  "env": {
+    "MONGODB_URI": "@auth_mongodb_uri",
+    "JWT_SECRET": "@auth_jwt_secret",
+    "JWT_AUDIENCE": "@auth_jwt_audience",
+    "JWT_ISSUER": "@auth_jwt_issuer",
+    "EMAIL_API_KEY": "@auth_email_api_key",
+    "EMAIL_SENDER": "@auth_email_sender",
+    "DOMAIN": "@auth_domain",
+    "GRAPHQL_ENDPOINT": "@auth_graphql_endpoint"
+  },
+  "build": {
+    "env": {
+      "DOMAIN": "@auth_domain",
+      "GRAPHQL_ENDPOINT": "@auth_graphql_endpoint"
+    }
+  }
+}
