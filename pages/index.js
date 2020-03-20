@@ -21,10 +21,6 @@ const Index = () => {
   const router = useRouter();
   const { data, loading, error } = useQuery(CurrentUserQuery);
 
-  if (error) {
-    router.push('/signin');
-  }
-
   if (data && data.currentUser) {
     return (
       <div className="container">
@@ -59,6 +55,12 @@ const Index = () => {
   return (
     <div className="container">
       <p>User not found...</p>
+      <button onClick={() => router.push('/signin')}>
+        login
+      </button>
+      <button onClick={() => router.push('/signup')}>
+        register
+      </button>
     </div>
   );
 };
