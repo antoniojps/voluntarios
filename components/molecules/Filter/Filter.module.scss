@@ -1,0 +1,120 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/mixins.scss";
+
+.filter {
+  display: flex;
+
+  &__button {
+    padding: 1rem;
+    border: 0;
+    border-radius: 5px;
+    background-color: $color-background;
+    outline: none;
+    @include box-shadow;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    height: fit-content;
+
+    &:hover,
+    &--active {
+      border-left: 5px solid $color-primary;
+      padding-left: calc(1rem - 5px);
+    }
+
+    svg {
+      height: 20px;
+      width: 20px;
+      transform: rotate(275deg);
+      margin-left: 20px;
+    }
+
+    &__label {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+
+      :first-child {
+        font-size: 1rem;
+        font-weight: bolder;
+        text-transform: uppercase;
+        color: $color-primary;
+        margin: 0;
+        margin-bottom: 3px;
+        padding: 0;
+      }
+
+      :last-child {
+        font-size: 0.8rem;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    border-radius: 5px;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 200px;
+
+    @include custom-scrollbar;
+    @include box-shadow;
+
+    &__head {
+      text-transform: uppercase;
+      font-size: 1rem;
+      font-weight: bolder;
+
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+
+    &__item {
+      font-size: 0.8rem;
+      font-weight: normal;
+    }
+
+    &__item,
+    &__head {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem;
+      cursor: pointer;
+
+      svg {
+        margin-right: 8px;
+        height: 15px;
+        width: 15px;
+      }
+
+      &:hover,
+      &--selected {
+        color: $color-background;
+        background: $color-primary;
+        svg {
+          fill: $color-background;
+        }
+      }
+    }
+
+    input {
+      border: 0;
+      border-top: 1px solid lightgrey;
+      padding: 1rem;
+      outline: none;
+      cursor: text;
+      color: $color-primary;
+
+      &:hover {
+        background: transparent;
+        color: $color-primary;
+      }
+    }
+  }
+}

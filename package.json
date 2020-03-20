@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "eslint": "eslint . --ext .js",
+    "storybook": "start-storybook -p 6006 -c .storybook",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:watch": "jest --watch --runInBand --detectOpenHandles"
   },
@@ -46,8 +47,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@storybook/addon-a11y": "^5.3.17",
+    "@storybook/addon-knobs": "^5.3.17",
+    "@storybook/addon-storysource": "^5.3.17",
+    "@storybook/react": "^5.3.17",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-preset-react-app": "^9.1.1",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
@@ -56,14 +64,8 @@
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "micro": "^9.3.4",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
     "supertest": "^4.0.2"
-  },
-  "prettier": {
-    "semi": true,
-    "trailingComma": "es5",
-    "jsxBracketSameLine": false,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "printWidth": 80
   }
 }
