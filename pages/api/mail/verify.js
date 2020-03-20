@@ -16,7 +16,7 @@ export default async (req, res) => {
       try {
         await sendEmail({
           to,
-          templateId: 'd-615f75613bb74ce597b4a1fa1836c592',
+          templateId: 'd-8f1135aec9604d24987a1d65edfae6f3',
           dynamic_template_data: {
             username,
             to,
