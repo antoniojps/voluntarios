@@ -1,5 +1,3 @@
-import { ThemeProvider } from 'styled-components';
-import theme from 'services/theme';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import App from 'next/app';
