@@ -6,7 +6,6 @@ import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import Field from '../components/field';
 import { getErrorMessage } from '../utils/form';
 import { useRouter } from 'next/router';
-import { Container, Row, Col } from 'styled-bootstrap-grid';
 
 const SignInMutation = gql`
   mutation SignInMutation($email: String!, $password: String!) {
@@ -46,11 +45,11 @@ function SignIn() {
   }
 
   return (
-    <Container>
-      <Row>
+    <div className="container">
+      <div className="row">
         <h1>Sign In</h1>
-      </Row>
-      <Row>
+      </div>
+      <div className="row">
         <form onSubmit={handleSubmit}>
           {errorMsg && <p>{errorMsg}</p>}
           <Field
@@ -72,8 +71,8 @@ function SignIn() {
             <a>Sign up</a>
           </Link>
         </form>
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 }
 
