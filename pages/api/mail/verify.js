@@ -1,4 +1,3 @@
-import sgMail from '@sendgrid/mail';
 import { errSchema, resSchema } from '../../../utils/schemas';
 import { sendEmail } from '../../../services/email'
 
@@ -30,8 +29,8 @@ export default async (req, res) => {
               username,
               url,
             },
-            200
-          )
+            200,
+          ),
         );
       } catch (err) {
         res

@@ -1,4 +1,3 @@
-import gql from 'graphql-tag';
 import request from 'supertest';
 import { usersTokens, defaultUsers } from './seed/users';
 import micro from 'micro';
@@ -67,11 +66,11 @@ describe('authentication', () => {
           .set('Cookie', `token=${usersTokens.admin}; HttpOnly`)
           .send(USER);
 
-        const res = await req;
+        await req;
         expect((res => {
           expect(res.status).toEqual(200)
           expect(res.body.data.user._id).toBe(
-            defaultUsers.normal._id.toHexString()
+            defaultUsers.normal._id.toHexString(),
           )
           expect(res.body.data.user.email).toBe(defaultUsers.normal.email)
         }));
@@ -85,11 +84,11 @@ describe('authentication', () => {
           .set('Cookie', `token=${usersTokens.moderator}; HttpOnly`)
           .send(USER);
 
-        const res = await req;
+        await req;
         expect((res => {
           expect(res.status).toEqual(200)
           expect(res.body.data.user._id).toBe(
-            defaultUsers.normal._id.toHexString()
+            defaultUsers.normal._id.toHexString(),
           )
           expect(res.body.data.user.email).toBe(defaultUsers.normal.email)
         }));
@@ -103,11 +102,11 @@ describe('authentication', () => {
           .set('Cookie', `token=${usersTokens.normal}; HttpOnly`)
           .send(USER);
 
-        const res = await req;
+        await req;
         expect((res => {
           expect(res.status).toEqual(200)
           expect(res.body.data.user._id).toBe(
-            defaultUsers.normal._id.toHexString()
+            defaultUsers.normal._id.toHexString(),
           )
           expect(res.body.data.user.email).toBe(defaultUsers.normal.email)
         }));
@@ -121,7 +120,7 @@ describe('authentication', () => {
           .set('Cookie', `token=${usersTokens.normalAlt}; HttpOnly`)
           .send(USER);
 
-        const res = await req;
+        await req;
         expect((res => {
           expect(res.status).toEqual(200)
           expect(res.body.errors[0].extensions.code).toBe('Unauthorized field email')
@@ -135,7 +134,7 @@ describe('authentication', () => {
           .post('/api/graphql')
           .send(USER);
 
-        const res = await req;
+        await req;
         expect((res => {
           expect(res.status).toEqual(200)
           expect(res.body.errors[0].extensions.code).toBe('Unauthenticated field email')

@@ -1,0 +1,46 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "commonjs": true
+  },
+  "globals": {
+    "process": true,
+    "expect": true,
+    "test": true,
+    "describe": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "afterAll": true,
+    "React": true,
+    "it": true,
+    "__dirname": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "react/prop-types": 0,
+    "react/jsx-uses-vars": [
+      2
+    ],
+    "react/jsx-no-undef": "error",
+    "no-console": 0,
+    // allow paren-less arrow functions
+    "arrow-parens": 0,
+    // allow async-await
+    "generator-star-spacing": 0,
+    // Trailing comma
+    "comma-dangle": ["error", "always-multiline"],
+    "no-unused-vars": ["error", { "varsIgnorePattern": "(React)" }]
+  }
+}

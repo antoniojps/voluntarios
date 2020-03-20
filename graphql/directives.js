@@ -10,7 +10,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
     const { resolver = defaultFieldResolver, name } = field
     const { requires } = this.args
     const whitelistOperations = [
-      'currentUser', 'signIn', 'signUp'
+      'currentUser', 'signIn', 'signUp',
     ]
 
     field.resolve = async function (source, args, context, info) {

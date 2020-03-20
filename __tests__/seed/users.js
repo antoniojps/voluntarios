@@ -25,7 +25,7 @@ export function generateAuthToken({ id, email }, admin, moderator) {
         audience: JWT_AUDIENCE,
         issuer: JWT_ISSUER,
         subject: id,
-      }
+      },
     )
     .toString();
   return token;
@@ -66,7 +66,7 @@ export const usersTokens = {
       id: defaultUsers.admin._id.toHexString(),
       email: defaultUsers.admin.email,
     },
-    true
+    true,
   ),
   moderator: generateAuthToken(
     {
@@ -74,7 +74,7 @@ export const usersTokens = {
       email: defaultUsers.moderator.email,
     },
     false,
-    true
+    true,
   ),
   normal: generateAuthToken({
     id: defaultUsers.normal._id.toHexString(),
@@ -91,7 +91,7 @@ export const populateUsers = () => {
     User.deleteMany({})
       .then(() => {
         const createUsers = Object.keys(defaultUsers).map(key =>
-          new User(defaultUsers[key]).save()
+          new User(defaultUsers[key]).save(),
         );
         Promise.all(createUsers).then(() => {
           resolve();

@@ -19,7 +19,7 @@ const CurrentUserQuery = gql`
 
 const Index = () => {
   const router = useRouter();
-  const { data, loading, error } = useQuery(CurrentUserQuery);
+  const { data, loading } = useQuery(CurrentUserQuery);
 
   if (data && data.currentUser) {
     return (

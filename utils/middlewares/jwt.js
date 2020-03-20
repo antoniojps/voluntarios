@@ -7,7 +7,7 @@ const jwtParser = handler => {
   return async (req, res) => {
     let user = null;
     const { token } = cookie.parse(
-      req && req.headers && req.headers.cookie ? req.headers.cookie : ''
+      req && req.headers && req.headers.cookie ? req.headers.cookie : '',
     );
     if (token) {
       try {

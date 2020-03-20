@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-import jwt from 'jsonwebtoken';
-
-const { JWT_SECRET, JWT_ISSUER } = process.env;
 
 // USER
 // schema
@@ -82,7 +79,7 @@ UserSchema.methods = {
     user.verificationToken = null
     user.verifiedAt = Date.now()
     return user
-  }
+  },
 };
 
 // model

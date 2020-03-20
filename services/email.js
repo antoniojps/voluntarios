@@ -7,7 +7,7 @@ export const sendEmail = async (data) => {
   const msg = {
     from: EMAIL_SENDER,
     ...data,
-    to: process.env.NODE_ENV === 'production' ? data.to : EMAIL_SENDER
+    to: process.env.NODE_ENV === 'production' ? data.to : EMAIL_SENDER,
   };
   try {
     await sgMail.send(msg);
