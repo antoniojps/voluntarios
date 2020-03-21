@@ -46,32 +46,27 @@ function SignIn() {
 
   return (
     <div className="container">
-      <div className="row">
-        <h1>Sign In</h1>
-      </div>
-      <div className="row">
-        <form onSubmit={handleSubmit}>
-          {errorMsg && <p>{errorMsg}</p>}
-          <Field
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            label="Email"
-          />
-          <Field
-            name="password"
-            type="password"
-            autoComplete="password"
-            required
-            label="Password"
-          />
-          <button type="submit">Sign in</button> or{' '}
-          <Link href="signup">
-            <a>Sign up</a>
-          </Link>
-        </form>
-      </div>
+      <form onSubmit={handleSubmit}>
+        {errorMsg && <p>{errorMsg}</p>}
+        <Field
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          label="Email"
+        />
+        <Field
+          name="password"
+          type="password"
+          autoComplete="password"
+          required
+          label="Password"
+        />
+        <button type="submit">Log in</button> or{' '}
+        <Link href="sign-up">
+          <a>Inscrever</a>
+        </Link>
+      </form>
     </div>
   );
 }

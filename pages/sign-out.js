@@ -18,7 +18,7 @@ function SignOut() {
   React.useEffect(() => {
     signOut().then(() => {
       client.resetStore().then(() => {
-        router.push('/signin');
+        router.push('/sign-in');
       });
     });
   }, [signOut, router, client]);
@@ -26,7 +26,7 @@ function SignOut() {
   return (
     <div className="container">
       <div className="row">
-        <p>Signing out...</p>
+        <p>Logging out...</p>
       </div>
     </div>
   );

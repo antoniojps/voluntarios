@@ -2,7 +2,6 @@ import { withApollo } from '../graphql/client';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import { useQuery } from '@apollo/react-hooks';
-import { useRouter } from 'next/router';
 
 const CurrentUserQuery = gql`
   query CurrentUserQuery {
@@ -18,28 +17,24 @@ const CurrentUserQuery = gql`
 `;
 
 const Index = () => {
-  const router = useRouter();
   const { data, loading } = useQuery(CurrentUserQuery);
 
   if (data && data.currentUser) {
     return (
       <div className="container">
-        <div className="row">
-          <h1>Logged in</h1>
-        </div>
-        <div className="row">
-          <p>Email: {data.currentUser.email}</p>
+        <p>Hey!</p>
+        <div>
           You're signed in as {data.currentUser.email} with id $
           {data.currentUser._id} goto{' '}
-          <Link href="/about">
+          <Link href="/sobre">
             <a>static</a>
           </Link>{' '}
           page.
         </div>
-        <div className="row" style={{ paddingTop: '12px' }}>
-          <Link href="/signout">
+        <div style={{ paddingTop: '12px' }}>
+          <Link href="/sign-out">
             <button>
-              <a>signout</a>
+              <a>log out</a>
             </button>
           </Link>
         </div>
@@ -49,18 +44,12 @@ const Index = () => {
   if (loading)
     return (
       <div className="container">
-        <p>Loading...</p>
+          <p>Loading...</p>
       </div>
     );
   return (
     <div className="container">
-      <p>User not found...</p>
-      <button onClick={() => router.push('/signin')}>
-        login
-      </button>
-      <button onClick={() => router.push('/signup')}>
-        register
-      </button>
+        <p>Hey stranger!</p>
     </div>
   );
 };
