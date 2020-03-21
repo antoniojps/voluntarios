@@ -68,4 +68,26 @@
   button {
     margin-top: var(--spacing-xs3);
   }
+
+  &__dropdown-list {
+    list-style-type: none;
+    margin: var(--spacing-xs) 0;
+    padding: 0;
+
+    @include box-shadow;
+
+    li {
+      padding: var(--spacing-xs3) var(--spacing-xs2);
+      cursor: pointer;
+      color: var(--base);
+      background-color: var(--base80);
+      font-size: var(--size-s);
+      transition: all 0.2s ease 0s;
+    
+      &:hover {
+        background-color: var(--bgPrimary);
+        color: var(--baseInverse);
+      }
+    }
+  }
 }

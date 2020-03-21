@@ -26,7 +26,7 @@ const Filter = ({
   }, [open]);
 
   useEffect(() => {
-    setItemsToShow([...items.filter(item => item.label.includes(searchValue))]);
+    setItemsToShow([...items.filter(item => item.label.toLowerCase().includes(searchValue.toLowerCase()))]);
   }, [searchValue]);
 
   return (
