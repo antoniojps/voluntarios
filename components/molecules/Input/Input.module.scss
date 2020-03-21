@@ -1,5 +1,4 @@
 @import "assets/styles/mixins.scss";
-@import "assets/styles/global.scss";
 
 .input {
   width: 100%;
@@ -73,7 +72,9 @@
     list-style-type: none;
     margin: var(--spacing-xs) 0;
     padding: 0;
-
+    max-height: 200px;
+    overflow-y: auto;
+    @include custom-scrollbar;
     @include box-shadow;
 
     li {
@@ -84,10 +85,15 @@
       font-size: var(--size-s);
       transition: all 0.2s ease 0s;
     
-      &:hover {
+      &:hover, &.selected {
         background-color: var(--bgPrimary);
         color: var(--baseInverse);
       }
     }
+  }
+
+  &__multiple {
+    display: flex;
+    align-items: center;
   }
 }

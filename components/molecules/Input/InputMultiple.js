@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowSvg } from "components/atoms";
 import "./Input.module.scss";
 
-const InputDropdown = ({
+const InputMultiple = ({
     items = [],
     number,
     title,
@@ -15,23 +15,30 @@ const InputDropdown = ({
     const [inputValue, setInputValue] = useState(value);
     const [valid, setValid] = useState(false);
     const [itemsToDisplay, setItemsToDisplay] = useState([...items]);
-    const [itemSelected, setItemSelected] = useState(null);
+    const [itemsSelected, setItemsSelected] = useState([]);
 
     useEffect(() => {
         if (inputValue.length > 0) {
-            const selectedIndex = items.findIndex(item => item.label.toLowerCase() === inputValue.toLowerCase())
-            console.log(selectedIndex);
-            if (selectedIndex !== -1) {
-                setValid(true);
-                setItemSelected(items[selectedIndex]);
-                return setItemsToDisplay([])
-            }
-            setValid(false);
             return setItemsToDisplay([...items.filter(item => item.label.toLowerCase().includes(inputValue.toLowerCase()))])
         }
-        setValid(false);
         return setItemsToDisplay([...items])
     }, [inputValue])
+
+    useEffect(() => {
+        if (itemsSelected.length > 0) {
+            setValid(true);
+        }
+    }, [itemsSelected])
+
+    function handleSelect(item) {
+        const index = itemsSelected.findIndex(i => i === item);
+        if (index !== -1) {
+            setItemsSelected(itemsSelected.slice(0, index).concat(itemsSelected.slice(index + 1, itemsSelected.length)));
+        } else {
+            setItemsSelected([...itemsSelected, item])
+        }
+        setInputValue('')
+    }
 
     return (
         <div className='input'>
@@ -45,23 +52,27 @@ const InputDropdown = ({
                 <span title='title'>{title}</span>
             </div>
 
-            <input
-                className='input__input-text'
-                type='text'
-                placeholder={placeholder}
-                disabled={disabled}
-                onChange={e => setInputValue(e.target.value)}
-                value={inputValue}
-            />
+            <div className='input__multiple'>
+                {itemsSelected.map(item => (
+                    <p>{item.label}</p>
+                ))}
+                <input
+                    className='input__input-text'
+                    type='text'
+                    placeholder={placeholder}
+                    disabled={disabled}
+                    onChange={e => setInputValue(e.target.value)}
+                    value={inputValue}
+                />
+            </div>
 
             {itemsToDisplay.length > 0 && (
                 <ul className='input__dropdown-list'>
                     {itemsToDisplay.map(item => (
                         <li
                             key={item.id}
-                            onClick={() => {
-                                setInputValue(item.label)
-                            }}
+                            className={itemsSelected.find(i => i === item) ? 'selected' : ''}
+                            onClick={() => handleSelect(item)}
                         >
                             {item.label}
                         </li>
@@ -74,10 +85,10 @@ const InputDropdown = ({
             )}
 
             {valid && (
-                <button className='btn--primary' onClick={() => handleChange(itemSelected)}>Ok</button>
+                <button className='btn--primary' onClick={() => handleChange(itemsSelected)}>Ok</button>
             )}
         </div>
     )
 }
 
-export default InputDropdown;
+export default InputMultiple;

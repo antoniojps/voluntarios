@@ -2,6 +2,7 @@ import { withA11y } from "@storybook/addon-a11y";
 import InputText from './InputText';
 import InputPassword from './InputPassword';
 import InputDropdown from './InputDropdown';
+import InputMultiple from './InputMultiple';
 
 export default {
   title: "Molecules/InputText",
@@ -108,6 +109,17 @@ export const DropdownInputSelected = () => (
     number={1}
     handleChange={console.log}
     value={items[2].label}
+    items={items}
+    limit={5}
+  />
+)
+
+export const MultipleInput = () => (
+  <InputMultiple
+    title='Quais sao as suas competencias?'
+    number={1}
+    handleChange={console.log}
+    value=''
     items={items}
     limit={5}
   />
