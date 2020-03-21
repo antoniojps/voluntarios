@@ -9,6 +9,10 @@ class MyDocument extends Document {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
+          <link
+            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />
