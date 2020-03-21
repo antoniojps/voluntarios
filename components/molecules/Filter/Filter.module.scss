@@ -6,7 +6,7 @@
   &__button {
     padding: 1rem;
     border: 0;
-    border-radius: 5px;
+    border-radius: var(--borderRadius);
     background-color: var(--bg);
     outline: none;
     @include box-shadow;
