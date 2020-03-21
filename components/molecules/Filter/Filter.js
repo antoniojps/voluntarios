@@ -1,45 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ArrowSvg } from "components/atoms";
 import "./Filter.module.scss";
 
-const list = [
-  {
-    id: 0,
-    label: "inscritos recentemente",
-  },
-  {
-    id: 1,
-    label: "inscritos ha mais tempo",
-  },
-  {
-    id: 2,
-    label: "inscritos ha mais tempo",
-  },
-  {
-    id: 3,
-    label: "inscritos ha mais tempo",
-  },
-  {
-    id: 4,
-    label: "inscritos ha mais tempo",
-  },
-  {
-    id: 5,
-    label: "inscritos ha mais tempo",
-  },
-];
-
-
 const Filter = ({
   title = "ordenar por",
-  items = list,
-  searchEnabled = true,
-  searchPlaceholder = '| procurar',
+  items,
+  itemSelected = 0,
+  searchEnabled = false,
+  searchPlaceholder = "| procurar",
+  handleChange,
 }) => {
-  // eslint-disable-next-line no-unused-vars
   const [itemsToShow, setItemsToShow] = useState([...items]);
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(itemSelected);
+  const [searchValue, setSearchValue] = useState('');
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    if (open) {
+      setItemsToShow([...items]);
+      if (searchEnabled) {
+        searchRef.current.focus()
+      }
+    }
+  }, [open]);
+
+  useEffect(() => {
+    setItemsToShow([...items.filter(item => item.label.includes(searchValue))]);
+  }, [searchValue]);
 
   return (
     <div className="filter">
@@ -48,8 +36,8 @@ const Filter = ({
         onClick={() => setOpen(!open)}
       >
         <div className="filter__button__label">
-          <p>{title}</p>
-          <p>{items[selected].label}</p>
+          <p title='title'>{title}</p>
+          <p title='desc'>{items[selected].label}</p>
         </div>
 
         <ArrowSvg />
@@ -63,31 +51,37 @@ const Filter = ({
 
           {searchEnabled && (
             <input
+              value={searchValue}
+              ref={searchRef}
               className="filter__list__item"
               type="text"
               placeholder={searchPlaceholder}
+              onChange={(e) => setSearchValue(e.target.value)}
             />
           )}
 
-          {itemsToShow.map(item => (
-            <div
-              key={item.id}
-              className={`filter__list__item ${
-                item.id === selected ? "filter__list__item--selected" : ""
-              }`}
-              onClick={() => {
-                setSelected(item.id);
-                setOpen(false);
-              }}
-            >
-              <ArrowSvg />
-              <span>{item.label}</span>
-            </div>
-          ))}
+          <div className="filter__list__scrollable">
+            {itemsToShow.map(item => (
+              <div
+                key={item.id}
+                className={`filter__list__item ${
+                  item.id === selected ? "filter__list__item--selected" : ""
+                  }`}
+                onClick={() => {
+                  setSelected(item.id);
+                  setOpen(false);
+                  handleChange(item)
+                }}
+              >
+                <input type="radio" checked={item.id === selected} id={`radio${item.id}`} />
+                <label htmlFor={`radio${item.id}`}>{item.label}</label>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default Filter
+export default Filter;

@@ -1,0 +1,51 @@
+@import "assets/styles/mixins.scss";
+@import "assets/styles/global.scss";
+
+.input {
+  width: 100%;
+  height: 100%;
+  * {
+    font-family: var(--font);
+  }
+
+  &__head {
+    span {
+      color: var(--base40);
+      font-weight: normal;
+      font-size: 0.5rem;
+    }
+
+    svg {
+      height: 10px;
+      width: 10px;
+      transform: rotate(270deg);
+
+      fill: var(--base40);
+    }
+
+    [title="title"] {
+      font-size: var(--size-xs2);
+      color: var(--primary);
+      font-weight: bold;
+    }
+  }
+
+  input {
+    border: 0;
+    outline: none;
+    font-size: var(--size-xl);
+    font-weight: normal;
+
+    ::-webkit-input-placeholder {
+      color: var(--base80);
+    }
+
+    :-ms-input-placeholder {
+      color: var(--base80);
+    }
+
+    ::placeholder {
+      color: var(--base80);
+    }
+  }
+}

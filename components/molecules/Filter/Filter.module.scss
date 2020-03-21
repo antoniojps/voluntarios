@@ -1,24 +1,31 @@
 @import "assets/styles/mixins.scss";
+@import "assets/styles/global.scss";
 
 .filter {
   display: flex;
+  * {
+    font-family: var(--font);
+  }
 
   &__button {
-    padding: 1rem;
+    padding: 1rem calc(1rem - 5px) 1rem 1rem;
     border: 0;
     border-radius: var(--borderRadius);
     background-color: var(--bg);
     outline: none;
-    @include box-shadow;
     display: flex;
     align-items: center;
     cursor: pointer;
     height: fit-content;
+    @include box-shadow;
+    border-left: 5px solid var(--bg);
+    padding-left: calc(1rem - 5px);
 
     &:hover,
     &--active {
+      background: var(--bg);
+      border: 0;
       border-left: 5px solid var(--primary);
-      padding-left: calc(1rem - 5px);
     }
 
     svg {
@@ -33,9 +40,9 @@
       flex-direction: column;
       align-items: start;
 
-      :first-child {
+      [title='title'] {
         font-size: 1rem;
-        font-weight: bolder;
+        font-weight: bold;
         text-transform: uppercase;
         color: var(--primary);
         margin: 0;
@@ -43,11 +50,13 @@
         padding: 0;
       }
 
-      :last-child {
+      [title='desc'] {
         font-size: 0.8rem;
         font-weight: normal;
+        text-transform: none;
         margin: 0;
         padding: 0;
+        color: var(--base);
       }
     }
   }
@@ -58,20 +67,23 @@
     margin-left: 15px;
     border-radius: 5px;
     overflow: hidden;
-    overflow-y: auto;
-    max-height: 200px;
-
-    @include custom-scrollbar;
     @include box-shadow;
 
     &__head {
       text-transform: uppercase;
       font-size: 1rem;
-      font-weight: bolder;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border);
 
       svg {
         transform: rotate(90deg);
       }
+    }
+
+    &__scrollable {
+      @include custom-scrollbar;
+      overflow-y: auto;
+      max-height: 130px;
     }
 
     &__item {
@@ -85,6 +97,12 @@
       align-items: center;
       padding: 0.8rem;
       cursor: pointer;
+
+      @include radio-button;
+
+      [type="radio"] {
+        margin-right: 8px;
+      }
 
       svg {
         margin-right: 8px;
@@ -104,7 +122,6 @@
 
     input {
       border: 0;
-      border-top: 1px solid lightgrey;
       padding: 1rem;
       outline: none;
       cursor: text;
