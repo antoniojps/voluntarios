@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowSvg } from "components/atoms";
 import "./Input.module.scss";
 
 const InputText = ({
     number,
     title,
-    placeholder = 'insira algo',
+    placeholder = 'Insira algo',
     disabled = false,
     handleChange,
-    initialValue = '',
+    value = '',
+    valid = false,
+    error = false,
+    errorMessage = 'O valor inserido é inválido.',
 }) => {
+    const [inputValue, setInputValue] = useState(value);
 
-    const [value, setValue] = useState(initialValue);
+    useEffect(() => {
+        handleChange(inputValue)
+    }, [inputValue])
+
     return (
         <div className='input'>
             <div className='input__head'>
@@ -25,12 +32,21 @@ const InputText = ({
             </div>
 
             <input
+                className={`input__input-text ${error ? 'input__input-text--error' : ''}`}
                 type='text'
                 placeholder={placeholder}
                 disabled={disabled}
-                onChange={e => setValue(e.target.value)}
-                value={value}
+                onChange={e => { setInputValue(e.target.value); }}
+                value={inputValue}
             />
+
+            {error && (
+                <p className='input__input-text__error-message'>{errorMessage}</p>
+            )}
+
+            {valid && (
+                <button>Passar</button>
+            )}
         </div>
     )
 }

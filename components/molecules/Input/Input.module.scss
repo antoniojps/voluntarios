@@ -4,48 +4,68 @@
 .input {
   width: 100%;
   height: 100%;
+
   * {
-    font-family: var(--font);
+    font-family: var(--red);
   }
 
   &__head {
     span {
       color: var(--base40);
       font-weight: normal;
-      font-size: 0.5rem;
+      font-size: var(--size-xs2);
     }
 
     svg {
       height: 10px;
       width: 10px;
       transform: rotate(270deg);
-
+      margin-right: var(--spacing-xs4);
       fill: var(--base40);
     }
 
     [title="title"] {
-      font-size: var(--size-xs2);
+      font-size: var(--size-xs);
       color: var(--primary);
       font-weight: bold;
     }
   }
 
-  input {
+  &__input-text {
+    width: 100%;
     border: 0;
     outline: none;
+    font-weight: 500;
     font-size: var(--size-xl);
-    font-weight: normal;
+    margin-top: var(--spacing-xs4);
+    border-bottom: 1px solid var(--border);
 
-    ::-webkit-input-placeholder {
-      color: var(--base80);
+    &::-webkit-input-placeholder {
+      font-weight: 600;
+      color: var(--base60);
     }
 
-    :-ms-input-placeholder {
-      color: var(--base80);
+    &:-ms-input-placeholder {
+      font-weight: 600;
+      color: var(--base60);
     }
 
-    ::placeholder {
-      color: var(--base80);
+    &::placeholder {
+      font-weight: 600;
+      color: var(--base60);
     }
+
+    &--error {
+      border-bottom: 1px solid var(--red);
+    }
+
+    &__error-message {
+      color: var(--red);
+      font-size: var(--size-xs);
+    }
+  }
+
+  button {
+    margin-top: var(--spacing-xs3);
   }
 }

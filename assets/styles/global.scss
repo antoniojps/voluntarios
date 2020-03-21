@@ -8,12 +8,14 @@
   --base80: #FEFEFE;
   --baseInverse: #FFF;
   --primary: #000;
+  --red: #FB6D77;
 
   --border: #E1E1E1;
   --border20: #F2F2F2;
   --bg: #FFFFFF;
   --bgPrimary: #000;
   --bgLighter: var(--base60);
+  --error: var(--red);
 
   /* font-family */
   --font-alt: "Source Sans Pro","Helvetica Neue",Helvetica,sans-serif;
