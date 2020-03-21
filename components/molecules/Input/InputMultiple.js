@@ -8,8 +8,8 @@ const InputMultiple = ({
     title,
     handleChange,
     disabled = false,
-    required = false,
-    placeholder = 'Insira algo',
+    required = true,
+    placeholder = 'Filtrar opcoes',
     value = '',
 }) => {
     const [inputValue, setInputValue] = useState(value);
@@ -26,8 +26,9 @@ const InputMultiple = ({
 
     useEffect(() => {
         if (itemsSelected.length > 0) {
-            setValid(true);
+            return setValid(true);
         }
+        return setValid(false);
     }, [itemsSelected])
 
     function handleSelect(item) {
