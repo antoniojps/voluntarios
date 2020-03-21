@@ -7,6 +7,7 @@
     "JWT_ISSUER": "@voluntarios_jwt_issuer",
     "EMAIL_API_KEY": "@voluntarios_email_api_key",
     "EMAIL_SENDER": "@voluntarios_email_sender",
+    "GOOGLE_PLACES_API_KEY": "@voluntarios_google_places_api_key",
     "DOMAIN": "@voluntarios_domain",
     "GRAPHQL_ENDPOINT": "@voluntarios_graphql_endpoint"
   },
