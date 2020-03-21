@@ -21,3 +21,38 @@
     background: #555;
   }
 }
+
+@mixin button {
+  cursor: pointer;
+  border-radius: var(--borderRadius);
+  color: var(--base);
+  background-color: var(--base80);
+  flex: 0 0 auto;
+  font-size: var(--size-s);
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  align-items: center;
+  padding: var(--spacing-xs3);
+  border: 2px solid var(--border20);
+  transition: all 0.2s ease 0s;
+
+  &:hover {
+    background-color: var(--bgPrimary);
+    border: 2px solid var(--bgPrimary);
+    color: var(--baseInverse);
+  }
+}
+
+@mixin button--primary {
+  @include button;
+  background-color: var(--bgPrimary);
+  border: 2px solid var(--bgPrimary);
+  color: var(--baseInverse);
+  &:hover {
+    background-color: var(--bg);
+    border:  2px solid var(--bgPrimary);
+    color: var(--base);
+  }
+}
