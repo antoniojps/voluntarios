@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import populateTestDatabase from './../../__tests__/seed';
+// import populateTestDatabase from './../../__tests__/seed';
 
 // populate database if test
-const isTest = process.env.NODE_ENV === 'test';
+// const isTest = process.env.NODE_ENV === 'test';
 
 const databaseConnection = handler => async (req, res) => {
   const [connection] = mongoose.connections;
@@ -14,7 +14,7 @@ const databaseConnection = handler => async (req, res) => {
         useCreateIndex: true,
         useUnifiedTopology: true,
       });
-      if (isTest) await populateTestDatabase();
+      // if (isTest) await populateTestDatabase();
     } catch (err) {
       console.log('Failed connection to MONGO DATABASE');
       console.error(err.message);
