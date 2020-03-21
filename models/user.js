@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import Category from './category'
+const { ObjectId } = mongoose.Schema
+import { UserInputError } from 'apollo-server-micro';
 
 // USER
 // schema
@@ -18,9 +21,15 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  username: {
+  firstName: {
     type: String,
     trim: true,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    required: true,
   },
   admin: {
     type: Boolean,
@@ -46,6 +55,26 @@ const UserSchema = mongoose.Schema({
     type: Date,
     sparce: true,
   },
+  categories: {
+    type: [
+      {
+        type: ObjectId,
+        required: true,
+        _id: false,
+      },
+    ],
+    sparce: true,
+  },
+  locations: {
+    type: [
+      {
+        type: ObjectId,
+        required: true,
+        _id: false,
+      },
+    ],
+    sparce: true,
+  },
 });
 
 // model methods
@@ -55,13 +84,12 @@ UserSchema.statics = {
       email,
     });
   },
-  newUserObj({ email, password }) {
-    return {
-      email,
-      password,
-    };
-  },
-  createUser(newUser) {
+  async createUser(newUser) {
+    const categoriesIds = newUser.categories
+    const categoriesInDB = await Category.find({ '_id': { $in: categoriesIds } })
+
+    const isValid = categoriesInDB.length === categoriesIds.length
+    if (!isValid) throw new UserInputError(`Invalid categories`)
     const user = new User(newUser);
     return user.save();
   },

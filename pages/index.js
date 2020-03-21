@@ -8,7 +8,8 @@ const CurrentUserQuery = gql`
     currentUser {
       _id
       email
-      username
+      firstName
+      lastName
       admin
       moderator
       verified
@@ -22,15 +23,7 @@ const Index = () => {
   if (data && data.currentUser) {
     return (
       <div className="container">
-        <p>Hey!</p>
-        <div>
-          You're signed in as {data.currentUser.email} with id $
-          {data.currentUser._id} goto{' '}
-          <Link href="/sobre">
-            <a>static</a>
-          </Link>{' '}
-          page.
-        </div>
+        <p>Hey {data.currentUser.firstName}!</p>
         <div style={{ paddingTop: '12px' }}>
           <Link href="/sign-out">
             <button>

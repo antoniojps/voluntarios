@@ -1,4 +1,5 @@
 import merge from 'lodash.merge';
+import { resolvers as CategoryResolvers } from './schemas/category';
 import { resolvers as UserResolvers } from './schemas/user';
 
 import {
@@ -6,6 +7,7 @@ import {
   PositiveIntResolver,
   EmailAddressResolver,
   URLResolver,
+  HexColorCodeResolver,
 } from 'graphql-scalars';
 import jsonScalar from 'graphql-type-json';
 
@@ -16,12 +18,13 @@ const setupResolvers = {
   EmailAddress: EmailAddressResolver,
   URL: URLResolver,
   JSON: jsonScalar,
+  HexColorCode: HexColorCodeResolver,
 
   Query: {},
 
   Mutation: {},
 };
 
-const resolvers = merge(setupResolvers, UserResolvers);
+const resolvers = merge(setupResolvers, CategoryResolvers, UserResolvers);
 
 export default resolvers;

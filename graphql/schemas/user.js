@@ -4,8 +4,10 @@ import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import User from './../../models/user';
+import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
 import { v1 as uuidv1 } from 'uuid';
+
 
 const { JWT_SECRET, JWT_ISSUER, JWT_AUDIENCE } = process.env;
 
@@ -13,7 +15,10 @@ export const typeDef = gql`
   type User {
     _id: ID!
     email: String! @auth(requires: owner)
-    username: String
+    firstName: String!
+    lastName: String!
+    categories: [Category!]
+    locations: [Location!]
     admin: Boolean
     moderator: Boolean
     verified: Boolean
@@ -21,9 +26,29 @@ export const typeDef = gql`
     verificationTokenSentAt: DateTime
   }
 
+  type Location{
+    id: ID!
+    name: String!
+    geolocation: Geolocation!
+  }
+
+  type Geolocation{
+    lat: Float!
+    long: Float!
+  }
+
+  input GeolocationInput{
+    lat: Float!
+    long: Float!
+  }
+
   input SignUpInput {
     email: String!
     password: String!
+    firstName: String!
+    lastName: String!
+    categories: [ID!]
+    locations: [GeolocationInput!]
   }
 
   input SignInInput {
@@ -36,8 +61,8 @@ export const typeDef = gql`
   }
 
   extend type Query {
-    user(id: ID!): User!
-    users: [User]!
+    user(id: ID!): User
+    users: [User]
     currentUser: User
   }
 
@@ -54,11 +79,13 @@ async function createUser(data) {
   const newUser = {
     email: data.email,
     password: bcrypt.hashSync(data.password, salt),
+    firstName: data.firstName,
+    lastName: data.lastName,
+    categories: data.categories,
     verified: false,
     verificationToken: uuidv1(),
     verificationTokenSentAt: Date.now(),
   };
-
   const savedUser = await User.createUser(newUser);
   // send verification token
   return savedUser
@@ -102,6 +129,9 @@ function isValidPassword(user, password) {
 }
 
 export const resolvers = {
+  User: {
+    categories: ({categories}) => Category.find({ '_id': { $in: categories } }),
+  },
   Query: {
     currentUser: secure(async (_parent, _args, context) => {
       const user = await User.findByEmail(context.req.user.email);

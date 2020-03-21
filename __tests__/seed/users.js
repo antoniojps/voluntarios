@@ -37,25 +37,29 @@ export const defaultUsers = {
   admin: {
     _id: userOneID,
     email: 'userOne@mail.com',
-    username: 'admin',
+    firstName: 'admin',
+    lastName: 'smith',
     password: bcrypt.hashSync('123', salt),
   },
   moderator: {
     _id: userThreeID,
     email: 'userThree@mail.com',
-    username: 'moderator',
+    firstName: 'moderator',
+    lastName: 'smith',
     password: bcrypt.hashSync('123', salt),
   },
   normal: {
     _id: userTwoID,
     email: 'userTwo@mail.com',
-    username: 'normal',
+    firstName: 'john',
+    lastName: 'smith',
     password: bcrypt.hashSync('123', salt),
   },
   normalAlt: {
     _id: userFourID,
     email: 'userFour@mail.com',
-    username: 'normalFour',
+    firstName: 'foo',
+    lastName: 'bar',
     password: bcrypt.hashSync('123', salt),
   },
 };

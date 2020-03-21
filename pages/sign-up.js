@@ -8,8 +8,8 @@ import { getErrorMessage } from '../utils/form';
 import { useRouter } from 'next/router';
 
 const SignUpMutation = gql`
-  mutation SignUpMutation($email: String!, $password: String!) {
-    signUp(input: { email: $email, password: $password }) {
+  mutation SignUpMutation($input: SignUpInput!) {
+    signUp(input: $input) {
       _id
       email
     }
@@ -23,14 +23,20 @@ function SignUp() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const emailElement = event.currentTarget.elements.email;
-    const passwordElement = event.currentTarget.elements.password;
+    const { value: email} = event.currentTarget.elements.email;
+    const { value: password } = event.currentTarget.elements.password;
+    const { value: firstName } = event.currentTarget.elements.firstName;
+    const { value: lastName } = event.currentTarget.elements.lastName;
 
     try {
       await signUp({
         variables: {
-          email: emailElement.value,
-          password: passwordElement.value,
+          input: {
+            email,
+            password,
+            firstName,
+            lastName,
+          },
         },
       });
 
@@ -44,6 +50,20 @@ function SignUp() {
     <div className="container">
       <form onSubmit={handleSubmit}>
         {errorMsg && <p>{errorMsg}</p>}
+        <Field
+          name="firstName"
+          type="firstName"
+          autoComplete="firstName"
+          required
+          label="Primeiro nome"
+        />
+        <Field
+          name="lastName"
+          type="lastName"
+          autoComplete="lastName"
+          required
+          label="Último nome"
+        />
         <Field
           name="email"
           type="email"

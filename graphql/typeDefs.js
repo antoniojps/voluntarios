@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
-import { typeDef as User } from './schemas/user';
+import { typeDef as Category } from './schemas/category';
 import { typeDef as Pagination } from './schemas/pagination';
+import { typeDef as User } from './schemas/user';
 
 const setup = gql`
   # Directives
@@ -17,6 +18,7 @@ const setup = gql`
   scalar PositiveInt
   scalar URL
   scalar JSON
+  scalar HexColorCode
 
   # In the current version of GraphQL, you can’t have an empty type
   # even if you intend to extend it later. So we need to make sure the
@@ -30,6 +32,6 @@ const setup = gql`
   }
 `;
 
-const typeDefs = [setup, User, Pagination];
+const typeDefs = [setup, Pagination, Category, User];
 
 export default typeDefs;

@@ -5,10 +5,10 @@ export default async (req, res) => {
   switch (req.method) {
     case 'POST': {
       const {
-        body: { username, to, url },
+        body: { name, to, url },
       } = req;
 
-      if (!username || !to || !url) {
+      if (!name || !to || !url) {
         res.status(400).json(errSchema('Invalid parameters', 401));
       }
 
@@ -17,7 +17,7 @@ export default async (req, res) => {
           to,
           templateId: 'd-8f1135aec9604d24987a1d65edfae6f3',
           dynamic_template_data: {
-            username,
+            username: name,
             to,
             url,
           },
@@ -26,7 +26,7 @@ export default async (req, res) => {
           resSchema(
             {
               to,
-              username,
+              name,
               url,
             },
             200,
