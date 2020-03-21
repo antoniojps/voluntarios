@@ -68,8 +68,15 @@ const UserSchema = mongoose.Schema({
   locations: {
     type: [
       {
-        type: ObjectId,
-        required: true,
+        role: {
+          type: String,
+          enum: ['captain', 'player'],
+          required: true,
+        },
+        id: {
+          type: String,
+          required: true,
+        },
         _id: false,
       },
     ],
@@ -86,10 +93,11 @@ UserSchema.statics = {
   },
   async createUser(newUser) {
     const categoriesIds = newUser.categories
-    const categoriesInDB = await Category.find({ '_id': { $in: categoriesIds } })
-
-    const isValid = categoriesInDB.length === categoriesIds.length
-    if (!isValid) throw new UserInputError(`Invalid categories`)
+    if (categoriesIds && categoriesIds.length > 0) {
+      const categoriesInDB = await Category.find({ '_id': { $in: categoriesIds } })
+      const isValid = categoriesInDB.length === categoriesIds.length
+      if (!isValid) throw new UserInputError(`Invalid categories`)
+    }
     const user = new User(newUser);
     return user.save();
   },
