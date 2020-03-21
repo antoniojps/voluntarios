@@ -1,0 +1,8 @@
+@import "assets/styles/mixins.scss";
+
+.card {
+	@include box-shadow;
+	padding: var(--spacing-xs);
+	width: fit-content;
+	background-color: var(--bg);
+}
