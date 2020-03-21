@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowSvg } from "components/atoms";
 import "./Input.module.scss";
 
-const InputText = ({
+const InputPassword = ({
     number,
     title,
     handleChange,
@@ -34,13 +34,13 @@ const InputText = ({
 
             <input
                 className={`input__input-text ${error ? 'input__input-text--error' : ''}`}
-                type='text'
+                type='password'
                 placeholder={placeholder}
                 disabled={disabled}
                 onChange={e => { setInputValue(e.target.value); }}
                 value={inputValue}
             />
-            
+
             {!required && !error && !valid && (
                 <button className='btn--primary'>Passar</button>
             )}
@@ -52,9 +52,8 @@ const InputText = ({
             {!required && !valid && error && (
                 <p className='input__input-text__error-message'>{errorMessage}</p>
             )}
-
         </div>
     )
 }
 
-export default InputText;
+export default InputPassword;
