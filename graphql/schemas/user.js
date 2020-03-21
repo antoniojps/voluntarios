@@ -1,15 +1,9 @@
 import gql from 'graphql-tag';
 import { AuthenticationError, UserInputError } from 'apollo-server-micro';
-import cookie from 'cookie';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import User from './../../models/user';
 import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
-import { v1 as uuidv1 } from 'uuid';
-
-
-const { JWT_SECRET, JWT_ISSUER, JWT_AUDIENCE } = process.env;
+import { createUser, login, logout, isValidPassword } from './../utils/user';
 
 export const typeDef = gql`
   type User {
@@ -73,60 +67,6 @@ export const typeDef = gql`
     verifyEmail(input: VerifyEmailInput!): User!
   }
 `;
-
-async function createUser(data) {
-  const salt = bcrypt.genSaltSync();
-  const newUser = {
-    email: data.email,
-    password: bcrypt.hashSync(data.password, salt),
-    firstName: data.firstName,
-    lastName: data.lastName,
-    categories: data.categories,
-    verified: false,
-    verificationToken: uuidv1(),
-    verificationTokenSentAt: Date.now(),
-  };
-  const savedUser = await User.createUser(newUser);
-  // send verification token
-  return savedUser
-}
-
-function login(user, context) {
-  const { _id, email, admin, moderator } = user;
-  const token = jwt.sign({ id: _id, email, admin, moderator }, JWT_SECRET, {
-    expiresIn: '6h',
-    issuer: JWT_ISSUER,
-    audience: JWT_AUDIENCE,
-  });
-
-  context.res.setHeader(
-    'Set-Cookie',
-    cookie.serialize('token', token, {
-      httpOnly: true,
-      maxAge: 6 * 60 * 60,
-      path: '/',
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-    }),
-  );
-}
-
-function logout(context) {
-  context.res.setHeader(
-    'Set-Cookie',
-    cookie.serialize('token', '', {
-      httpOnly: true,
-      maxAge: -1,
-      path: '/',
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-    }),
-  );
-}
-
-function isValidPassword(user, password) {
-  return bcrypt.compareSync(password, user.password);
-}
 
 export const resolvers = {
   User: {
