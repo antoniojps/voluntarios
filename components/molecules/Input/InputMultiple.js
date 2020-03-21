@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowSvg } from "components/atoms";
 import "./Input.module.scss";
+import Label from '../../atoms/Label/Label';
 
 const InputMultiple = ({
     items = [],
@@ -41,6 +42,11 @@ const InputMultiple = ({
         setInputValue('')
     }
 
+    function removeSelected(item) {
+        const index = itemsSelected.findIndex(i => i === item);
+        return setItemsSelected(itemsSelected.slice(0, index).concat(itemsSelected.slice(index + 1, itemsSelected.length)));
+    }
+
     return (
         <div className='input'>
             <div className='input__head'>
@@ -55,7 +61,7 @@ const InputMultiple = ({
 
             <div className='input__multiple'>
                 {itemsSelected.map(item => (
-                    <p>{item.label}</p>
+                    <Label text={item.label} key={item.id} actionEnabled handleClick={() => removeSelected(item)} />
                 ))}
                 <input
                     className='input__input-text'
