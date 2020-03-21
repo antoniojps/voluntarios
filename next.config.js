@@ -1,8 +1,10 @@
 const path = require('path');
+const withSass = require('@zeit/next-sass')
+const withCSS = require('@zeit/next-css')
 
 require('dotenv').config();
 
-module.exports = {
+const config = {
   webpack: config => {
     config.resolve.alias['components'] = path.join(__dirname, 'components');
     config.resolve.alias['services'] = path.join(__dirname, 'services');
@@ -13,4 +15,6 @@ module.exports = {
     DOMAIN: process.env.DOMAIN,
     GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,
   },
-};
+}
+
+module.exports = withSass(withCSS(config))
