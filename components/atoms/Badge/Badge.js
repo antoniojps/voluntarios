@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import "./Badge.module.scss";
 
-
 const Badge = ({
 	Component, 
 	className,
@@ -19,7 +18,6 @@ const Badge = ({
 		{capitalized ? children.toUpperCase() : children}
 	</Component>
 );
-
 
 Badge.propTypes = {
 	Component: PropTypes.elementType,
