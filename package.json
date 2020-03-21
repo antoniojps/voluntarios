@@ -7,6 +7,7 @@
     "start": "next start",
     "eslint": "eslint . --ext .js",
     "storybook": "start-storybook -p 6006 -c .storybook",
+    "deploy-storybook": "storybook-to-ghpages",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:watch": "jest --watch --runInBand --detectOpenHandles"
   },
@@ -56,6 +57,7 @@
     "@storybook/addon-knobs": "^5.3.17",
     "@storybook/addon-storysource": "^5.3.17",
     "@storybook/react": "^5.3.17",
+    "@storybook/storybook-deployer": "^2.8.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.1.0",
     "babel-loader": "^8.1.0",
