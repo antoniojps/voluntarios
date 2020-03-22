@@ -29,6 +29,7 @@
     "bcrypt": "3.0.7",
     "cookie": "0.4.0",
     "dotenv": "^8.2.0",
+    "framer-motion": "^1.10.0",
     "graphql": "^14.0.2",
     "graphql-scalars": "^1.0.7",
     "graphql-tag": "2.10.1",
@@ -46,6 +47,7 @@
     "query-string": "^6.11.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-use": "^13.27.0",
     "uuid": "^7.0.2",
     "validator": "^12.2.0"
   },
