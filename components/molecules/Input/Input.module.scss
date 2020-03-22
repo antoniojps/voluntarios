@@ -4,30 +4,30 @@
 .input {
   width: 100%;
   height: 100%;
-
-  * {
-    font-family: var(--red);
-  }
+  margin-bottom: var(--spacing-sm);
 
   &__head {
+    display: flex;
+    align-items: center;
+
     span {
       color: var(--base40);
       font-weight: normal;
-      font-size: var(--size-xs2);
+      font-size: var(--size-xl2);
     }
 
     svg {
-      height: 10px;
-      width: 10px;
+      height: 20px;
+      width: 20px;
       transform: rotate(270deg);
       margin-right: var(--spacing-xs4);
       fill: var(--base40);
     }
 
     [title="title"] {
-      font-size: var(--size-xs);
+      font-size: var(--size-xl2);
       color: var(--primary);
-      font-weight: bold;
+      font-weight: var(--weight-semibold);
     }
   }
 
@@ -36,9 +36,14 @@
     border: 0;
     outline: none;
     font-weight: 500;
-    font-size: var(--size-xl);
-    margin-top: var(--spacing-xs4);
-    border-bottom: 1px solid var(--border);
+    font-size: var(--size-xl5);
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs2);
+    transition: box-shadow 0.2s ease 0s;
+
+    &:not(:focus) {
+      box-shadow: var(--border) 0px 1px;
+    }
 
     &::-webkit-input-placeholder {
       font-weight: 600;
@@ -56,7 +61,7 @@
     }
 
     &--error {
-      border-bottom: 1px solid var(--red);
+      box-shadow: var(--red) 0px 1px;
     }
 
     &__error-message {
@@ -85,7 +90,7 @@
       background-color: var(--base80);
       font-size: var(--size-s);
       transition: all 0.2s ease 0s;
-    
+
       &:hover, &.selected {
         background-color: var(--bgPrimary);
         color: var(--baseInverse);
