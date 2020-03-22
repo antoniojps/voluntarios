@@ -24,6 +24,16 @@
     }
   }
 
+  &__submit {
+    display: inline-flex;
+    align-items: center;
+    &-description {
+      margin-left: var(--spacing-xs3);
+      margin-top: var(--spacing-xs);
+      font-size: var(--size-xs2);
+    }
+  }
+
   &__input-text {
     width: 100%;
     border: 0;
@@ -53,18 +63,18 @@
       color: var(--base60);
     }
 
-    &--error {
-      box-shadow: var(--red) 0px 1px;
-    }
-
     &__error-message {
-      color: var(--red);
+      display: inline-flex;
+      padding: var(--spacing-xs4);
+      border-radius: 2px;
+      color: var(--baseInverse);
       font-size: var(--size-xs);
+      background-color: var(--red);
     }
   }
 
   button {
-    margin-top: var(--spacing-xs3);
+    margin-top: var(--spacing-xs);
   }
 
   &__dropdown-list {

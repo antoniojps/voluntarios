@@ -38,11 +38,18 @@
   padding: var(--spacing-xs3);
   border: 2px solid var(--border20);
   transition: all 0.2s ease 0s;
+  .btn__icon {
+    color: var(--base);
+    margin-left: var(--spacing-xs3);
+  }
 
   &:hover {
     background-color: var(--bgPrimary);
     border: 2px solid var(--bgPrimary);
     color: var(--baseInverse);
+    .btn__icon {
+      color: var(--baseInverse);
+    }
   }
 }
 
@@ -51,10 +58,16 @@
   background-color: var(--bgPrimary);
   border: 2px solid var(--bgPrimary);
   color: var(--baseInverse);
+  .btn__icon {
+    color: var(--baseInverse);
+  }
   &:hover {
     background-color: var(--bg);
     border: 2px solid var(--bgPrimary);
     color: var(--base);
+    .btn__icon {
+      color: var(--base);
+    }
   }
 }
 

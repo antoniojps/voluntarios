@@ -3,15 +3,7 @@ import './SignupSteps.module.scss'
 import { useSetState } from 'react-use'
 import { InputText, InputMultiple, InputPassword } from 'components/molecules'
 import { AnimatePresence, motion } from 'framer-motion'
-import locationsData from 'assets/data/locations.json'
-
-const locations = locationsData.map(location => {
-  return {
-    label: location.name,
-    id: location.name,
-    location,
-  }
-})
+import * as yup from 'yup'
 
 const SignupSteps = ({ categories = []}) => {
   const [state, setState] = useSetState({
@@ -19,9 +11,6 @@ const SignupSteps = ({ categories = []}) => {
       password: null,
       firstName: null,
       lastName: null,
-      job: null,
-      categories: [],
-      locations: [],
     },
   );
 
@@ -36,9 +25,9 @@ const SignupSteps = ({ categories = []}) => {
         name: 'firstName',
         placeholder: 'Primeiro nome...',
         title: 'Qual é o seu primeiro nome?',
-        required: true,
         autoFocus: true,
         value: '',
+        schema: yup.string().required(),
       },
       {
         type: 'text',
@@ -46,39 +35,8 @@ const SignupSteps = ({ categories = []}) => {
         placeholder:'Último nome...',
         title: 'Qual é o seu último nome?',
         value: '',
-        required: true,
         autoFocus: true,
-      },
-      {
-        type: 'multiple',
-        name: 'categories',
-        title: 'Quais sao as suas competencias?',
-        value: '',
-        items: categories,
-        limit: 5,
-        required: true,
-        autoFocus: true,
-        handler: (values) => values.map(category => category.id),
-      },
-      {
-        type: 'text',
-        title: 'Qual é a sua profissão?',
-        name: 'job',
-        placeholder: "A sua profissão",
-        value: '',
-        autoFocus: true,
-      },
-      {
-        type: 'multiple',
-        name: 'locations',
-        title: 'Qual a sua localidade?',
-        placeholder: 'Pesquise distritos',
-        value: '',
-        items: locations,
-        limit: 5,
-        required: true,
-        handler: (values) => values.map(item => item.location),
-        autoFocus: true,
+        schema: yup.string().required(),
       },
       {
         type: 'text',
@@ -86,8 +44,8 @@ const SignupSteps = ({ categories = []}) => {
         title: 'Qual o seu endereço de email?',
         placeholder: 'nome@mail.com',
         value: '',
-        required: true,
         autoFocus: true,
+        schema: yup.string().required().email(),
       },
       {
         type: 'password',
@@ -95,8 +53,8 @@ const SignupSteps = ({ categories = []}) => {
         title: 'Palavra-chave',
         placeholder: 'eslindaMaria@2020',
         value: '',
-        required: true,
         autoFocus: true,
+        schema: yup.string().required(),
       },
     ]
   ), [categories])
@@ -119,7 +77,8 @@ const SignupSteps = ({ categories = []}) => {
           <InputText
             number={step}
             value={state[pageProps.name]}
-            handleChange={(value) => setState({[pageProps.name]: value})}
+            handleChange={(value) => setState({ [pageProps.name]: value })}
+            handleSubmit={() => (page >= 0 && page < pages.length - 1) && setPage(page + 1)}
             {...pageProps}
           />
         </motion.div>

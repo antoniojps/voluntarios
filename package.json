@@ -52,7 +52,8 @@
     "react-dom": "^16.7.0",
     "react-use": "^13.27.0",
     "uuid": "^7.0.2",
-    "validator": "^12.2.0"
+    "validator": "^12.2.0",
+    "yup": "^0.28.3"
   },
   "author": "",
   "license": "ISC",

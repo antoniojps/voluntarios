@@ -1,24 +1,52 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import Actions from './Actions'
 import { Icon } from "components/atoms";
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { AnimatePresence, motion } from 'framer-motion'
+import * as yup from 'yup';
 import "./Input.module.scss";
+
 
 const InputText = ({
     number,
     title,
-    handleChange,
+    handleChange = () => null,
+    handleSubmit = () => null,
     disabled = false,
-    required = false,
-    valid = false,
-    error = false,
-    errorMessage = 'O valor inserido é inválido.',
     placeholder = 'Palavra chave',
     value = '',
     autoFocus = false,
+    schema = yup.string(),
 }) => {
-    const [inputValue, setInputValue] = useState(value);
     const inputEl = useRef(null)
+    const [inputValue, setInputValue] = useState(value);
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+    const [{ valid, error, errorMessage }, setInputState] = useState({
+        valid: false,
+        error: false,
+        errorMessage: 'Campo inválido',
+    })
+    const requiredComputed = useMemo(() => {
+        const isRequiredFromSchema = schema.describe().tests.find(test => test.name === 'required')
+        return !!isRequiredFromSchema
+    }, [schema])
+
+    useEffect(() => {
+        console.log({ valid, error, errorMessage })
+    }, [{ valid, error, errorMessage }])
+
+    useEffect(() => {
+        async function validate() {
+            try {
+                await schema.validate(inputValue)
+                setInputState({valid: true, error: false, errorMessage: ''})
+            } catch (err) {
+                if (err.name === 'ValidationError') {
+                    setInputState({valid: false, error: true, errorMessage: err.errors[0]})
+                }
+            }
+        }
+        validate()
+    }, [inputValue])
 
     useEffect(() => {
         setInputValue(value)
@@ -33,6 +61,19 @@ const InputText = ({
     useEffect(() => {
         handleChange(inputValue)
     }, [inputValue])
+
+    // enter press
+    const handleKeyPress = (e) => {
+        if(e.key === 'Enter') onSubmit()
+    }
+    const onSubmit = () => {
+        setHasSubmitted(true)
+        if (valid) handleSubmit(inputValue)
+    }
+
+    const showSkip = !requiredComputed && inputValue === ''
+    const showSubmit = !showSkip && (valid || (inputValue !== '' && !hasSubmitted))
+    const showError = hasSubmitted && error
 
     return (
         <div className='input'>
@@ -56,44 +97,15 @@ const InputText = ({
                 onChange={e => { setInputValue(e.target.value); }}
                 value={inputValue}
                 ref={inputEl}
+                onKeyPress={handleKeyPress}
             />
-            <AnimatePresence initial={false}>
-            {error && (
-                <motion.p
-                    className='input__input-text__error-message'
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    key="error"
-                >
-                    {errorMessage}
-                </motion.p>
-            )}
-
-            {!required && !value && (
-                <motion.button
-                    className='btn--primary'
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    key="skip"
-                >
-                    Passar
-                </motion.button>
-            )}
-
-            {valid && (
-                <motion.button
-                    className='btn--primary'
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    key="ok"
-                >
-                    Ok
-                </motion.button>
-            )}
-            </AnimatePresence>
+            <Actions
+                showError={showError}
+                showSkip={showSkip}
+                showSubmit={showSubmit}
+                errorMessage={errorMessage}
+                onSubmit={onSubmit}
+            />
 
         </div>
     )
