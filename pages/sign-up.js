@@ -1,11 +1,22 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import Link from 'next/link';
 import { withApollo } from '../graphql/client';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
-import Field from '../components/field';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { SignupSteps } from '../components/organisms';
 import { getErrorMessage } from '../utils/form';
 import { useRouter } from 'next/router';
+
+const signUpQuery = gql`
+  query signUpQuery {
+    allCategories {
+      _id
+      name
+      color
+    }
+  }
+`;
 
 const SignUpMutation = gql`
   mutation SignUpMutation($input: SignUpInput!) {
@@ -17,72 +28,17 @@ const SignUpMutation = gql`
 `;
 
 function SignUp() {
-  const [signUp] = useMutation(SignUpMutation);
-  const [errorMsg, setErrorMsg] = React.useState();
-  const router = useRouter();
+  const { data } = useQuery(signUpQuery);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const { value: email} = event.currentTarget.elements.email;
-    const { value: password } = event.currentTarget.elements.password;
-    const { value: firstName } = event.currentTarget.elements.firstName;
-    const { value: lastName } = event.currentTarget.elements.lastName;
-
-    try {
-      await signUp({
-        variables: {
-          input: {
-            email,
-            password,
-            firstName,
-            lastName,
-          },
-        },
-      });
-
-      router.push('/');
-    } catch (error) {
-      setErrorMsg(getErrorMessage(error));
-    }
-  }
+  const categories = data && data.allCategories && data.allCategories.map(category => ({
+    id: category._id,
+    label: category.name,
+  }))
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit}>
-        {errorMsg && <p>{errorMsg}</p>}
-        <Field
-          name="firstName"
-          type="firstName"
-          autoComplete="firstName"
-          required
-          label="Primeiro nome"
-        />
-        <Field
-          name="lastName"
-          type="lastName"
-          autoComplete="lastName"
-          required
-          label="Último nome"
-        />
-        <Field
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          label="Email"
-        />
-        <Field
-          name="password"
-          type="password"
-          autoComplete="password"
-          required
-          label="Password"
-        />
-        <button type="submit">Inscrever</button> ou{' '}
-        <Link href="sign-in">
-          <a>log in</a>
-        </Link>
-      </form>
+      <h1>Inscrição</h1>
+      <SignupSteps categories={categories} />
     </div>
   );
 }
