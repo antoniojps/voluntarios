@@ -1,0 +1,60 @@
+@import "assets/styles/global.scss";
+
+.steps {
+  * {
+    font-family: var(--font);
+  }
+
+  display: flex;
+  align-items: center;
+
+  &__handler {
+    padding: var(--spacing-xs3) var(--spacing-xs);
+    cursor: pointer;
+    height: 100%;
+
+    svg {
+      path {
+        fill: var(--base60);
+      }
+    }
+
+    &:hover {
+      svg {
+        path {
+          fill: var(--base);
+        }
+      }
+    }
+
+    &--disabled {
+      svg {
+        path {
+          fill: var(--base80);
+        }
+      }
+
+      &:hover {
+        svg {
+          path {
+            fill: var(--base80);
+          }
+        }
+      }
+    }
+  }
+
+  &__progress {
+    &__label {
+      user-select: none;
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      -o-user-select: none;
+      font-size: var(--size-s);
+      margin: 0;
+      margin-bottom: var(--spacing-xs3);
+      padding-right: var(--spacing-m);
+    }
+  }
+}
