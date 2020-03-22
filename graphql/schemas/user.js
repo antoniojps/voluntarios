@@ -23,7 +23,7 @@ export const typeDef = gql`
   }
 
   type Location{
-    id: ID!
+    _id: ID!
     name: String!
     geolocation: Geolocation!
   }
@@ -78,7 +78,16 @@ export const typeDef = gql`
 
 export const resolvers = {
   User: {
-    categories: ({categories}) => Category.find({ '_id': { $in: categories } }),
+    categories: ({ categories }) => Category.find({ '_id': { $in: categories } }),
+    locations: ({ locations }) => locations.toObject().map(location => {
+      return {
+        ...location,
+        geolocation: {
+          long: location.geolocation.coordinates[0],
+          lat: location.geolocation.coordinates[1],
+        },
+      }
+    }),
   },
   Query: {
     currentUser: secure(async (_parent, _args, context) => {

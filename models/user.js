@@ -79,16 +79,15 @@ const UserSchema = mongoose.Schema({
         },
         geolocation: {
           type: {
-            lat: {
-              type: Number,
-              required: true,
-            },
-            long: {
-              type: Number,
-              required: true,
-            },
+            type: String,
+            enum: ['Point'],
+            default: 'Point',
+            required: true,
           },
-          required: true,
+          coordinates: {
+            type: [Number],
+            required: true,
+          },
         },
       },
     ],
@@ -136,6 +135,7 @@ UserSchema.methods = {
 };
 
 // model
+UserSchema.index({"locations.geolocation": '2dsphere'});
 const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
 export default User;

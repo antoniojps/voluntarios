@@ -9,6 +9,15 @@ const { JWT_SECRET, JWT_ISSUER, JWT_AUDIENCE } = process.env;
 
 export async function createUser(data) {
   const salt = bcrypt.genSaltSync();
+  const locations = data.locations.length > 0
+    ? data.locations.map(location => ({
+      name: location.name,
+      geolocation: {
+        type: 'Point',
+        coordinates: [location.geolocation.long, location.geolocation.lat],
+      },
+    }))
+    : []
   const newUser = {
     email: data.email,
     password: bcrypt.hashSync(data.password, salt),
@@ -16,7 +25,7 @@ export async function createUser(data) {
     lastName: data.lastName,
     name: `${data.firstName} ${data.lastName}`,
     categories: data.categories,
-    locations: data.locations,
+    locations,
     job: data.job,
     verified: false,
     verificationToken: uuidv1(),
