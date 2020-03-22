@@ -31,10 +31,6 @@ const InputText = ({
     }, [schema])
 
     useEffect(() => {
-        console.log({ valid, error, errorMessage })
-    }, [{ valid, error, errorMessage }])
-
-    useEffect(() => {
         async function validate() {
             try {
                 await schema.validate(inputValue)

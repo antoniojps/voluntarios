@@ -54,7 +54,7 @@ const SignupSteps = ({ categories = []}) => {
         placeholder: 'eslindaMaria@2020',
         value: '',
         autoFocus: true,
-        schema: yup.string().required(),
+        schema: yup.string().required().min(8),
       },
     ]
   ), [categories])
@@ -96,7 +96,8 @@ const SignupSteps = ({ categories = []}) => {
           <InputPassword
             number={step}
             value={state[pageProps.name]}
-            handleChange={(value) => setState({[pageProps.name]: value})}
+            handleChange={(value) => setState({ [pageProps.name]: value })}
+            handleSubmit={() => (page >= 0 && page < pages.length - 1) && setPage(page + 1)}
             {...pageProps}
           />
         </motion.div>
