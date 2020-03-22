@@ -21,6 +21,11 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    trim: true,
+    sparce: true,
+  },
   firstName: {
     type: String,
     trim: true,
@@ -68,18 +73,30 @@ const UserSchema = mongoose.Schema({
   locations: {
     type: [
       {
-        role: {
-          type: String,
-          enum: ['captain', 'player'],
-          required: true,
-        },
-        id: {
+        name: {
           type: String,
           required: true,
         },
-        _id: false,
+        geolocation: {
+          type: {
+            lat: {
+              type: Number,
+              required: true,
+            },
+            long: {
+              type: Number,
+              required: true,
+            },
+          },
+          required: true,
+        },
       },
     ],
+    sparce: true,
+  },
+  job: {
+    type: String,
+    trim: true,
     sparce: true,
   },
 });
