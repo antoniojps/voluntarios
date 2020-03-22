@@ -1,9 +1,6 @@
 import React from 'react';
 import { faEllipsisV, faMapMarkerAlt, faClock } from '@fortawesome/free-solid-svg-icons'
-import PersonHeader from '../../atoms/PersonHeader/PersonHeader';
-import Button from '../../atoms/Button/Button';
-import Label from '../../atoms/Label/Label';
-import Icon from '../../atoms/Icons/Icon';
+import { PersonHeader, Button, Label, Icon } from 'components/atoms';
 import './Card.module.scss';
 
 const Card = ({ name, desc, src, competences, location, availability }) => {
