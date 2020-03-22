@@ -1,5 +1,6 @@
 import { withA11y } from "@storybook/addon-a11y";
-import ArrowSvg from './ArrowSvg'
+import ArrowSvg from './ArrowSvg';
+import Icon from './Icon';
 
 export default {
   title: "Atoms/Icons",
@@ -7,3 +8,4 @@ export default {
 };
 
 export const arrowSvg = () => <ArrowSvg />
+export const icon = () => <Icon />

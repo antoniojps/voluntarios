@@ -2,7 +2,7 @@ import { withA11y } from "@storybook/addon-a11y";
 import Label from './Label'
 
 export default {
-  title: "Atoms",
+  title: "Atoms/Label",
   decorators: [withA11y],
 };
 

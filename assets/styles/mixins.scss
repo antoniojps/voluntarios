@@ -58,6 +58,23 @@
   }
 }
 
+@mixin button--secondary {
+  @include button;
+  background-color: var(--bg);
+  border: 1px solid var(--base60);
+  color: var(--base40);
+  border-radius: 4px;
+  width: 100%;
+  font-weight: 400;
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: var(--base60);
+    border: 1px solid var(--base60);
+    color: var(--baseInverse);
+  }
+}
+
 @mixin radio-button {
   [type="radio"]:checked,
   [type="radio"]:not(:checked) {

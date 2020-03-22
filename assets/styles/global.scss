@@ -93,6 +93,10 @@ button {
   &.btn--primary {
     @include button--primary;
   }
+  .btn--secondary,
+  &.btn--secondary {
+    @include button--secondary;
+  }
   a {
     color: inherit;
   }

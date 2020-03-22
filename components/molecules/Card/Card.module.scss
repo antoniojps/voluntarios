@@ -1,0 +1,74 @@
+@import "assets/styles/global.scss";
+
+.card {
+  * {
+    font-family: var(--font);
+  }
+
+  padding: var(--spacing-xs);
+  @include box-shadow;
+
+  // to remove
+  max-width: 320px;
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    svg {
+      padding: var(--spacing-xs4);
+      cursor: pointer;
+      path {
+        fill: var(--base40);
+      }
+    }
+  }
+
+  &__body {
+    margin: var(--spacing-xs3) 0;
+
+    &__competences {
+      margin: var(--spacing-xs2) 0;
+
+      p {
+        font-size: var(--size-xs);
+        font-weight: 500;
+        color: var(--base40);
+        padding: 0;
+        margin: 0;
+      }
+
+      &__list {
+        margin: var(--spacing-xs4) 0;
+        display: flex;
+        align-items: center;
+
+        .label {
+          margin-right: var(--spacing-xs4);
+        }
+      }
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      margin: var(--spacing-xs3) 0;
+
+      p {
+        margin: 0;
+        padding: 0;
+        margin-left: var(--spacing-xs4);
+        font-weight: 500;
+
+        span {
+            color: var(--base40)
+        }
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: var(--spacing-xs);
+  }
+}
