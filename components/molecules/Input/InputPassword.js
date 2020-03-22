@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowSvg } from "components/atoms";
 import "./Input.module.scss";
 
@@ -13,8 +13,16 @@ const InputPassword = ({
     errorMessage = 'O valor inserido é inválido.',
     placeholder = 'Palavra chave',
     value = '',
+    autoFocus = false,
 }) => {
     const [inputValue, setInputValue] = useState(value);
+    const inputEl = useRef(null)
+
+    useEffect(() => {
+        if (autoFocus && inputEl && inputEl.current) {
+            inputEl.current.focus()
+        }
+    }, [inputEl, autoFocus])
 
     useEffect(() => {
         handleChange(inputValue)
@@ -39,6 +47,7 @@ const InputPassword = ({
                 disabled={disabled}
                 onChange={e => { setInputValue(e.target.value); }}
                 value={inputValue}
+                ref={inputEl}
             />
 
             {!required && !error && !valid && (

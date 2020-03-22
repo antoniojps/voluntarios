@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowSvg } from "components/atoms";
+import { AnimatePresence, motion } from 'framer-motion'
 import "./Input.module.scss";
 
 const InputText = ({
@@ -13,8 +14,20 @@ const InputText = ({
     errorMessage = 'O valor inserido é inválido.',
     placeholder = 'Palavra chave',
     value = '',
+    autoFocus = false,
 }) => {
     const [inputValue, setInputValue] = useState(value);
+    const inputEl = useRef(null)
+
+    useEffect(() => {
+        setInputValue(value)
+    }, [value])
+
+    useEffect(() => {
+        if (autoFocus && inputEl && inputEl.current) {
+            inputEl.current.focus()
+        }
+    }, [inputEl, autoFocus])
 
     useEffect(() => {
         handleChange(inputValue)
@@ -39,19 +52,45 @@ const InputText = ({
                 disabled={disabled}
                 onChange={e => { setInputValue(e.target.value); }}
                 value={inputValue}
+                ref={inputEl}
             />
-            
-            {!required && !error && !valid && (
-                <button className='btn--primary'>Passar</button>
+            <AnimatePresence initial={false}>
+            {error && (
+                <motion.p
+                    className='input__input-text__error-message'
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    key="error"
+                >
+                    {errorMessage}
+                </motion.p>
             )}
 
-            {!required && !error && valid && (
-                <button className='btn--primary'>Ok</button>
+            {!required && !value && (
+                <motion.button
+                    className='btn--primary'
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    key="skip"
+                >
+                    Passar
+                </motion.button>
             )}
 
-            {!required && !valid && error && (
-                <p className='input__input-text__error-message'>{errorMessage}</p>
+            {valid && (
+                <motion.button
+                    className='btn--primary'
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    key="ok"
+                >
+                    Ok
+                </motion.button>
             )}
+            </AnimatePresence>
 
         </div>
     )

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowSvg } from "components/atoms";
 import "./Input.module.scss";
 import Label from '../../atoms/Label/Label';
@@ -12,11 +12,19 @@ const InputMultiple = ({
     required = true,
     placeholder = 'Filtrar opcoes',
     value = '',
+    autoFocus = false,
 }) => {
     const [inputValue, setInputValue] = useState(value);
     const [valid, setValid] = useState(false);
     const [itemsToDisplay, setItemsToDisplay] = useState([...items]);
     const [itemsSelected, setItemsSelected] = useState([]);
+    const inputEl = useRef(null)
+
+    useEffect(() => {
+        if (autoFocus && inputEl && inputEl.current) {
+            inputEl.current.focus()
+        }
+    }, [inputEl, autoFocus])
 
     useEffect(() => {
         if (inputValue.length > 0) {
@@ -70,6 +78,7 @@ const InputMultiple = ({
                     disabled={disabled}
                     onChange={e => setInputValue(e.target.value)}
                     value={inputValue}
+                    ref={inputEl}
                 />
             </div>
 
