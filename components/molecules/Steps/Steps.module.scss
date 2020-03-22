@@ -4,7 +4,7 @@
   * {
     font-family: var(--font);
   }
-
+  width: 100%;
   display: flex;
   align-items: center;
 
@@ -45,6 +45,8 @@
   }
 
   &__progress {
+    width: 100%;
+    
     &__label {
       user-select: none;
       -moz-user-select: none;
@@ -54,7 +56,6 @@
       font-size: var(--size-s);
       margin: 0;
       margin-bottom: var(--spacing-xs3);
-      padding-right: var(--spacing-m);
     }
   }
 }
