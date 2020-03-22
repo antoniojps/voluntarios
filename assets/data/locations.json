@@ -1,0 +1,142 @@
+[
+    {
+      "name": "Açores",
+      "geolocation": {
+        "lat": 37.7412488,
+        "lng": -25.6755944
+      }
+    },
+    {
+      "name": "Aveiro",
+      "geolocation": {
+        "lat": 40.6405055,
+        "lng": -8.6537539
+      }
+    },
+    {
+      "name": "Beja",
+      "geolocation": {
+        "lat": 38.0153039,
+        "lng": -7.8627308
+      }
+    },
+    {
+      "name": "Braga",
+      "geolocation": {
+        "lat": 41.5454486,
+        "lng": -8.426506999999999
+      }
+    },
+    {
+      "name": "Bragança",
+      "geolocation": {
+        "lat": 41.8061131,
+        "lng": -6.756737999999999
+      }
+    },
+    {
+      "name": "Castelo Branco",
+      "geolocation": {
+        "lat": 39.8031161,
+        "lng": -7.4597725
+      }
+    },
+    {
+      "name": "Coimbra",
+      "geolocation": {
+        "lat": 40.2033145,
+        "lng": -8.4102573
+      }
+    },
+    {
+      "name": "Évora",
+      "geolocation": {
+        "lat": 38.571431,
+        "lng": -7.913501999999999
+      }
+    },
+    {
+      "name": "Faro",
+      "geolocation": {
+        "lat": 37.0193548,
+        "lng": -7.9304397
+      }
+    },
+    {
+      "name": "Guarda",
+      "geolocation": {
+        "lat": 40.5308408,
+        "lng": -7.2221421
+      }
+    },
+    {
+      "name": "Leiria",
+      "geolocation": {
+        "lat": 39.74953310000001,
+        "lng": -8.807682999999999
+      }
+    },
+    {
+      "name": "Lisboa",
+      "geolocation": {
+        "lat": 38.7222524,
+        "lng": -9.1393366
+      }
+    },
+    {
+      "name": "Madeira",
+      "geolocation": {
+        "lat": 32.76070740000001,
+        "lng": -16.9594723
+      }
+    },
+    {
+      "name": "Portalegre",
+      "geolocation": {
+        "lat": 39.2967086,
+        "lng": -7.4284755
+      }
+    },
+    {
+      "name": "Porto",
+      "geolocation": {
+        "lat": 41.1579438,
+        "lng": -8.629105299999999
+      }
+    },
+    {
+      "name": "Santarém",
+      "geolocation": {
+        "lat": 39.2366618,
+        "lng": -8.686011900000002
+      }
+    },
+    {
+      "name": "Setúbal",
+      "geolocation": {
+        "lat": 38.5260437,
+        "lng": -8.8909328
+      }
+    },
+    {
+      "name": "Viana do Castelo",
+      "geolocation": {
+        "lat": 41.6918046,
+        "lng": -8.834451
+      }
+    },
+    {
+      "name": "Vila Real",
+      "geolocation": {
+        "lat": 41.3010351,
+        "lng": -7.7422354
+      }
+    },
+    {
+      "name": "Viseu",
+      "geolocation": {
+        "lat": 40.72764189999999,
+        "lng": -7.9157099
+      }
+    }
+  ]

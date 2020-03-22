@@ -2,6 +2,8 @@ import { withA11y } from "@storybook/addon-a11y";
 import InputText from './InputText';
 import InputPassword from './InputPassword';
 import InputDropdown from './InputDropdown';
+import InputMultiple from './InputMultiple';
+import * as yup from 'yup'
 
 export default {
   title: "Molecules/InputText",
@@ -11,27 +13,33 @@ export default {
 export const TextInput = () => (
   <InputText
     title='Qual é o seu primeiro nome?'
+    placeholder="O seu nome..."
     number={1}
     handleChange={console.log}
+    handleSubmit={alert}
+    schema={yup.string()}
   />
 )
 
 export const TextInputRequired = () => (
   <InputText
     title='Qual é o seu primeiro nome?'
+    placeholder="O seu nome..."
     number={1}
     handleChange={console.log}
-    required
+    handleSubmit={alert}
+    schema={yup.string().required('Este campo é obrigatório')}
   />
 )
 
 export const TextInputError = () => (
   <InputText
-    title='Qual é o seu primeiro nome?'
+    title='Qual é o seu email?'
     number={1}
     handleChange={console.log}
-    error
-    errorMessage='O valor inserido é inválido.'
+    handleSubmit={alert}
+    placeholder="nome@mail.com"
+    schema={yup.string().email('Não é um email válido')}
     value='fagaio'
   />
 )
@@ -39,10 +47,12 @@ export const TextInputError = () => (
 export const TextInputValid = () => (
   <InputText
     title='Qual é o seu primeiro nome?'
+    placeholder="O seu nome..."
     number={1}
     handleChange={console.log}
-    valid
+    handleSubmit={alert}
     value='Vasco'
+    schema={yup.string()}
   />
 )
 
@@ -52,6 +62,8 @@ export const PasswordInput = () => (
     title='Escolha uma password'
     number={1}
     handleChange={console.log}
+    handleSubmit={alert}
+    schema={yup.string().required('Este campo é obrigatório').min(8)}
   />
 )
 
@@ -61,7 +73,8 @@ export const PasswordInputError = () => (
     number={1}
     handleChange={console.log}
     value='olaolaolaolaolaola'
-    error
+    handleSubmit={alert}
+    schema={yup.string().required('Este campo é obrigatório').max(8)}
   />
 )
 
@@ -71,7 +84,9 @@ export const PasswordInputValid = () => (
     number={1}
     handleChange={console.log}
     value='olaolaolaolaolaola'
-    valid
+    value='olaolaolaolaolaola'
+    handleSubmit={alert}
+    schema={yup.string().required('Este campo é obrigatório')}
   />
 )
 
@@ -108,6 +123,17 @@ export const DropdownInputSelected = () => (
     number={1}
     handleChange={console.log}
     value={items[2].label}
+    items={items}
+    limit={5}
+  />
+)
+
+export const MultipleInput = () => (
+  <InputMultiple
+    title='Quais sao as suas competencias?'
+    number={1}
+    handleChange={console.log}
+    value=''
     items={items}
     limit={5}
   />

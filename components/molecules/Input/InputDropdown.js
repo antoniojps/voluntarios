@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowSvg } from "components/atoms";
+import { Icon } from "components/atoms";
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import "./Input.module.scss";
 
 const InputDropdown = ({
@@ -7,7 +8,6 @@ const InputDropdown = ({
     number,
     title,
     handleChange,
-    limit = 100,
     disabled = false,
     required = false,
     placeholder = 'Insira algo',
@@ -15,7 +15,7 @@ const InputDropdown = ({
 }) => {
     const [inputValue, setInputValue] = useState(value);
     const [valid, setValid] = useState(false);
-    const [itemsToDisplay, setItemsToDisplay] = useState([...items.slice(0, limit)]);
+    const [itemsToDisplay, setItemsToDisplay] = useState([...items]);
     const [itemSelected, setItemSelected] = useState(null);
 
     useEffect(() => {
@@ -28,10 +28,10 @@ const InputDropdown = ({
                 return setItemsToDisplay([])
             }
             setValid(false);
-            return setItemsToDisplay([...items.filter(item => item.label.toLowerCase().includes(inputValue.toLowerCase()))].slice(0, limit))
+            return setItemsToDisplay([...items.filter(item => item.label.toLowerCase().includes(inputValue.toLowerCase()))])
         }
         setValid(false);
-        return setItemsToDisplay([...items.slice(0, limit)])
+        return setItemsToDisplay([...items])
     }, [inputValue])
 
     return (
@@ -40,7 +40,9 @@ const InputDropdown = ({
                 {number && (
                     <>
                         <span>{number}</span>
-                        <ArrowSvg />
+                        <span className="input__head--icon">
+                            <Icon icon={faArrowRight} />
+                        </span>
                     </>
                 )}
                 <span title='title'>{title}</span>

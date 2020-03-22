@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ArrowSvg } from "components/atoms";
+import { Icon } from "components/atoms";
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import "../Filter/Filter.module.scss";
 
 const Search = ({
@@ -33,12 +34,12 @@ const Search = ({
           {desc && <p title='desc'>{desc}</p>}
         </div>
 
-        <ArrowSvg />
+        <Icon icon={faChevronRight} />
       </button>
       {open && (
         <div className="filter__list">
           <div className="filter__list__head" onClick={() => setOpen(false)}>
-            <ArrowSvg />
+            <Icon icon={faChevronRight} />
             <span>{title}</span>
           </div>
 

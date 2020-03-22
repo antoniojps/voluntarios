@@ -1,33 +1,36 @@
-@import "assets/styles/mixins.scss";
 @import "assets/styles/global.scss";
 
 .input {
   width: 100%;
   height: 100%;
-
-  * {
-    font-family: var(--red);
-  }
+  margin-bottom: var(--spacing-sm);
 
   &__head {
-    span {
+    display: flex;
+    align-items: center;
+    color: var(--base40);
+    font-size: var(--size-xl2);
+
+    &--icon {
+      margin: 0 var(--spacing-xs4);
       color: var(--base40);
-      font-weight: normal;
       font-size: var(--size-xs2);
     }
 
-    svg {
-      height: 10px;
-      width: 10px;
-      transform: rotate(270deg);
-      margin-right: var(--spacing-xs4);
-      fill: var(--base40);
-    }
-
     [title="title"] {
-      font-size: var(--size-xs);
+      font-size: var(--size-xl2);
       color: var(--primary);
-      font-weight: bold;
+      font-weight: var(--weight-semibold);
+    }
+  }
+
+  &__submit {
+    display: inline-flex;
+    align-items: center;
+    &-description {
+      margin-left: var(--spacing-xs3);
+      margin-top: var(--spacing-xs);
+      font-size: var(--size-xs2);
     }
   }
 
@@ -36,9 +39,14 @@
     border: 0;
     outline: none;
     font-weight: 500;
-    font-size: var(--size-xl);
-    margin-top: var(--spacing-xs4);
-    border-bottom: 1px solid var(--border);
+    font-size: var(--size-xl5);
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs2);
+    transition: box-shadow 0.2s ease 0s;
+
+    &:not(:focus) {
+      box-shadow: var(--border) 0px 1px;
+    }
 
     &::-webkit-input-placeholder {
       font-weight: 600;
@@ -55,25 +63,27 @@
       color: var(--base60);
     }
 
-    &--error {
-      border-bottom: 1px solid var(--red);
-    }
-
     &__error-message {
-      color: var(--red);
+      display: inline-flex;
+      padding: var(--spacing-xs4);
+      border-radius: 2px;
+      color: var(--baseInverse);
       font-size: var(--size-xs);
+      background-color: var(--red);
     }
   }
 
   button {
-    margin-top: var(--spacing-xs3);
+    margin-top: var(--spacing-xs);
   }
 
   &__dropdown-list {
     list-style-type: none;
     margin: var(--spacing-xs) 0;
     padding: 0;
-
+    max-height: 200px;
+    overflow-y: auto;
+    @include custom-scrollbar;
     @include box-shadow;
 
     li {
@@ -83,11 +93,20 @@
       background-color: var(--base80);
       font-size: var(--size-s);
       transition: all 0.2s ease 0s;
-    
-      &:hover {
+
+      &:hover, &.selected {
         background-color: var(--bgPrimary);
         color: var(--baseInverse);
       }
+    }
+  }
+
+  &__multiple {
+    display: flex;
+    align-items: center;
+
+    .label {
+      margin-right: var(--spacing-xs4);
     }
   }
 }

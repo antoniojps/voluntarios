@@ -1,31 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import "./Avatar.module.scss";
+import './Avatar.molecule.scss';
 
-const Avatar = ({
-	className,
-	src,
-	alt, 
-	size,
-}) => (
-	<img 
-		src={src} 
-		alt={alt} 
-		className={`avatar ${className}`} 
-		style={{ height: size, width: size}} 
-	/>
-);
-
-Avatar.propTypes = {
-	className: PropTypes.string,
-	src: PropTypes.string.isRequired,
-	alt: PropTypes.string.isRequired, 
-	size: PropTypes.number,
-};
-
-Avatar.defaultProps = {
-	className: '',
-	size: 38,
-};
+const Avatar = ({ src, alt = 'avatar', size = 'sm' }) => (
+    <img className={`avatar avatar--${size}`} src={src} alt={alt} />
+)
 
 export default Avatar;

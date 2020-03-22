@@ -26,7 +26,9 @@ export const typeDef = gql`
   }
 
   extend type Query {
-    # All categories by name
+    # All categories
+    allCategories: [Category]
+    # Search categories by name paginated
     categories(search: String, pagination: PaginationInput): CategoryConnection
   }
 
@@ -42,6 +44,7 @@ export const typeDef = gql`
 
 export const resolvers = {
   Query: {
+    allCategories: () => Category.find({}),
     categories: (root, { search, pagination = {} }) => Category.searchByName({ search, pagination }),
   },
   Mutation: {

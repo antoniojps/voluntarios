@@ -11,8 +11,10 @@ export const typeDef = gql`
     email: String! @auth(requires: owner)
     firstName: String!
     lastName: String!
-    categories: [Category!]
-    locations: [Location!]
+    name: String!
+    job: String
+    categories: [Category]
+    locations: [Location]
     admin: Boolean
     moderator: Boolean
     verified: Boolean
@@ -24,6 +26,11 @@ export const typeDef = gql`
     id: ID!
     name: String!
     geolocation: Geolocation!
+  }
+
+  input LocationInput {
+    name: String!
+    geolocation: GeolocationInput!
   }
 
   type Geolocation{
@@ -42,7 +49,8 @@ export const typeDef = gql`
     firstName: String!
     lastName: String!
     categories: [ID!]
-    locations: [GeolocationInput!]
+    locations: [LocationInput!]
+    job: String
   }
 
   input SignInInput {

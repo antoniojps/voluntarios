@@ -9,6 +9,7 @@ const config = {
     config.resolve.alias['components'] = path.join(__dirname, 'components');
     config.resolve.alias['services'] = path.join(__dirname, 'services');
     config.resolve.alias['assets'] = path.join(__dirname, 'assets');
+    config.resolve.alias['utils'] = path.join(__dirname, 'utils');
     return config;
   },
   env: {

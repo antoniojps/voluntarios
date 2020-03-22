@@ -27,6 +27,10 @@ module.exports = {
         path.resolve(__dirname, '../'),
         'assets',
       );
+      config.resolve.alias['utils'] = path.join(
+        path.resolve(__dirname, '../'),
+        'utils',
+      );
 
         // Return the altered config
         return config;

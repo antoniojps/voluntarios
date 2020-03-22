@@ -51,22 +51,22 @@
   --size-xl2: 1.25rem; // 20px
   --size-xl3: 1.375rem; // 22px
   --size-xl4: 1.5rem; // 24px
-  --size-xl5: 2rem; // 32px
+  --size-xl5: 1.875rem; // 30px
   --size-xl6: 2.5rem; // 40px
   --size-xl7: 3rem; // 48px
   --size-xl8: 3.5rem; // 56px
   --size-xl9: 4rem; // 64px
   --size-xl10: 8rem; // 128px
 
+  --header-1: var(--size-xl9);
+
+  --weight-normal: 400;
+  --weight-semibold: 500;
+  --weight-bold: 600;
+
   /* other */
   --borderRadius: 3px;
   --borderRadiusSmall: 2px;
-}
-
-/* Prevent bounce on iOS */
-html {
-  height: 100%;
-  overflow: hidden;
 }
 
 html,
@@ -79,6 +79,10 @@ body {
   color: var(--base);
 }
 
+h1 {
+  font-size: var(--header-1);
+}
+
 a {
   color: var(--base);
 }
@@ -88,6 +92,10 @@ button {
   .btn--primary,
   &.btn--primary {
     @include button--primary;
+  }
+  .btn--secondary,
+  &.btn--secondary {
+    @include button--secondary;
   }
   a {
     color: inherit;
