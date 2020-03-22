@@ -8,19 +8,13 @@
   &__head {
     display: flex;
     align-items: center;
+    color: var(--base40);
+    font-size: var(--size-xl2);
 
-    span {
+    &--icon {
+      margin: 0 var(--spacing-xs4);
       color: var(--base40);
-      font-weight: normal;
-      font-size: var(--size-xl2);
-    }
-
-    svg {
-      height: 20px;
-      width: 20px;
-      transform: rotate(270deg);
-      margin-right: var(--spacing-xs4);
-      fill: var(--base40);
+      font-size: var(--size-xs2);
     }
 
     [title="title"] {

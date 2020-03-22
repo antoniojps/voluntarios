@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowSvg } from "components/atoms";
+import { Icon } from "components/atoms";
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import "./Input.module.scss";
 
@@ -39,7 +40,9 @@ const InputText = ({
                 {number && (
                     <>
                         <span>{number}</span>
-                        <ArrowSvg />
+                        <span className="input__head--icon">
+                            <Icon icon={faArrowRight} />
+                        </span>
                     </>
                 )}
                 <span title='title'>{title}</span>

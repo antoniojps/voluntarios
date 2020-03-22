@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowSvg } from "components/atoms";
+import { Icon } from "components/atoms";
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import "./Input.module.scss";
 import Label from '../../atoms/Label/Label';
 
@@ -61,8 +62,9 @@ const InputMultiple = ({
                 {number && (
                     <>
                         <span>{number}</span>
-                        <ArrowSvg />
-                    </>
+                        <span className="input__head--icon">
+                            <Icon icon={faArrowRight} />
+                        </span>                    </>
                 )}
                 <span title='title'>{title}</span>
             </div>
