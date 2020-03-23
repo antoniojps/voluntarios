@@ -127,3 +127,25 @@
     transform: scale(1);
   }
 }
+
+$breakpoints: (
+  xs:0,
+  sm: 576px,
+  md: 768px,
+  lg: 993px,
+  xl: 1920px
+);
+
+/*
+  @include screen(md){
+    // estilos para ecras inferiores a md
+  }
+*/
+
+@mixin screen($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: #{map-get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  }
+}
