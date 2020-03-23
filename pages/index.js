@@ -63,7 +63,7 @@ const Index = () => {
       <div className="volunteers">
         <div className="volunteers__sidebar">
           <FilterOrder searchEnabled handleChange={setOrder} />
-          <FilterCategories handleChange={(id) => setCategories([id])} title='competências' />
+          <FilterCategories searchEnabled handleChange={(id) => setCategories([id])} title='competências' />
           <Search title='procurar por' desc='todos os voluntários' handleChange={setSearch} />
         </div>
         <VolunteersList filters={filters} />
