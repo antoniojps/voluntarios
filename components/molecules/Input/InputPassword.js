@@ -12,12 +12,12 @@ const InputPassword = ({
     handleSubmit = () => null,
     disabled = false,
     placeholder = 'Palavra chave',
-    value = '',
+    initialValue = '',
     autoFocus = false,
     schema = yup.string(),
 }) => {
     const inputEl = useRef(null)
-    const [inputValue, setInputValue] = useState(value);
+    const [inputValue, setInputValue] = useState(initialValue);
     const [hasSubmitted, setHasSubmitted] = useState(false)
     const [{ valid, error, errorMessage }, setInputState] = useState({
         valid: false,

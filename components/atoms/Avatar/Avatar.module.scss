@@ -1,4 +1,40 @@
 .avatar {
-	vertical-align: middle;
-	border-radius: 50%;
+  object-fit: cover;
+
+  &--sm {
+    height: 45px;
+    width: 45px;
+  }
+
+  &--md {
+    height: 60px;
+    width: 60px;
+  }
+
+  &--lg {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+.avatar-default {
+  &--sm {
+    height: 30px !important;
+    width: 30px !important;
+  }
+
+  &--md {
+    height: 45px !important;
+    width: 45px !important;
+  }
+
+  &--lg {
+    height: 60px !important;
+    width: 60px !important;
+  }
+}
+
+.avatar,
+.avatar-default {
+  border-radius: 50%;
 }

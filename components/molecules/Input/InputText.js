@@ -5,7 +5,6 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import * as yup from 'yup';
 import "./Input.module.scss";
 
-
 const InputText = ({
     number,
     title,
@@ -13,12 +12,12 @@ const InputText = ({
     handleSubmit = () => null,
     disabled = false,
     placeholder = 'Palavra chave',
-    value = '',
+    initialValue = '',
     autoFocus = false,
     schema = yup.string(),
 }) => {
     const inputEl = useRef(null)
-    const [inputValue, setInputValue] = useState(value);
+    const [inputValue, setInputValue] = useState(initialValue);
     const [hasSubmitted, setHasSubmitted] = useState(false)
     const [{ valid, error, errorMessage }, setInputState] = useState({
         valid: false,
@@ -43,10 +42,6 @@ const InputText = ({
         }
         validate()
     }, [inputValue])
-
-    useEffect(() => {
-        setInputValue(value)
-    }, [value])
 
     useEffect(() => {
         if (autoFocus && inputEl && inputEl.current) {
