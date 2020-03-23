@@ -1,50 +1,39 @@
 import { withApollo } from '../apollo/client';
-import gql from 'graphql-tag';
-import Link from 'next/link';
 import { useQuery } from '@apollo/react-hooks';
-
-const CurrentUserQuery = gql`
-  query CurrentUserQuery {
-    currentUser {
-      _id
-      email
-      firstName
-      lastName
-      admin
-      moderator
-      verified
-    }
-  }
-`;
+import { Layout, ButtonAction } from 'components/atoms'
+import { VolunteersList } from 'components/organisms'
+import { USERS_QUERY } from './../graphql'
 
 const Index = () => {
-  const { data, loading } = useQuery(CurrentUserQuery);
+  const { data, loading, error } = useQuery(
+    USERS_QUERY,
+    {
+      variables: {
+        input: {},
+        pagination: {
+          limit: 5,
+          page: 1,
+        },
+      },
+    },
+  );
 
-  if (data && data.currentUser) {
-    return (
-      <div className="container">
-        <p>Hey {data.currentUser.firstName}!</p>
-        <div style={{ paddingTop: '12px' }}>
-          <Link href="/sign-out">
-            <button>
-              <a>log out</a>
-            </button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-  if (loading)
-    return (
-      <div className="container">
-          <p>Loading...</p>
-      </div>
-    );
+  const volunteers = data && data.users && data.users.list ? data.users.list : []
+
   return (
-    <div className="container">
-        <p>Hey stranger!</p>
-    </div>
+    <Layout title="Voluntários" description={<Description />}>
+      <VolunteersList loading={loading} error={error} volunteers={volunteers} />
+    </Layout>
   );
 };
+
+const Description = () => (
+  <div className="hero__description--action">
+    <p>Plataforma Online do Voluntariado Português</p>
+    <ButtonAction>
+      Sou um voluntário
+    </ButtonAction>
+  </div>
+)
 
 export default withApollo({ ssr: false })(Index);
