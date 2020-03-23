@@ -94,7 +94,7 @@ export const typeDef = gql`
     user(id: ID!): User
     # (User) Authenticated user
     currentUser: User
-    # Search categories by name paginated
+    # All users paginated with filters
     users(input: UsersFilterInput!, pagination: PaginationInput): UserPage
   }
 
