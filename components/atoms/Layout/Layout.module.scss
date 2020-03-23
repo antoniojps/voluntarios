@@ -1,0 +1,44 @@
+@import "assets/styles/mixins.scss";
+
+@mixin description {
+  margin-top: var(--spacing-xs);
+  display: flex;
+  @include screen(md) {
+    margin-bottom: var(--spacing-xs2);
+  }
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 75px;
+  margin-bottom: 70px;
+  @include screen(md) {
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-xs);
+  }
+  h1 {
+    margin: 0;
+  }
+  &__description {
+    @include description;
+    &--action {
+      @include description;
+      @include screen(md) {
+        margin-bottom: var(--spacing-xs2);
+        flex-direction: column;
+      }
+      p {
+        margin-right: var(--spacing-xs);
+        @include screen(md) {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+main {
+
+}
