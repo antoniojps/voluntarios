@@ -1,13 +1,17 @@
 import Link from 'next/link'
+import { Layout } from 'components/atoms'
 
-export default () => (
-  <div className="container">
+const About = () => (
+  <Layout title="Sobre" description="voluntários.io">
     <p>
-      This is a static page goto{' '}
+      Página em construção,{' '}
       <Link href="/">
-        <a>dynamic</a>
-      </Link>{' '}
-      page.
+        <a>voltar</a>
+      </Link>
+      .
     </p>
-  </div>
+  </Layout>
 )
+
+export default About
+
