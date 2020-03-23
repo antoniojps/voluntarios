@@ -1,0 +1,27 @@
+@import "assets/styles/global.scss";
+
+.progress-bar {
+    width: 100%;
+    background: var(--base60);
+    border-radius: 5px;
+    overflow: hidden;
+    height: 5px;
+
+    &--sm {
+        height: 5px;
+    } 
+
+    &--md {
+        height: 10px;
+    }
+
+    &--lg {
+        height: 20px;
+    }
+
+    :first-child {
+        background: var(--base);
+        height: 100%;
+        transition: width 0.2s ease 0s;
+    }
+}
