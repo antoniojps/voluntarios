@@ -3,6 +3,8 @@ import validator from 'validator';
 import Category from './category'
 const { ObjectId } = mongoose.Schema
 import { UserInputError } from 'apollo-server-micro';
+import { paginate } from '../graphql/utils/filters'
+import { paginate as mongoosePaginate } from 'mongoose-paginate-v2'
 
 // USER
 // schema
@@ -100,6 +102,8 @@ const UserSchema = mongoose.Schema({
   },
 });
 
+UserSchema.set('timestamps', true)
+
 // model methods
 UserSchema.statics = {
   findByEmail(email) {
@@ -116,6 +120,35 @@ UserSchema.statics = {
     }
     const user = new User(newUser);
     return user.save();
+  },
+  pagination: mongoosePaginate,
+  async searchByFilters({ input, pagination = {} }) {
+    const { name, geolocation, categories, orderBy } = input
+    const distanceKm = 30
+    const radiusOfEarthKm = 6378.1
+    let query = {}
+    let sort = {}
+
+    if (name) {
+      query.name = { $regex: name, $options: 'i' }
+    }
+    if (geolocation && geolocation.long && geolocation.lat) {
+      query["locations.geolocation"] = {
+        $geoWithin: {
+          $centerSphere: [
+            [geolocation.long, geolocation.lat],
+            distanceKm / radiusOfEarthKm,
+          ],
+        },
+      }
+    }
+    if (categories && categories.length > 0) {
+      query.categories = categories.map(id => mongoose.Types.ObjectId(id))
+    }
+    if (orderBy && orderBy.sort && orderBy.field) {
+      sort = { [orderBy.field]: orderBy.sort }
+    }
+    return paginate(this, query, pagination, sort)
   },
 };
 

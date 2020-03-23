@@ -3,12 +3,17 @@ import gql from 'graphql-tag'
 export const typeDef = gql`
   # Pagination
   type PaginationInfo {
-    hasNextPage: Boolean!
-    endCursor: DateTime
+    totalDocs: Int
+    limit: Int
+    totalPages: Int
+    page: Int
+    pagingCounter: Int
+    hasPrevPage: Boolean
+    hasNextPage: Boolean
   }
 
   input PaginationInput {
     limit: Int = 10
-    after: DateTime
+    page: Int = 1
   }
 `

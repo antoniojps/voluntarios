@@ -20,44 +20,17 @@ export function secure(func, admin = false, moderator = false) {
   };
 }
 
+export async function paginate (Model, query, pagination, sort) {
+  const { limit = 10, page = 1 } = pagination
 
-// With Connection, Edges, PageInfo and Count
-// https://graphql.org/learn/pagination/
-export async function paginate (Model, query, pagination) {
-  const { limit } = pagination
-  const totalCount = await Model.find(query).countDocuments()
-
-  if (totalCount === 0) {
-    return {
-      totalCount,
-      pageInfo: {
-        hasNextPage: false,
-      },
-    }
-  }
-
-  const documents = await Model.find(query)
-    .sort({ createdAt: 1 })
-    .limit(limit)
-
-  const edges = documents.map(user => ({
-    node: user,
-    cursor: user.createdAt,
-  }))
-
-  const lastNode = edges[edges.length - 1].node
-  const endCursor = lastNode.createdAt
-
-  const hasNextPage = edges.length === limit
-
-  const pageInfo = {
-    hasNextPage,
-    endCursor,
-  }
+  const documents = await Model.pagination(query, { page, limit, sort })
+  const {
+    docs: list,
+    ...pageInfo
+  } = documents
 
   return {
-    totalCount,
-    edges,
+    list,
     pageInfo,
   }
 }

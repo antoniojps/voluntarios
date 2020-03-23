@@ -20,6 +20,33 @@ export const typeDef = gql`
     verified: Boolean
     verifiedAt: DateTime
     verificationTokenSentAt: DateTime
+    createdAt: DateTime
+  }
+
+  type UserPage {
+    list: [User]
+    pageInfo: PaginationInfo!
+  }
+
+  enum OrderFields {
+    createdAt
+  }
+
+  enum Sort {
+    asc
+    desc
+  }
+
+  input OrderByInput {
+    field: OrderFields!
+    sort: Sort!
+  }
+
+  input UsersFilterInput {
+    name: String = ""
+    geolocation: GeolocationInput
+    categories: [ID!]
+    orderBy: OrderByInput
   }
 
   type Location{
@@ -63,9 +90,12 @@ export const typeDef = gql`
   }
 
   extend type Query {
+    # (User) User by id
     user(id: ID!): User
-    users: [User]
+    # (User) Authenticated user
     currentUser: User
+    # Search categories by name paginated
+    users(input: UsersFilterInput!, pagination: PaginationInput): UserPage
   }
 
   extend type Mutation {
@@ -99,6 +129,7 @@ export const resolvers = {
       return user;
     }),
     user: (root, { id }) => User.findById(id),
+    users: async (root, { input, pagination = {} }) => User.searchByFilters({ input, pagination }),
   },
   Mutation: {
     signUp: async (_parent, args, context) => {
