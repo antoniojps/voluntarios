@@ -40,7 +40,7 @@ export const TextInputError = () => (
     handleSubmit={alert}
     placeholder="nome@mail.com"
     schema={yup.string().email('Não é um email válido')}
-    value='fagaio'
+    initialValue='fagaio'
   />
 )
 
@@ -51,7 +51,7 @@ export const TextInputValid = () => (
     number={1}
     handleChange={console.log}
     handleSubmit={alert}
-    value='Vasco'
+    initialValue='Vasco'
     schema={yup.string()}
   />
 )
@@ -72,7 +72,7 @@ export const PasswordInputError = () => (
     title='Escolha uma password'
     number={1}
     handleChange={console.log}
-    value='olaolaolaolaolaola'
+    initialValue='olaolaolaolaolaola'
     handleSubmit={alert}
     schema={yup.string().required('Este campo é obrigatório').max(8)}
   />
@@ -83,8 +83,8 @@ export const PasswordInputValid = () => (
     title='Escolha uma password'
     number={1}
     handleChange={console.log}
-    value='olaolaolaolaolaola'
-    value='olaolaolaolaolaola'
+    initialValue='olaolaolaolaolaola'
+    initialValue='olaolaolaolaolaola'
     handleSubmit={alert}
     schema={yup.string().required('Este campo é obrigatório')}
   />
@@ -111,7 +111,7 @@ export const DropdownInput = () => (
     title='Qual a sua localidade?'
     number={1}
     handleChange={console.log}
-    value=''
+    initialValue=''
     items={items}
     limit={5}
   />
@@ -122,7 +122,7 @@ export const DropdownInputSelected = () => (
     title='Qual a sua localidade?'
     number={1}
     handleChange={console.log}
-    value={items[2].label}
+    initialValue={items[2].label}
     items={items}
     limit={5}
   />
@@ -133,7 +133,7 @@ export const MultipleInput = () => (
     title='Quais sao as suas competencias?'
     number={1}
     handleChange={console.log}
-    value=''
+    initialValue=''
     items={items}
     limit={5}
   />
