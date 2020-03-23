@@ -14,22 +14,10 @@ export const typeDef = gql`
     color: HexColorCode!
   }
 
-  type CategoryEdge {
-    node: Category!
-    cursor: DateTime!
-  }
-
-  type CategoryConnection {
-    totalCount: Int!
-    edges: [CategoryEdge]
-    pageInfo: PaginationInfo!
-  }
 
   extend type Query {
     # All categories
     allCategories: [Category]
-    # Search categories by name paginated
-    categories(search: String, pagination: PaginationInput): CategoryConnection
   }
 
   extend type Mutation {
@@ -45,7 +33,6 @@ export const typeDef = gql`
 export const resolvers = {
   Query: {
     allCategories: () => Category.find({}),
-    categories: (root, { search, pagination = {} }) => Category.searchByName({ search, pagination }),
   },
   Mutation: {
     addCategory: secure(
