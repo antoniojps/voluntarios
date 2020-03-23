@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Icon } from "components/atoms";
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import "./Filter.module.scss";
 
 const Filter = ({
   title = "ordenar por",
+  descriptionDefault = 'Todos',
   items,
-  itemSelected = 0,
+  itemSelected = null,
   searchEnabled = false,
   searchPlaceholder = "| procurar",
   handleChange,
@@ -16,6 +17,7 @@ const Filter = ({
   const [selected, setSelected] = useState(itemSelected);
   const [searchValue, setSearchValue] = useState('');
   const searchRef = useRef(null);
+  const isActive = useMemo(() => itemSelected !== null || itemSelected !== undefined, [itemSelected])
 
   useEffect(() => {
     if (open) {
@@ -32,21 +34,26 @@ const Filter = ({
 
   return (
     <div className="filter">
-      <button
-        className={`filter__button ${open ? "filter__button--active" : ""}`}
-        onClick={() => setOpen(!open)}
-      >
-        <div className="filter__button__label">
-          <p title='title'>{title}</p>
-          <p title='desc'>{items[selected].label}</p>
-        </div>
+    {!open
+      ? (
+        <button
+          className={`filter__button ${isActive ? "filter__button--active" : ""}`}
+          onClick={() => setOpen(!open)}
+        >
+          <div className="filter__button__label">
+            <p title='title'>{title}</p>
+            <p title='desc'>{items[selected] ? items[selected].label : descriptionDefault}</p>
+          </div>
 
-        <Icon icon={faChevronRight} />
-      </button>
-      {open && (
+          <span className="filter__arrow">
+              <Icon icon={faChevronRight} />
+            </span>
+        </button>
+      )
+      : (
         <div className="filter__list">
           <div className="filter__list__head" onClick={() => setOpen(false)}>
-            <Icon icon={faChevronRight} />
+              <Icon icon={faChevronLeft} />
             <span>{title}</span>
           </div>
 
@@ -69,7 +76,7 @@ const Filter = ({
                   item.id === selected ? "filter__list__item--selected" : ""
                   }`}
                 onClick={() => {
-                  setSelected(item.id);
+                  selected === item.id ? setSelected(null) : setSelected(item.id);
                   setOpen(false);
                   handleChange(item)
                 }}

@@ -20,10 +20,16 @@
     border-left: 5px solid var(--bg);
     padding-left: calc(1rem - 5px);
 
-    &:hover,
-    &--active {
+    &:hover {
       background: var(--bg);
       border: 0;
+      border-left: 5px solid var(--primary);
+      color: var(--base);
+      .filter__arrow {
+        transform: translateX(2px);
+      }
+    }
+    &--active {
       border-left: 5px solid var(--primary);
     }
 
@@ -62,9 +68,9 @@
   &__list {
     display: flex;
     flex-direction: column;
-    margin-left: 15px;
     border-radius: 5px;
     overflow: hidden;
+    background-color: var(--bg);
     @include box-shadow;
 
     &__head {
@@ -72,10 +78,6 @@
       font-size: 1rem;
       font-weight: bold;
       border-bottom: 1px solid var(--border);
-
-      svg {
-        transform: rotate(90deg);
-      }
     }
 
     &__scrollable {
@@ -108,13 +110,9 @@
         width: 15px;
       }
 
-      &:hover,
       &--selected {
         color: var(--bg);
         background: var(--primary);
-        svg {
-          fill: var(--bg);
-        }
       }
     }
 
@@ -130,5 +128,8 @@
         color: var(--primary);
       }
     }
+  }
+  &__arrow {
+    transition: transform 0.2s ease;
   }
 }
