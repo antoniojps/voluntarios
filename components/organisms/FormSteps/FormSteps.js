@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import './SignupSteps.module.scss'
 import { useSetState } from 'react-use'
 import { InputText, InputMultiple, InputPassword } from 'components/molecules'
 import { AnimatePresence, motion } from 'framer-motion'
