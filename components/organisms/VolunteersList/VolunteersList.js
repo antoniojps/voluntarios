@@ -1,20 +1,35 @@
-import React from 'react'
-import { Card, Search } from 'components/molecules'
+import React, { memo } from 'react'
+import { useQuery } from '@apollo/react-hooks';
+import { USERS_QUERY } from '../../../graphql'
+import { Card } from 'components/molecules'
 import './VolunteersList.module.scss'
 
-const VolunteersList = ({ volunteers }) => {
+const VolunteersList = ({ filters }) => {
+  const { data, loading, error } = useQuery(
+    USERS_QUERY,
+    {
+      variables: filters,
+    },
+  );
+
+  const renderContent = () => {
+    if (loading) return 'A carregar.';
+    if (error) return 'Ocorreu um erro.';
+    const volunteers = data && data.users && data.users.list ? data.users.list : [];
+    if (volunteers.length === 0) {
+      return 'no data';
+    }
+
+    return volunteers.map(volunteer => (
+      <Card {...volunteer} key={volunteer._id} />
+    ))
+  }
+
   return (
-    <div className="volunteers">
-      <div className="volunteers__sidebar">
-        <Search title='procurar por' desc='todos os voluntários' handleChange={console.log} />
-      </div>
-      <div className="volunteers__cards">
-        {volunteers.map(volunteer => (
-          <Card {...volunteer} key={volunteer._id} />
-        ))}
-      </div>
+    <div className="volunteers__cards">
+      {renderContent()}
     </div>
   )
 }
 
-export default VolunteersList
+export default memo(VolunteersList)

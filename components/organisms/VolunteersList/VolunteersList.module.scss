@@ -22,6 +22,10 @@
     @include screen(md){
       margin-bottom: 20px;
     }
+
+    .filter {
+      margin-bottom: var(--spacing-xs3)
+    }
   }
   &__cards {
     width: 100%;

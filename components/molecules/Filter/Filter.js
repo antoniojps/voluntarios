@@ -17,7 +17,7 @@ const Filter = ({
   const [selected, setSelected] = useState(itemSelected);
   const [searchValue, setSearchValue] = useState('');
   const searchRef = useRef(null);
-  const isActive = useMemo(() => itemSelected !== null || itemSelected !== undefined, [itemSelected])
+  const isActive = useMemo(() => itemSelected ? true : false, [itemSelected])
 
   useEffect(() => {
     if (open) {
@@ -29,65 +29,67 @@ const Filter = ({
   }, [open]);
 
   useEffect(() => {
-    setItemsToShow([...items.filter(item => item.label.toLowerCase().includes(searchValue.toLowerCase()))]);
+    setItemsToShow([...items.filter(item => item.name.toLowerCase().includes(searchValue.toLowerCase()))]);
   }, [searchValue]);
+
+  const selectedItem = items.find(item => item._id === selected);
 
   return (
     <div className="filter">
-    {!open
-      ? (
-        <button
-          className={`filter__button ${isActive ? "filter__button--active" : ""}`}
-          onClick={() => setOpen(!open)}
-        >
-          <div className="filter__button__label">
-            <p title='title'>{title}</p>
-            <p title='desc'>{items[selected] ? items[selected].label : descriptionDefault}</p>
-          </div>
+      {!open
+        ? (
+          <button
+            className={`filter__button ${isActive ? "filter__button--active" : ""}`}
+            onClick={() => setOpen(!open)}
+          >
+            <div className="filter__button__label">
+              <p title='title'>{title}</p>
+              <p title='desc'>{selectedItem ? selectedItem.name : descriptionDefault}</p>
+            </div>
 
-          <span className="filter__arrow">
+            <span className="filter__arrow">
               <Icon icon={faChevronRight} />
             </span>
-        </button>
-      )
-      : (
-        <div className="filter__list">
-          <div className="filter__list__head" onClick={() => setOpen(false)}>
+          </button>
+        )
+        : (
+          <div className="filter__list">
+            <div className="filter__list__head" onClick={() => setOpen(false)}>
               <Icon icon={faChevronLeft} />
-            <span>{title}</span>
-          </div>
+              <span>{title}</span>
+            </div>
 
-          {searchEnabled && (
-            <input
-              value={searchValue}
-              ref={searchRef}
-              className="filter__list__item"
-              type="text"
-              placeholder={searchPlaceholder}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-          )}
+            {searchEnabled && (
+              <input
+                value={searchValue}
+                ref={searchRef}
+                className="filter__list__item"
+                type="text"
+                placeholder={searchPlaceholder}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            )}
 
-          <div className="filter__list__scrollable">
-            {itemsToShow.map(item => (
-              <div
-                key={item.id}
-                className={`filter__list__item ${
-                  item.id === selected ? "filter__list__item--selected" : ""
-                  }`}
-                onClick={() => {
-                  selected === item.id ? setSelected(null) : setSelected(item.id);
-                  setOpen(false);
-                  handleChange(item)
-                }}
-              >
-                <input type="radio" checked={item.id === selected} id={`radio${item.id}`} />
-                <label htmlFor={`radio${item.id}`}>{item.label}</label>
-              </div>
-            ))}
+            <div className="filter__list__scrollable">
+              {itemsToShow.map(item => (
+                <div
+                  key={item._id}
+                  className={`filter__list__item ${
+                    item._id === selected ? "filter__list__item--selected" : ""
+                    }`}
+                  onClick={() => {
+                    selected === item._id ? setSelected(null) : setSelected(item._id);
+                    setOpen(false);
+                    handleChange(item._id)
+                  }}
+                >
+                  <input type="radio" checked={item._id === selected} id={`radio${item._id}`} />
+                  <label htmlFor={`radio${item._id}`}>{item.name}</label>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 };

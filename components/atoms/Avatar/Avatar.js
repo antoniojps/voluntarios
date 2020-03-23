@@ -4,8 +4,6 @@ import { Icon } from 'components/atoms';
 import './Avatar.module.scss';
 
 const Avatar = ({ src = null, alt = 'avatar', size = 'sm' }) => {
-    console.log(src);
-
     if (!src) {
         return <Icon icon={faUserAlt} className={`avatar-default avatar-default--${size}`} />
     }

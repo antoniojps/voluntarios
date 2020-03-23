@@ -8,28 +8,29 @@ export default {
 
 const items = [
   {
-    id: 0,
-    label: "inscritos recentemente",
+    
+    _id: 0,
+    name: "inscritos recentemente",
   },
   {
-    id: 1,
-    label: "inscritos ha mais tempo",
+    _id: 1,
+    name: "inscritos ha mais tempo",
   },
   {
-    id: 2,
-    label: "lorem",
+    _id: 2,
+    name: "lorem",
   },
   {
-    id: 3,
-    label: "ipsum",
+    _id: 3,
+    name: "ipsum",
   },
   {
-    id: 4,
-    label: "dolor",
+    _id: 4,
+    name: "dolor",
   },
   {
-    id: 5,
-    label: "sit",
+    _id: 5,
+    name: "sit",
   },
 ];
 
