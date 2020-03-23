@@ -1,11 +1,14 @@
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
 import { withApollo } from '../apollo/client';
 import gql from 'graphql-tag';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
-import Field from '../components/field';
 import { getErrorMessage } from '../utils/form';
 import { useRouter } from 'next/router';
+import { FormSteps } from '../components/organisms';
+import { Steps, Actions } from '../components/molecules';
+import { Layout } from '../components/atoms';
+import * as yup from 'yup'
+import { redirectAuthenticated } from 'utils/auth'
 
 const SignInMutation = gql`
   mutation SignInMutation($email: String!, $password: String!) {
@@ -19,22 +22,21 @@ const SignInMutation = gql`
 function SignIn() {
   const client = useApolloClient();
   const [signIn] = useMutation(SignInMutation);
-  const [errorMsg, setErrorMsg] = React.useState();
+  const [errorMsg, setErrorMsg] = useState(null);
   const router = useRouter();
+  const [step, setStep] = useState(0)
+  const [canChange, setCanChange] = useState(false)
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  const handleStepChange = (next) => {
+    if (next > step && canChange) setStep(next)
+    if (next < step) setStep(next)
+  }
 
-    const emailElement = event.currentTarget.elements.email;
-    const passwordElement = event.currentTarget.elements.password;
-
+  async function handleSubmit(variables) {
     try {
       await client.resetStore();
       const { data } = await signIn({
-        variables: {
-          email: emailElement.value,
-          password: passwordElement.value,
-        },
+        variables,
       });
       if (data.signIn._id) {
         await router.push('/');
@@ -45,30 +47,51 @@ function SignIn() {
   }
 
   return (
-    <div className="container">
-      <form onSubmit={handleSubmit}>
-        {errorMsg && <p>{errorMsg}</p>}
-        <Field
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          label="Email"
-        />
-        <Field
-          name="password"
-          type="password"
-          autoComplete="password"
-          required
-          label="Password"
-        />
-        <button type="submit">Log in</button> or{' '}
-        <Link href="sign-up">
-          <a>Inscrever</a>
-        </Link>
-      </form>
-    </div>
+      <Layout
+        title="Log in"
+        description={
+          <Steps
+            steps={2}
+            currentStep={step}
+            title={`${step + 1} de 2 até estar autênticado`}
+            handleChange={handleStepChange}
+            showNext={canChange}
+          />
+        }
+      >
+      <div className="form-fullscreen">
+          <FormSteps
+            currentStep={step}
+            onSubmit={handleSubmit}
+            onStepChange={handleStepChange}
+            onChangeValid={setCanChange}
+            form={[
+              {
+                type: 'text',
+                name: 'email',
+                title: 'Email',
+                placeholder: 'nome@mail.com',
+                value: '',
+                autoFocus: true,
+                schema: yup.string().required().email(),
+              },
+              {
+                type: 'password',
+                name: 'password',
+                title: 'Palavra-chave',
+                placeholder: 'eslindaMaria@2020',
+                value: '',
+                autoFocus: true,
+                schema: yup.string().required(),
+              },
+            ]}
+          />
+          <Actions showError={errorMsg} errorMessage={errorMsg} />
+        </div>
+      </Layout>
   );
 }
 
-export default withApollo({ ssr: true })(SignIn);
+SignIn.getInitialProps = redirectAuthenticated
+
+export default withApollo({ ssr: false })(SignIn);

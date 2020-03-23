@@ -76,7 +76,7 @@ const FormSteps = ({
         >
           <InputText
             number={step}
-            value={state[inputProps.name]}
+            initialValue={state[inputProps.name]}
             handleChange={(value) => setState({ [inputProps.name]: value })}
             handleSubmit={handleSubmit}
             {...inputProps}
@@ -95,7 +95,7 @@ const FormSteps = ({
         >
           <InputPassword
             number={step}
-            value={state[inputProps.name]}
+            initialValue={state[inputProps.name]}
             handleChange={(value) => setState({ [inputProps.name]: value })}
             handleSubmit={handleSubmit}
             {...inputProps}
@@ -114,7 +114,7 @@ const FormSteps = ({
         >
         <InputMultiple
           number={step}
-          value={state[inputProps.name]}
+          initialValue={state[inputProps.name]}
           handleChange={(values) => {
             let parsedValues = values
             if (typeof inputProps.handler === 'function') {

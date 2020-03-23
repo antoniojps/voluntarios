@@ -3,42 +3,29 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { withApollo } from '../apollo/client';
 import gql from 'graphql-tag';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { FormSteps } from '../components/organisms';
 import { Steps } from '../components/molecules';
 import { Layout } from '../components/atoms';
 import { getErrorMessage } from '../utils/form';
 import { useRouter } from 'next/router';
 import * as yup from 'yup'
-
-const signUpQuery = gql`
-  query signUpQuery {
-    allCategories {
-      _id
-      name
-      color
-    }
-  }
-`;
+import { redirectAuthenticated } from 'utils/auth'
 
 const SignUpMutation = gql`
   mutation SignUpMutation($input: SignUpInput!) {
     signUp(input: $input) {
       _id
       email
+      firstName
+      lastName
     }
   }
 `;
 
 function SignUp() {
-  const { data } = useQuery(signUpQuery);
   const [step, setStep] = useState(0)
   const [canChange, setCanChange] = useState(false)
-
-  const categories = data && data.allCategories && data.allCategories.map(category => ({
-    id: category._id,
-    label: category.name,
-  }))
 
   const handleSubmit = (data) => {
     console.log('inscrever utilizador', data)
@@ -111,5 +98,7 @@ function SignUp() {
     </Layout>
   );
 }
+
+SignUp.getInitialProps = redirectAuthenticated
 
 export default withApollo({ ssr: true })(SignUp);
