@@ -89,6 +89,7 @@ const InputText = ({
                 value={inputValue}
                 ref={inputEl}
                 onKeyPress={handleKeyPress}
+                autoComplete="on"
             />
             <Actions
                 showError={showError}
