@@ -35,7 +35,8 @@ const Search = ({
         >
           <div className="filter__button__label">
             <p title='title'>{title}</p>
-            {desc && <p title='desc'>{desc}</p>}
+              {!isActive && desc && <p title='desc'>{desc}</p>}
+              {isActive && <p title='desc'>{searchValue}</p>}
           </div>
           <span className="filter__arrow">
             <Icon icon={faChevronRight} />
