@@ -39,3 +39,14 @@ export const USERS_QUERY = gql`
   }
   ${volunteerFragment}
 `
+
+export const CURRENT_USER_QUERY = gql`
+  query currentUser {
+    currentUser {
+      _id
+      name
+      admin
+      moderator
+    }
+  }
+`
