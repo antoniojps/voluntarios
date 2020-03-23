@@ -1,4 +1,4 @@
-import { withApollo } from '../graphql/client';
+import { withApollo } from '../apollo/client';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import { useQuery } from '@apollo/react-hooks';

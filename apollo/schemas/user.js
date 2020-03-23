@@ -8,7 +8,7 @@ import { createUser, login, logout, isValidPassword } from './../utils/user';
 export const typeDef = gql`
   type User {
     _id: ID!
-    email: String! @auth(requires: owner)
+    email: String!
     firstName: String!
     lastName: String!
     name: String!

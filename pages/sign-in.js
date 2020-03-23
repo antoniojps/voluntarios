@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { withApollo } from '../graphql/client';
+import { withApollo } from '../apollo/client';
 import gql from 'graphql-tag';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import Field from '../components/field';

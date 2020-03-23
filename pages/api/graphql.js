@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server-micro';
-import typeDefs from '../../graphql/typeDefs';
-import resolvers from '../../graphql/resolvers';
+import typeDefs from '../../apollo/typeDefs';
+import resolvers from '../../apollo/resolvers';
 
-import { AuthDirective } from '../../graphql/directives'
+import { AuthDirective } from '../../apollo/directives'
 
 import middleware from './../../utils/middlewares/middleware';
 

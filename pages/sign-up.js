@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import Link from 'next/link';
-import { withApollo } from '../graphql/client';
+import { withApollo } from '../apollo/client';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { SignupSteps } from '../components/organisms';

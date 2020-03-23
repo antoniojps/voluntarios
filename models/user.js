@@ -3,7 +3,7 @@ import validator from 'validator';
 import Category from './category'
 const { ObjectId } = mongoose.Schema
 import { UserInputError } from 'apollo-server-micro';
-import { paginate } from '../graphql/utils/filters'
+import { paginate } from '../apollo/utils/filters'
 import { paginate as mongoosePaginate } from 'mongoose-paginate-v2'
 
 // USER
