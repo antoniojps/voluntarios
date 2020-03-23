@@ -4,10 +4,16 @@ import { Icon } from 'components/atoms';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 import './Steps.module.scss';
 
-const Steps = ({ steps = 10, currentStep = 0, title, handleChange }) => {
+const Steps = ({
+    steps = 10,
+    currentStep = 0,
+    title,
+    handleChange = () => { },
+    showNext = true,
+}) => {
     const progress = 100 * currentStep / steps;
     const leftEnabled = currentStep > 0;
-    const rightEnabled = currentStep < steps;
+    const rightEnabled = showNext && currentStep < steps;
 
     return (
         <div className='steps'>

@@ -13,8 +13,11 @@ const Layout = ({
     <div className="container">
       <div className={`hero ${className}`}>
         <h1>{title}</h1>
-        {description}
+        <div className="hero__description">
+          {description}
+        </div>
       </div>
+
       <main>
         {children}
       </main>
