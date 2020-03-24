@@ -10,7 +10,7 @@ import fetch from 'isomorphic-unfetch';
 const isServer = typeof window === 'undefined';
 const isBrowser = typeof window !== 'undefined';
 
-function createApolloClient(initialState, ctx) {
+export function createApolloClient(initialState, ctx) {
   // The `ctx` (NextPageContext) will only be present on the server.
   // fetch headers from context to pass cookies to ssr
 

@@ -10,6 +10,10 @@
   &__end {
     display: flex;
     align-items: center;
+    &__inner {
+      display: flex;
+      align-items: center;
+    }
   }
 
   &__logo {
