@@ -18,7 +18,6 @@
   --error: var(--red);
 
   /* font-family */
-  --font-alt: "Source Sans Pro", "Helvetica Neue", Helvetica, sans-serif;
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -89,6 +88,19 @@ h1 {
 
 a {
   color: var(--base);
+}
+
+form {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+// removes auto-complete blue background
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 button {
