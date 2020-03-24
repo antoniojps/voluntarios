@@ -87,7 +87,7 @@ function SignUp() {
               type: 'password',
               name: 'password',
               title: 'Palavra-chave',
-              placeholder: 'eslindaMaria@2020',
+              placeholder: 'palavra-chave',
               value: '',
               autoFocus: true,
               schema: yup.string().required().min(8),
