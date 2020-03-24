@@ -57,9 +57,6 @@
   --size-xl9: 4rem; // 64px
   --size-xl10: 8rem; // 128px
 
-  --header-1: var(--size-xl9);
-  --header-1-mobile: var(--size-xl6);
-
   --weight-normal: 400;
   --weight-semibold: 500;
   --weight-bold: 600;
@@ -77,13 +74,6 @@ body {
   font-size: 16px;
   background-color: var(--bg);
   color: var(--base);
-}
-
-h1 {
-  font-size: var(--header-1);
-  @include screen(md) {
-    font-size: var(--header-1-mobile);
-  }
 }
 
 a {
