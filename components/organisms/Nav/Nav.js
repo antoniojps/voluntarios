@@ -39,28 +39,30 @@ const Nav = ({ skipAuth = false }) => {
     </ul>
   )
 
-  const renderPublic = () => (
-    <motion.div
-      className="nav__end__inner"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.1 }}
-      key="unauthenticated"
-    >
-      {renderList()}
-      <Link href="/sign-in">
-        <a className="nav__auth">
-            log in
-        </a>
-      </Link>
-      <Link href="/sign-up">
-        <a className="nav__auth--primary">
-            inscrever
-        </a>
-      </Link>
-    </motion.div>
-  )
+  const renderPublic = () => {
+    return (
+      <motion.div
+        className="nav__end__inner"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
+        key="unauthenticated"
+      >
+        {renderList()}
+        <Link href="/sign-in">
+          <a className={`nav__auth ${asPath === '/sign-in' && 'btn--disabled'} btn--small`} disabled>
+              log in
+          </a>
+        </Link>
+        <Link href="/sign-up">
+          <a className={`nav__auth--primary ${asPath === '/sign-up' && 'btn--disabled'} btn--small`}>
+              inscrever
+          </a>
+        </Link>
+      </motion.div>
+    )
+  }
 
   const renderAuth = () => (
     <motion.div

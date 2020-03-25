@@ -65,7 +65,7 @@ function SignIn() {
         description="Insira o seu email e palavra-chave"
         showPublicNav={true}
       >
-        <div className="row justify-content-md-center">
+        <div className="row justify-content-center">
           <form onSubmit={handleSubmit}>
             <Input
               onChange={(event) => setFormState({ ...formState, email: event.target.value })}
@@ -98,7 +98,7 @@ function SignIn() {
           </form>
       </div>
       <Spacer y={1} />
-      <div className="row justify-content-md-center">
+      <div className="row justify-content-center">
         {errorMsg && (
             <Note label={false} type="error">{errorMsg}</Note>
           )}

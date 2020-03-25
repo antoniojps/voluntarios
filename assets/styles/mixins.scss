@@ -51,6 +51,24 @@
       color: var(--baseInverse);
     }
   }
+
+  &.btn--small {
+    font-size: var(--size-xs);
+    padding: var(--spacing-xs4);
+  }
+
+  &.btn--disabled {
+    cursor: not-allowed;
+    color: var(--base60);
+    border: 2px solid var(--bg);
+    background-color: var(--bg);
+    pointer-events: none;
+    &:hover,&:focus {
+      color: var(--base60);
+      border: 2px solid var(--bg);
+      background-color: var(--bg);
+    }
+  }
 }
 
 @mixin button--primary {
