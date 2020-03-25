@@ -75,7 +75,7 @@ const Nav = ({ skipAuth = false }) => {
     >
       {renderList()}
       <Link href="/sign-out">
-        <a className="nav__auth">
+        <a className="nav__auth btn--small">
           log out
         </a>
       </Link>
