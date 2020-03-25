@@ -51,24 +51,23 @@ const Nav = () => {
         </div>
         <div className="nav__end">
         <AnimatePresence initial={false} exitBeforeEnter>
-          {data && data.currentUser
-            ? (
-            <motion.div
-              className="nav__end__inner"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              key="authenticated"
+            {data && data.currentUser && !error && (
+              <motion.div
+                className="nav__end__inner"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                key="authenticated"
               >
                 {renderList()}
                 <Link href="/sign-out">
                   <a className="nav__auth">
-                      log out
+                    log out
                   </a>
                 </Link>
               </motion.div>
-            )
-            : (
+            )}
+            {error && (!data || !data.currentUser) && (
               <motion.div
               className="nav__end__inner"
               initial={{ opacity: 0 }}
