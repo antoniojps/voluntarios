@@ -62,7 +62,7 @@ const Card = memo(({ name, job, src = null, categories, locations, loading }) =>
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 1 }}
+                        transition={{ duration: 0.2 }}
                         key="loading"
                     >
                         {renderLoading()}
@@ -72,7 +72,7 @@ const Card = memo(({ name, job, src = null, categories, locations, loading }) =>
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 1 }}
+                        transition={{ duration: 0.2 }}
                         key="default"
                     >
                         {renderDefault()}
