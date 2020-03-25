@@ -45,6 +45,7 @@ const Nav = ({ skipAuth = false }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.1 }}
       key="unauthenticated"
     >
       {renderList()}
@@ -67,6 +68,7 @@ const Nav = ({ skipAuth = false }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.1 }}
       key="authenticated"
     >
       {renderList()}
