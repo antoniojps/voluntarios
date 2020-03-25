@@ -14,6 +14,7 @@ export async function redirectAuthenticated(ctx, to = '/') {
         ctx.res.end()
       } else Router.push('/')
     }
+    return {}
   } catch (err) {
     return {}
   }
@@ -25,11 +26,13 @@ export async function redirectPublic(ctx, to = '/') {
       query: CURRENT_USER_QUERY,
       fetchPolicy: 'no-cache',
     })
+    return {}
   } catch (err) {
       if (ctx.res) {
         ctx.res.writeHead(302, { Location: to })
         ctx.res.end()
       } else Router.push('/')
+    return {}
   }
 }
 
