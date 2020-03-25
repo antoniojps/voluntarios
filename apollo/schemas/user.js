@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { AuthenticationError, UserInputError } from 'apollo-server-micro';
+import { AuthenticationError } from 'apollo-server-micro';
 import User from './../../models/user';
 import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
@@ -140,13 +140,13 @@ export const resolvers = {
 
     signIn:  async  (_parent, args, context) => {
       const user = await User.findByEmail(args.input.email);
-      if (!user) throw new AuthenticationError('User not found');
+      if (!user) throw new StatusError(404, 'User not found');
 
       if (user && isValidPassword(user, args.input.password)) {
         login(user, context);
         return user;
       }
-      throw new UserInputError('Invalid email and password combination');
+      throw new StatusError(401, 'Invalid email and password combination');
     },
     signOut: async (_parent, _args, context) => {
       logout(context);

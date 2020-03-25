@@ -43,7 +43,7 @@
     margin-left: var(--spacing-xs3);
   }
 
-  &:hover {
+  &:hover,&:focus {
     background-color: var(--bgPrimary);
     border: 2px solid var(--bgPrimary);
     color: var(--baseInverse);
@@ -61,7 +61,7 @@
   .btn__icon {
     color: var(--baseInverse);
   }
-  &:hover {
+  &:hover,&:focus {
     background-color: var(--bg);
     border: 2px solid var(--bgPrimary);
     color: var(--base);

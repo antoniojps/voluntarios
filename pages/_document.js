@@ -1,18 +1,26 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { CSSBaseline } from '@zeit-ui/react'
 
 class MyDocument extends Document {
+  static async getInitialProps (ctx) {
+    const initialProps = await Document.getInitialProps(ctx)
+    const styles = CSSBaseline.flush()
+
+    return {
+      ...initialProps,
+      styles: (
+        <>
+          {initialProps.styles}
+          {styles}
+        </>
+      ),
+    }
+  }
+
   render() {
     return (
       <Html>
         <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <link
-            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,500,600&display=swap"
-            rel="stylesheet"
-          />
         </Head>
         <body>
           <Main />

@@ -1,10 +1,11 @@
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import App from 'next/app';
-import { Nav } from 'components/organisms'
-import 'normalize.css'
 import 'assets/styles/bootstrap-grid.css'
+import { CSSBaseline, ZEITUIProvider } from '@zeit-ui/react'
 import 'assets/styles/global.scss'
+import { withApollo } from '../apollo/client';
+
 
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
@@ -14,10 +15,10 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
-      <Nav />
+    <ZEITUIProvider theme={{ type: 'light' }}>
+      <CSSBaseline />
       <Component {...pageProps} />
-    </div>
+    </ZEITUIProvider>
   );
 
 }
@@ -29,4 +30,4 @@ MyApp.getInitialProps = async appContext => {
   return { ...appProps };
 };
 
-export default MyApp;
+export default withApollo({ ssr: false })(MyApp);

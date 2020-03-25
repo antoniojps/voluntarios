@@ -10,7 +10,7 @@ import fetch from 'isomorphic-unfetch';
 const isServer = typeof window === 'undefined';
 const isBrowser = typeof window !== 'undefined';
 
-function createApolloClient(initialState, ctx) {
+export function createApolloClient(initialState, ctx) {
   // The `ctx` (NextPageContext) will only be present on the server.
   // fetch headers from context to pass cookies to ssr
 
@@ -48,10 +48,10 @@ export const initOnContext = ctx => {
   // as antipattern since it disables project wide Automatic Static Optimization.
   if (process.env.NODE_ENV === 'development') {
     if (inAppContext) {
-      console.warn(
-        'Warning: You have opted-out of Automatic Static Optimization due to `withApollo` in `pages/_app`.\n' +
-          'Read more: https://err.sh/next.js/opt-out-auto-static-optimization\n',
-      );
+      // console.warn(
+      //   'Warning: You have opted-out of Automatic Static Optimization due to `withApollo` in `pages/_app`.\n' +
+      //     'Read more: https://err.sh/next.js/opt-out-auto-static-optimization\n',
+      // );
     }
   }
 
@@ -166,7 +166,7 @@ export const withApollo = ({ ssr = false } = {}) => PageComponent => {
             if (inAppContext) {
               props = { ...pageProps, apolloClient };
             } else {
-              props = { pageProps: { ...pageProps, apolloClient } };
+              props = { ...pageProps, apolloClient }
             }
 
             // Take the Next.js AppTree, determine which queries are needed to render,

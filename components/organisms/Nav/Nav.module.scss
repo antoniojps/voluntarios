@@ -6,11 +6,14 @@
   justify-content: space-between;
   padding: var(--spacing-xs4) 0px;
   height: 56px;
-  font-family: var(--font-alt);
 
   &__end {
     display: flex;
     align-items: center;
+    &__inner {
+      display: flex;
+      align-items: center;
+    }
   }
 
   &__logo {
@@ -42,6 +45,10 @@
       margin-left: var(--spacing-xs);
       font-size: var(--size-s);
       font-weight: 600;
+      margin-bottom: 0;
+      &:before {
+        content: '';
+      }
     }
   }
 }

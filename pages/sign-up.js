@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { withApollo } from '../apollo/client';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { FormSteps } from '../components/organisms';
@@ -48,6 +47,7 @@ function SignUp() {
           showNext={canChange}
         />
       }
+      skipAuth
     >
       <div className="form-fullscreen">
         <FormSteps
@@ -87,7 +87,7 @@ function SignUp() {
               type: 'password',
               name: 'password',
               title: 'Palavra-chave',
-              placeholder: 'eslindaMaria@2020',
+              placeholder: 'palavra-chave',
               value: '',
               autoFocus: true,
               schema: yup.string().required().min(8),
@@ -99,6 +99,7 @@ function SignUp() {
   );
 }
 
+// redirect authenticated users on the server side to index
 SignUp.getInitialProps = redirectAuthenticated
 
-export default withApollo({ ssr: true })(SignUp);
+export default SignUp;
