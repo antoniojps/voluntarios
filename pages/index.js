@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { USERS_QUERY } from './../graphql'
 import { Search } from 'components/molecules'
 import { withApollo } from '../apollo/client';
 import { Layout, ButtonAction } from 'components/atoms'
@@ -7,7 +9,9 @@ import FilterCategories from '../hocs/FilterCategories/FilterCategories';
 import FilterOrder from '../hocs/FilterOrder/FilterOrder';
 
 const Index = () => {
-  const [order, setOrder] = useState('');
+  const limit = 4;
+  const [page, setPage] = useState(1);
+  const [order, setOrder] = useState('desc');
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState([]);
   const [filters, setFilters] = useState({
@@ -19,21 +23,61 @@ const Index = () => {
         "sort": "desc",
       },
     },
-    "pagination": {
-      "limit": 5,
-      "page": 1,
-    },
   });
 
   useEffect(() => {
-    setTimeout(() => setFilters({
-      ...filters,
-      input: {
-        ...filters.input,
-        name: search,
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  function handleScroll() {
+    if (
+      window.innerHeight + document.documentElement.scrollTop
+      === document.documentElement.offsetHeight
+    ) {
+      setPage(page + 1)
+    }
+  }
+
+  const { data, loading, error, fetchMore } = useQuery(
+    USERS_QUERY,
+    {
+      variables: {
+        ...filters,
+        pagination: {
+          limit,
+          page: 1,
+        },
       },
-    }), 300)
-  }, [search])
+    },
+  );
+
+  function handleFetchMore() {
+    fetchMore({
+      variables: {
+        ...filters,
+        pagination: {
+          limit,
+          page: page + 1,
+        },
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return Object.assign({}, prev, {
+          users: {
+            ...prev.users,
+            list: [
+              ...prev.users.list,
+              ...fetchMoreResult.users.list,
+            ],
+          },
+        });
+      },
+    })
+
+    setPage(page + 1);
+  }
+
 
   useEffect(() => {
     setFilters({
@@ -41,22 +85,14 @@ const Index = () => {
       input: {
         ...filters.input,
         categories: categories,
-      },
-    })
-  }, [categories])
-
-  useEffect(() => {
-    setFilters({
-      ...filters,
-      input: {
-        ...filters.input,
+        name: search,
         orderBy: {
           ...filters.input.orderBy,
           sort: order,
         },
       },
     })
-  }, [order])
+  }, [order, categories, search])
 
   return (
     <Layout title="Voluntários" description={<Description />}>
@@ -66,7 +102,7 @@ const Index = () => {
           <FilterCategories searchEnabled handleChange={(id) => setCategories([id])} title='competências' />
           <Search title='procurar por' desc='todos os voluntários' handleChange={setSearch} />
         </div>
-        <VolunteersList filters={filters} />
+        <VolunteersList data={data} loading={loading} error={error} handleFetchMore={handleFetchMore} />
       </div>
     </Layout>
   );
@@ -81,4 +117,4 @@ const Description = () => (
   </div>
 )
 
-export default withApollo({ ssr: false })(Index);
+export default withApollo({ ssr: false })(memo(Index));

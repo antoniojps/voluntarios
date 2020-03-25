@@ -14,7 +14,7 @@ const Card = ({ name, job, src = null, categories, locations }) => {
                 <div className='card__body__competences'>
                     <p>Competências</p>
                     <div className='card__body__competences__list'>
-                        {categories.map(item => <Label key={item._id} text={item.name} />)}
+                        {categories.map(item => <Label key={item._id} text={item.name} background={item.color}/>)}
                     </div>
                 </div>
                 {locations.map(location => (

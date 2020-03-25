@@ -78,7 +78,7 @@ const Filter = ({
                     item._id === selected ? "filter__list__item--selected" : ""
                     }`}
                   onClick={() => {
-                    selected === item._id ? setSelected(null) : setSelected(item._id);
+                    selected === item._id ? setSelected('') : setSelected(item._id);
                     setOpen(false);
                     handleChange(item._id)
                   }}
