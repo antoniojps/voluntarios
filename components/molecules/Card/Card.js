@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { PersonHeader, Button, Label, Icon } from 'components/atoms';
 import './Card.module.scss';
+import Placeholder from '../../atoms/Placeholder/Placeholder'
+import { Avatar, Spacer } from '@zeit-ui/react'
+import { AnimatePresence, motion } from 'framer-motion'
 
-const Card = ({ name, job, src = null, categories, locations }) => {
-    return (
-        <div className='card'>
+const Card = memo(({ name, job, src = null, categories, locations, loading }) => {
+
+    const renderLoading = () => (
+        <div className='card--loading' style={{height: '216px'}}>
+            <div className="card__top">
+                <div className='card__header'>
+                    <Avatar />
+                </div>
+                <div className='card__body'>
+                    <div className='card__body__competences'>
+                        <Placeholder x={1} />
+                        <Spacer y={0.5} />
+                        <Placeholder x={0.5} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+
+    const renderDefault = () => (
+        <>
             <div className="card__top">
                 <div className='card__header'>
                     <PersonHeader name={name} desc={job} src={src} />
@@ -30,8 +51,36 @@ const Card = ({ name, job, src = null, categories, locations }) => {
                     contactar
                 </Button>
             </div>
+        </>
+    )
+
+    return (
+    <div className='card'>
+        <AnimatePresence initial={false} exitBeforeEnter>
+                {loading ? (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1 }}
+                        key="loading"
+                    >
+                        {renderLoading()}
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1 }}
+                        key="default"
+                    >
+                        {renderDefault()}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
-}
+})
 
 export default Card

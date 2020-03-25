@@ -1,9 +1,11 @@
 import { withA11y } from "@storybook/addon-a11y";
+import { withKnobs } from "@storybook/addon-knobs";
 import Card from './Card'
+import { boolean } from '@storybook/addon-knobs';
 
 export default {
   title: "Molecules/Card",
-  decorators: [withA11y],
+  decorators: [withA11y, withKnobs],
 };
 
 const props = {
@@ -28,3 +30,4 @@ const props = {
 }
 
 export const CardExample = () => <Card {...props} />
+export const CardLoading = () => <Card loading={boolean('loading', true)} {...props} />

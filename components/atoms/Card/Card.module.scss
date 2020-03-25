@@ -5,4 +5,7 @@
 	padding: var(--spacing-xs);
 	width: fit-content;
 	background-color: var(--bg);
+	&--loading {
+		min-height: 188px;
+	}
 }

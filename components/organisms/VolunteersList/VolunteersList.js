@@ -2,6 +2,8 @@ import React, { memo } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
 import { Card } from 'components/molecules'
 import './VolunteersList.module.scss'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Note } from '@zeit-ui/react'
 
 const VolunteersList = ({
   data = [],
@@ -10,37 +12,37 @@ const VolunteersList = ({
   handleFetchMore = () => {},
   hasNextPage = false,
 }) => {
-  const renderContent = () => {
-    if (loading && (!data || !data.users || !data.users.list)) return 'A carregar.';
-    if (error) return 'Ocorreu um erro.';
-    const volunteers = data && data.users && data.users.list ? data.users.list : [];
-
-    if (volunteers.length === 0) {
-      return 'no data';
-    }
-
-    return (
-      <InfiniteScroll
-        pageStart={1}
-        loadMore={loading ? () => null : handleFetchMore}
-        hasMore={hasNextPage}
-        initialLoad={false}
-        key="infinite-scroll"
-        className="volunteers__cards"
-        threshold={0}
-      >
-        {volunteers.map(volunteer => (
-          <Card {...volunteer} key={volunteer._id} />
-        ))}
-        {hasNextPage && <button onClick={handleFetchMore}>Carregar mais</button>}
-      </InfiniteScroll>
-    )
-  }
+  if (error) return <Note label={false} type="error" style={{height: 'fit-content'}}>Ocorreu um erro.</Note>
+  const volunteers = data && data.users && data.users.list ? data.users.list : [{_id: 1},{_id: 2}, {_id: 3}, { _id: 4}];
 
   return (
-    <div>
-      {renderContent()}
-    </div>
+    <InfiniteScroll
+      pageStart={1}
+      loadMore={loading ? () => null : handleFetchMore}
+      hasMore={hasNextPage}
+      initialLoad={false}
+      key="infinite-scroll"
+      className="volunteers__cards"
+      threshold={0}
+    >
+    <AnimatePresence initial={true}>
+      {
+        volunteers.map(volunteer => (
+          <motion.div
+            key={volunteer._id}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Card
+              {...volunteer}
+              loading={(loading || (!data || !data.users || !data.users.list))}
+            />
+          </motion.div>
+          ))
+        }
+        </AnimatePresence>
+      {hasNextPage && <button onClick={handleFetchMore}>Carregar mais</button>}
+    </InfiniteScroll>
   )
 }
 
