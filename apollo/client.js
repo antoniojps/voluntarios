@@ -166,7 +166,7 @@ export const withApollo = ({ ssr = false } = {}) => PageComponent => {
             if (inAppContext) {
               props = { ...pageProps, apolloClient };
             } else {
-              props = { pageProps: { ...pageProps, apolloClient } };
+              props = { ...pageProps, apolloClient }
             }
 
             // Take the Next.js AppTree, determine which queries are needed to render,
