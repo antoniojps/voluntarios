@@ -6,8 +6,11 @@ export default {
   decorators: [withA11y],
 };
 
-const src = null;
+const src = 'https://upload.wikimedia.org/wikipedia/commons/f/f5/Poster-sized_portrait_of_Barack_Obama.jpg';
 
-export const SmallAvatar = () => <Avatar src={src} size='sm' />
-export const MediumAvatar = () => <Avatar src={src} size='md' />
-export const LargeAvatar = () => <Avatar src={src} size='lg' />
+export const SmallAvatarSrc = () => <Avatar src={src} size='sm' />
+export const MediumAvatarSrc = () => <Avatar src={src} size='md' />
+export const LargeAvatarSrc = () => <Avatar src={src} size='lg' />
+export const SmallAvatar = () => <Avatar size='sm' />
+export const MediumAvatar = () => <Avatar size='md' />
+export const LargeAvatar = () => <Avatar size='lg' />

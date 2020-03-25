@@ -6,4 +6,3 @@ export { default as Icon } from './Icons/Icon';
 export { default as PersonHeader } from './PersonHeader/PersonHeader';
 export { default as Label } from './Label/Label';
 export { default as Layout } from './Layout/Layout';
-export { default as Avatar } from './Avatar/Avatar';
