@@ -1,5 +1,6 @@
 import React from 'react'
 import './Layout.module.scss'
+import Nav from '../../organisms/Nav/Nav'
 
 const DescriptionDefault = () => (<p>Descrição</p>)
 
@@ -8,20 +9,24 @@ const Layout = ({
   title = 'Title',
   description = <DescriptionDefault />,
   className = '',
+  showPublicNav = false,
 }) => {
   return (
-    <div className="container">
-      <div className={`hero ${className}`}>
-        <h1>{title}</h1>
-        <div className="hero__description">
-          {description}
+    <>
+      <div className="container">
+        <Nav skipAuth={showPublicNav} />
+        <div className={`hero ${className}`}>
+          <h1>{title}</h1>
+          <div className="hero__description">
+            {description}
+          </div>
         </div>
-      </div>
 
-      <main>
-        {children}
-      </main>
-    </div>
+        <main>
+          {children}
+        </main>
+      </div>
+    </>
   )
 }
 

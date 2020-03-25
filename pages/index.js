@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Search } from 'components/molecules'
-import { withApollo } from '../apollo/client';
 import { Layout, ButtonAction } from 'components/atoms'
 import { VolunteersList } from 'components/organisms'
 import FilterCategories from '../hocs/FilterCategories/FilterCategories';
@@ -81,4 +80,4 @@ const Description = () => (
   </div>
 )
 
-export default withApollo({ ssr: false })(Index);
+export default Index;

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { withApollo } from '../apollo/client';
 import gql from 'graphql-tag';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
@@ -64,7 +63,8 @@ function SignIn() {
       <Layout
         title="Entrar no Voluntarios"
         description="Insira o seu email e palavra-chave"
-    >
+        showPublicNav={true}
+      >
         <div className="row justify-content-md-center">
           <form onSubmit={handleSubmit}>
             <Input
@@ -107,6 +107,7 @@ function SignIn() {
   );
 }
 
+// redirect authenticated users on the server side to index
 SignIn.getInitialProps = redirectAuthenticated
 
-export default withApollo({ ssr: false })(SignIn);
+export default SignIn;

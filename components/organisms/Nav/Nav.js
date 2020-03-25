@@ -4,25 +4,25 @@ import { Logo, LinkActive } from 'components/atoms'
 import { AnimatePresence, motion } from 'framer-motion'
 import './Nav.module.scss'
 
-import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
-import { createApolloClient } from 'apollo/client'
+import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
 import { CURRENT_USER_QUERY } from '../../../graphql'
 import { useRouter } from 'next/router'
 
-const client = createApolloClient()
-
-const Nav = () => {
+const Nav = ({ skipAuth = false }) => {
+  const client = useApolloClient();
+  let cachedData = null
   const { asPath } = useRouter()
 
   const [loadUser, { data, error }] = useLazyQuery(CURRENT_USER_QUERY, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
   })
 
-  console.log({data, error})
-
+  // prevent useless fetching of the user for pages only
+  // accessible for non-authenticated users
+  // ex: sign in, sign up...
   useEffect(() => {
-    loadUser()
-  }, [asPath])
+    if (!skipAuth) loadUser()
+  }, [asPath, skipAuth])
 
   const renderList = () => (
     <ul>
@@ -39,64 +39,81 @@ const Nav = () => {
     </ul>
   )
 
+  const renderPublic = () => (
+    <motion.div
+      className="nav__end__inner"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      key="unauthenticated"
+    >
+      {renderList()}
+      <Link href="/sign-in">
+        <a className="nav__auth">
+            log in
+        </a>
+      </Link>
+      <Link href="/sign-up">
+        <a className="nav__auth--primary">
+            inscrever
+        </a>
+      </Link>
+    </motion.div>
+  )
+
+  const renderAuth = () => (
+    <motion.div
+      className="nav__end__inner"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      key="authenticated"
+    >
+      {renderList()}
+      <Link href="/sign-out">
+        <a className="nav__auth">
+          log out
+        </a>
+      </Link>
+    </motion.div>
+  )
+
+  // get currentUser from cache to guess which one to show by default
+  // if user in cache show auth version, else show public
+  try {
+    cachedData = client.readQuery({
+      query: CURRENT_USER_QUERY,
+      variables: {},
+    });
+  } catch (err) {
+    cachedData = null
+  }
+
+  const showAuth =  data && data.currentUser && !error
+  const renderNavRight = () => {
+    const cachedUser = cachedData && cachedData.currentUser
+    if (skipAuth) return renderPublic()
+    if (cachedUser || showAuth) return renderAuth()
+    else return renderPublic()
+  }
+
   return (
-    <nav className="container">
-      <div className="nav">
-        <div className="nav__start">
-          <Link href="/">
-            <a className="nav__logo">
-              <Logo />
-            </a>
-          </Link>
-        </div>
-        <div className="nav__end">
+    <nav className="nav">
+      <div className="nav__start">
+        <Link href="/">
+          <a className="nav__logo">
+            <Logo />
+          </a>
+        </Link>
+      </div>
+      <div className="nav__end">
         <AnimatePresence initial={false} exitBeforeEnter>
-            {data && data.currentUser && !error && (
-              <motion.div
-                className="nav__end__inner"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                key="authenticated"
-              >
-                {renderList()}
-                <Link href="/sign-out">
-                  <a className="nav__auth">
-                    log out
-                  </a>
-                </Link>
-              </motion.div>
-            )}
-            {error && (!data || !data.currentUser) && (
-              <motion.div
-              className="nav__end__inner"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              key="unauthenticated"
-            >
-              {renderList()}
-              <Link href="/sign-in">
-                <a className="nav__auth">
-                    log in
-                </a>
-              </Link>
-              <Link href="/sign-up">
-                <a className="nav__auth--primary">
-                    inscrever
-                </a>
-              </Link>
-            </motion.div>
-          )}
-          </AnimatePresence>
-        </div>
+          {renderNavRight()}
+        </AnimatePresence>
       </div>
     </nav>
   )
 }
 
-export default () => (
-  <ApolloProvider client={client}>
-    <Nav />
-  </ApolloProvider>
-)
+export default Nav
+

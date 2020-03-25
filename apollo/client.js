@@ -48,10 +48,10 @@ export const initOnContext = ctx => {
   // as antipattern since it disables project wide Automatic Static Optimization.
   if (process.env.NODE_ENV === 'development') {
     if (inAppContext) {
-      console.warn(
-        'Warning: You have opted-out of Automatic Static Optimization due to `withApollo` in `pages/_app`.\n' +
-          'Read more: https://err.sh/next.js/opt-out-auto-static-optimization\n',
-      );
+      // console.warn(
+      //   'Warning: You have opted-out of Automatic Static Optimization due to `withApollo` in `pages/_app`.\n' +
+      //     'Read more: https://err.sh/next.js/opt-out-auto-static-optimization\n',
+      // );
     }
   }
 
