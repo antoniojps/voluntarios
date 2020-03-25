@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Icon } from "components/atoms";
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import "./Filter.module.scss";
@@ -17,7 +17,6 @@ const Filter = ({
   const [selected, setSelected] = useState(itemSelected);
   const [searchValue, setSearchValue] = useState('');
   const searchRef = useRef(null);
-  const isActive = useMemo(() => itemSelected ? true : false, [itemSelected])
 
   useEffect(() => {
     if (open) {
@@ -39,7 +38,7 @@ const Filter = ({
       {!open
         ? (
           <button
-            className={`filter__button ${isActive ? "filter__button--active" : ""}`}
+            className={`filter__button ${selectedItem ? "filter__button--active" : ""}`}
             onClick={() => setOpen(!open)}
           >
             <div className="filter__button__label">
@@ -78,9 +77,10 @@ const Filter = ({
                     item._id === selected ? "filter__list__item--selected" : ""
                     }`}
                   onClick={() => {
-                    selected === item._id ? setSelected('') : setSelected(item._id);
+                    const newValue = selected === item._id ? '' : item._id
+                    setSelected(newValue)
                     setOpen(false);
-                    handleChange(item._id)
+                    handleChange(newValue)
                   }}
                 >
                   <input type="radio" checked={item._id === selected} id={`radio${item._id}`} />

@@ -6,55 +6,45 @@ import { Layout, ButtonAction } from 'components/atoms'
 import { VolunteersList } from 'components/organisms'
 import FilterCategories from '../hocs/FilterCategories/FilterCategories';
 import FilterOrder from '../hocs/FilterOrder/FilterOrder';
+import cleanDeep from 'clean-deep'
+
+const orderByDefault = { field: 'createdAt', sort: 'desc' }
 
 const Index = () => {
   const limit = 4;
   const [page, setPage] = useState(1);
-  const [order, setOrder] = useState('desc');
+  const [orderBy, setOrderBy] = useState(orderByDefault);
   const [search, setSearch] = useState('');
   const [categories, setCategories] = useState([]);
   const [filters, setFilters] = useState({
-    "input": {
-      "name": "",
-      "categories": [],
-      "orderBy": {
-        "field": "createdAt",
-        "sort": "desc",
+    input: {
+      orderBy: {
+        field: "createdAt",
+        sort: "desc",
       },
     },
   });
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  function handleScroll() {
-    if (
-      window.innerHeight + document.documentElement.scrollTop
-      === document.documentElement.offsetHeight
-    ) {
-      setPage(page + 1)
-    }
-  }
-
-  const { data, loading, error, fetchMore } = useQuery(
+  const { data, loading, error, fetchMore, refetch, called } = useQuery(
     USERS_QUERY,
     {
       variables: {
-        ...filters,
+        ...cleanDeep(filters),
         pagination: {
           limit,
           page: 1,
         },
       },
+      fetchPolicy: 'cache-first',
+      notifyOnNetworkStatusChange: true,
     },
   );
+  const hasNextPage = data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage;
 
   function handleFetchMore() {
     fetchMore({
       variables: {
-        ...filters,
+        ...cleanDeep(filters),
         pagination: {
           limit,
           page: page + 1,
@@ -63,8 +53,9 @@ const Index = () => {
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return Object.assign({}, prev, {
+          ...prev,
           users: {
-            ...prev.users,
+            ...fetchMoreResult.users,
             list: [
               ...prev.users.list,
               ...fetchMoreResult.users.list,
@@ -73,35 +64,54 @@ const Index = () => {
         });
       },
     })
-
-    setPage(page + 1);
+    if (hasNextPage) setPage(page + 1);
   }
-
 
   useEffect(() => {
     setFilters({
       ...filters,
-      input: {
+      input: cleanDeep({
         ...filters.input,
-        categories: categories,
+        categories,
         name: search,
-        orderBy: {
-          ...filters.input.orderBy,
-          sort: order,
-        },
-      },
+        orderBy,
+      }),
     })
-  }, [order, categories, search])
+  }, [orderBy, categories, search])
+
+  useEffect(() => {
+    if (!called) return;
+    refetch(filters)
+  }, [filters, called])
+
+  const handleChangeCategories = (value) => {
+    setCategories([value])
+  }
+
+  const handleChangeSearch = (value) => {
+    setSearch(value)
+  }
+
+  const handleChangeOrder = (value) => {
+    setOrderBy(value === '' ? orderByDefault : {...orderBy, sort: value})
+  }
 
   return (
     <Layout title="Voluntários" description={<Description />}>
       <div className="volunteers">
         <div className="volunteers__sidebar">
-          <FilterOrder searchEnabled handleChange={setOrder} />
-          <FilterCategories searchEnabled handleChange={(id) => setCategories([id])} title='competências' />
-          <Search title='procurar por' desc='todos os voluntários' handleChange={setSearch} />
+          <FilterOrder handleChange={handleChangeOrder} />
+          <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' />
+          <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} />
         </div>
-        <VolunteersList data={data} loading={loading} error={error} handleFetchMore={handleFetchMore} />
+        <VolunteersList
+          data={data}
+          loading={loading}
+          error={error}
+          handleFetchMore={handleFetchMore}
+          hasNextPage={hasNextPage}
+          hasMore={data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage}
+        />
       </div>
     </Layout>
   );

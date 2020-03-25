@@ -29,11 +29,7 @@ export const USERS_QUERY = gql`
         ...VolunteerDetail
       }
       pageInfo {
-        totalDocs
-        pagingCounter
-        limit
         hasNextPage
-        hasPrevPage
       }
     }
   }
