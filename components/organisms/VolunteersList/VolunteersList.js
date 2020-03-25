@@ -25,7 +25,7 @@ const VolunteersList = ({
       className="volunteers__cards"
       threshold={0}
     >
-    <AnimatePresence initial={true}>
+    <AnimatePresence initial={true} exitBeforeEnter>
       {
         volunteers.map(volunteer => (
           <motion.div
