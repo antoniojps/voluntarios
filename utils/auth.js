@@ -14,7 +14,9 @@ export async function redirectAuthenticated(ctx, to = '/') {
         ctx.res.end()
       } else Router.push('/')
     }
-  } catch (err) { }
+  } catch (err) {
+    return {}
+  }
 }
 
 export async function redirectPublic(ctx, to = '/') {
@@ -28,5 +30,22 @@ export async function redirectPublic(ctx, to = '/') {
         ctx.res.writeHead(302, { Location: to })
         ctx.res.end()
       } else Router.push('/')
+  }
+}
+
+// returns user prop
+export async function getUserProp(ctx) {
+  try {
+    const {data: { currentUser }} = await ctx.apolloClient.query({
+      query: CURRENT_USER_QUERY,
+    });
+    return {
+      user:  currentUser,
+    }
+  } catch (err) {
+    console.log(err)
+    return {
+      user: null,
+    }
   }
 }
