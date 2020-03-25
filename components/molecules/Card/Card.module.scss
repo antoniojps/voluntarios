@@ -1,18 +1,18 @@
 @import "assets/styles/global.scss";
 
 .card {
-  * {
-    font-family: var(--font);
-  }
-
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: var(--spacing-xs);
   @include box-shadow;
-
   &__top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    flex-direction: column;
+    margin: var(--spacing-xs3) 0;
+    margin-bottom: 0;
     svg {
       padding: var(--spacing-xs4);
       cursor: pointer;
@@ -23,10 +23,9 @@
   }
 
   &__body {
-    margin: var(--spacing-xs3) 0;
-
     &__competences {
       margin: var(--spacing-xs2) 0;
+      margin-bottom: 0;
 
       p {
         font-size: var(--size-xs);
@@ -65,9 +64,5 @@
         }
       }
     }
-  }
-
-  &__footer {
-    margin-top: var(--spacing-xs);
   }
 }
