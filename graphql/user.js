@@ -4,6 +4,8 @@ export const volunteerFragment = gql`
   fragment VolunteerDetail on User {
     _id
     name
+    firstName
+    lastName
     email
     job
     categories {
@@ -43,6 +45,8 @@ export const CURRENT_USER_QUERY = gql`
       name
       admin
       moderator
+      ...VolunteerDetail
     }
   }
+  ${volunteerFragment}
 `

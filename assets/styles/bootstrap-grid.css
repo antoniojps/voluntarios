@@ -3574,3 +3574,7 @@
   }
 }
 /*# sourceMappingURL=bootstrap-grid.min.css.map */
+
+.full-width {
+   width: 100%!important;
+}

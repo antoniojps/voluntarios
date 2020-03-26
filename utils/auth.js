@@ -40,10 +40,12 @@ export async function getUserProp(ctx) {
     const {data: { currentUser }} = await ctx.apolloClient.query({
       query: CURRENT_USER_QUERY,
     });
+  
     return {
       user:  currentUser,
     }
   } catch (err) {
+    console.log(err);
     return {
       user: null,
     }

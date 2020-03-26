@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
-import { Logo, LinkActive } from 'components/atoms'
+import { Logo, LinkActive, Avatar } from 'components/atoms'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
@@ -73,9 +73,15 @@ const Nav = ({ skipAuth = false }) => {
       key="authenticated"
     >
       {renderList()}
+
       <Link href="/sign-out">
         <a className="nav__auth btn--small">
           log out
+        </a>
+      </Link>
+      <Link href="/profile">
+        <a className="nav__profile">
+          <Avatar size='sm' />
         </a>
       </Link>
     </motion.div>
@@ -92,9 +98,10 @@ const Nav = ({ skipAuth = false }) => {
     cachedData = null
   }
 
-  const showAuth =  data && data.currentUser && !error
+  const showAuth = data && data.currentUser && !error
   const renderNavRight = () => {
     const cachedUser = cachedData && cachedData.currentUser
+    console.log(skipAuth, cachedUser, showAuth)
     if (skipAuth) return renderPublic()
     if (cachedUser || showAuth) return renderAuth()
     else return renderPublic()

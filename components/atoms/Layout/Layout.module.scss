@@ -37,6 +37,15 @@
         }
       }
     }
+
+    &--profile {
+      flex-direction: column;
+      text-align: center;
+
+      .avatar {
+        box-shadow: 0 15px 30px 0 rgba(0,0,0,0.12);
+      }
+    }
   }
 }
 

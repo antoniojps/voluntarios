@@ -1,4 +1,4 @@
-@import "assets/styles/mixins.scss";
+@import 'assets/styles/global.scss';
 
 .input {
   width: 100%;
@@ -17,7 +17,7 @@
       font-size: var(--size-xs2);
     }
 
-    [title="title"] {
+    [title='title'] {
       font-size: var(--size-xl2);
       color: var(--primary);
       font-weight: var(--weight-semibold);
@@ -94,7 +94,8 @@
       font-size: var(--size-s);
       transition: all 0.2s ease 0s;
 
-      &:hover, &.selected {
+      &:hover,
+      &.selected {
         background-color: var(--bgPrimary);
         color: var(--baseInverse);
       }

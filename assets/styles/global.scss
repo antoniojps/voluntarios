@@ -86,7 +86,13 @@ display: inline-flex;
 flex-direction: column;
 }
 
-/* removes auto-complete blue background */
+.select {
+  span {
+    background: transparent!important;
+  }
+}
+
+// removes auto-complete blue background
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
