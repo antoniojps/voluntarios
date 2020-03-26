@@ -5,6 +5,7 @@ import { Layout, Avatar, Label } from 'components/atoms'
 import { getUserProp } from 'utils/auth';
 import { Input, Spacer, Fieldset, Button, Select, Container, Col, Row } from '@zeit-ui/react'
 import { fetchPlace } from '../services/places';
+import { withApollo } from '../apollo/client';
 
 const Profile = ({ user }) => {
     const [state, setState] = useSetState({
@@ -204,4 +205,4 @@ const Description = () => (
 
 Profile.getInitialProps = getUserProp
 
-export default Profile;
+export default withApollo({ssr: true})(Profile);

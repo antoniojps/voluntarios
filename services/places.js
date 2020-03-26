@@ -1,6 +1,6 @@
 export async function fetchPlace(search) {
     try {
-        const placesRes = await fetch(`/api/places?autocomplete=${search}`)
+        const placesRes = await fetch(`/api/places/autocomplete?search=${search}`)
         const data = await placesRes.json()
         return data;
     } catch (err) {
@@ -10,7 +10,7 @@ export async function fetchPlace(search) {
 
 export async function fetchGeoLocation(id) {
     try {
-        const placesRes = await fetch(`/api/places?geolocation=${id}`)
+        const placesRes = await fetch(`/api/places/geolocation?id=${id}`)
         const data = await placesRes.json()
         return data;
     } catch (err) {

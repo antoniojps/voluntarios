@@ -1,4 +1,4 @@
-import { errSchema, resSchema } from '../../utils/schemas';
+import { errSchema, resSchema } from '../../../utils/schemas';
 import fetch from 'isomorphic-unfetch';
 import queryString from 'query-string'
 
@@ -22,27 +22,18 @@ export default async (req, res) => {
         fields: 'name,geometry',
       }
       const query = queryString.stringify(params, { encode: false })
-      const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?${query}`
+      const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?${query}`
 
       try {
         const placesRes = await fetch(url)
         const data = await placesRes.json()
-        const { candidates } = data
-        let location = {
-          name: null,
-          geolocation: {
-            lat: null,
-            lng: null,
-          },
-        }
-        if (candidates.length > 0) {
-          const candidate = candidates[0]
-          location.name = candidate.name
-          location.geolocation = candidate.geometry.location
-        }
+        const autocomplete = data.predictions.map(prediction => ({
+          name: prediction.structured_formatting.main_text,
+          id: prediction.place_id,
+        }))
         res.status(200).json(
           resSchema(
-            location,
+            autocomplete,
             200,
           ),
         );
