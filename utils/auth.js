@@ -4,16 +4,14 @@ import Router from 'next/router'
 
 export async function redirectAuthenticated(ctx, to = '/') {
   try {
-    const user = await ctx.apolloClient.query({
+    await ctx.apolloClient.query({
       query: CURRENT_USER_QUERY,
       fetchPolicy: 'no-cache',
     })
-    if (user) {
-      if (ctx.res) {
-        ctx.res.writeHead(302, { Location: to })
-        ctx.res.end()
-      } else Router.push('/')
-    }
+    if (ctx.res) {
+      ctx.res.writeHead(302, { Location: to })
+      ctx.res.end()
+    } else Router.push('/')
     return {}
   } catch (err) {
     return {}
@@ -46,7 +44,6 @@ export async function getUserProp(ctx) {
       user:  currentUser,
     }
   } catch (err) {
-    console.log(err)
     return {
       user: null,
     }

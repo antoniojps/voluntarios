@@ -1,11 +1,8 @@
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import App from 'next/app';
 import 'assets/styles/bootstrap-grid.css'
 import { CSSBaseline, ZEITUIProvider } from '@zeit-ui/react'
 import 'assets/styles/global.scss'
-import { withApollo } from '../apollo/client';
-
 
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
@@ -23,11 +20,4 @@ function MyApp({ Component, pageProps }) {
 
 }
 
-MyApp.getInitialProps = async appContext => {
-  // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await App.getInitialProps(appContext);
-
-  return { ...appProps };
-};
-
-export default withApollo({ ssr: false })(MyApp);
+export default MyApp;

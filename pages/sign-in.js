@@ -3,10 +3,12 @@ import gql from 'graphql-tag';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import { Layout } from '../components/atoms';
-import { redirectAuthenticated } from 'utils/auth'
 import { Icon } from "components/atoms";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
 import { Input, Spacer, Note } from '@zeit-ui/react'
+import { withApollo } from '../apollo/client';
+import { redirectAuthenticated } from 'utils/auth'
+
 
 const SignInMutation = gql`
   mutation SignInMutation($email: String!, $password: String!) {
@@ -107,7 +109,6 @@ function SignIn() {
   );
 }
 
-// redirect authenticated users on the server side to index
 SignIn.getInitialProps = redirectAuthenticated
 
-export default SignIn;
+export default withApollo({ ssr: true })(SignIn);

@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { USERS_QUERY } from './../graphql'
 import { Search } from 'components/molecules'
@@ -7,6 +7,7 @@ import { VolunteersList } from 'components/organisms'
 import FilterCategories from '../hocs/FilterCategories/FilterCategories';
 import FilterOrder from '../hocs/FilterOrder/FilterOrder';
 import cleanDeep from 'clean-deep'
+import { withApollo } from '../apollo/client';
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
 
@@ -126,4 +127,4 @@ const Description = () => (
   </div>
 )
 
-export default memo(Index);
+export default withApollo({ ssr: false })(Index);
