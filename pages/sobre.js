@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Layout } from 'components/atoms'
+import { withApollo } from 'apollo/client'
 
 const About = () => (
   <Layout title="Sobre" description="voluntários.io">
@@ -13,5 +14,5 @@ const About = () => (
   </Layout>
 )
 
-export default About
+export default withApollo({ ssr: false })(About)
 

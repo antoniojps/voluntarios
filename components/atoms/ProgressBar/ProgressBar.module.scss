@@ -1,5 +1,3 @@
-@import "assets/styles/global.scss";
-
 .progress-bar {
     width: 100%;
     background: var(--base60);
@@ -9,7 +7,7 @@
 
     &--sm {
         height: 5px;
-    } 
+    }
 
     &--md {
         height: 10px;

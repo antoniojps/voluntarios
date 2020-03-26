@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { Logo, LinkActive, Avatar } from 'components/atoms'
 import { AnimatePresence, motion } from 'framer-motion'
-import './Nav.module.scss'
 
 import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
 import { CURRENT_USER_QUERY } from '../../../graphql'
@@ -39,28 +38,30 @@ const Nav = ({ skipAuth = false }) => {
     </ul>
   )
 
-  const renderPublic = () => (
-    <motion.div
-      className="nav__end__inner"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.1 }}
-      key="unauthenticated"
-    >
-      {renderList()}
-      <Link href="/sign-in">
-        <a className="nav__auth">
-          log in
-        </a>
-      </Link>
-      <Link href="/sign-up">
-        <a className="nav__auth--primary">
-          inscrever
-        </a>
-      </Link>
-    </motion.div>
-  )
+  const renderPublic = () => {
+    return (
+      <motion.div
+        className="nav__end__inner"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
+        key="unauthenticated"
+      >
+        {renderList()}
+        <Link href="/sign-in">
+          <a className={`nav__auth ${asPath === '/sign-in' && 'btn--disabled'} btn--small`} disabled>
+              log in
+          </a>
+        </Link>
+        <Link href="/sign-up">
+          <a className={`nav__auth--primary ${asPath === '/sign-up' && 'btn--disabled'} btn--small`}>
+              inscrever
+          </a>
+        </Link>
+      </motion.div>
+    )
+  }
 
   const renderAuth = () => (
     <motion.div
@@ -74,7 +75,7 @@ const Nav = ({ skipAuth = false }) => {
       {renderList()}
 
       <Link href="/sign-out">
-        <a className="nav__auth">
+        <a className="nav__auth btn--small">
           log out
         </a>
       </Link>
@@ -120,6 +121,57 @@ const Nav = ({ skipAuth = false }) => {
           {renderNavRight()}
         </AnimatePresence>
       </div>
+      <style jsx global>{`
+      @import "assets/styles/mixins.scss";
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-xs4) 0px;
+        height: 56px;
+        &__end {
+          display: flex;
+          align-items: center;
+          &__inner {
+            display: flex;
+            align-items: center;
+          }
+        }
+        &__logo {
+          padding: var(--spacing-xs);
+          padding-left: 0;
+        }
+        a {
+          text-decoration: none;
+          color: var(--base40);
+          transition: color 140ms,fill 140ms;
+          &.nav--active, &:hover {
+            color: var(--base);
+          }
+          &.nav__auth {
+            margin-left: var(--spacing-xs);
+            @include button;
+          }
+          &.nav__auth--primary {
+            margin-left: var(--spacing-xs);
+            @include button--primary;
+          }
+        }
+        ul {
+          list-style: none;
+          display: flex;
+          li {
+            margin-left: var(--spacing-xs);
+            font-size: var(--size-s);
+            font-weight: 600;
+            margin-bottom: 0;
+            &:before {
+              content: '';
+            }
+          }
+        }
+      }
+      `}</style>
     </nav>
   )
 }

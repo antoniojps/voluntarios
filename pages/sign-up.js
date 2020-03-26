@@ -10,6 +10,7 @@ import { getErrorMessage } from '../utils/form';
 import { useRouter } from 'next/router';
 import * as yup from 'yup'
 import { redirectAuthenticated } from 'utils/auth'
+import { withApollo } from '../apollo/client';
 
 const SignUpMutation = gql`
   mutation SignUpMutation($input: SignUpInput!) {
@@ -102,4 +103,4 @@ function SignUp() {
 // redirect authenticated users on the server side to index
 SignUp.getInitialProps = redirectAuthenticated
 
-export default SignUp;
+export default withApollo({ ssr: true })(SignUp);

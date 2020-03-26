@@ -3,10 +3,12 @@ import gql from 'graphql-tag';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import { Layout } from '../components/atoms';
-import { redirectAuthenticated } from 'utils/auth'
 import { Icon } from "components/atoms";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
 import { Input, Spacer, Note } from '@zeit-ui/react'
+import { withApollo } from '../apollo/client';
+import { redirectAuthenticated } from 'utils/auth'
+
 
 const SignInMutation = gql`
   mutation SignInMutation($email: String!, $password: String!) {
@@ -65,7 +67,7 @@ function SignIn() {
         description="Insira o seu email e palavra-chave"
         showPublicNav={true}
       >
-        <div className="row justify-content-md-center">
+        <div className="row justify-content-center">
           <form onSubmit={handleSubmit}>
             <Input
               onChange={(event) => setFormState({ ...formState, email: event.target.value })}
@@ -98,7 +100,7 @@ function SignIn() {
           </form>
       </div>
       <Spacer y={1} />
-      <div className="row justify-content-md-center">
+      <div className="row justify-content-center">
         {errorMsg && (
             <Note label={false} type="error">{errorMsg}</Note>
           )}
@@ -107,7 +109,6 @@ function SignIn() {
   );
 }
 
-// redirect authenticated users on the server side to index
 SignIn.getInitialProps = redirectAuthenticated
 
-export default SignIn;
+export default withApollo({ ssr: true })(SignIn);
