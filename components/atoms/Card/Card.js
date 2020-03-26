@@ -1,16 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import "./Card.module.scss";
 
 const Card = ({
-	Component, 
+	Component,
 	className,
 	children,
 }) => (
-	<Component 
-		className={`card ${className}`} 
+	<Component
+		className={`card ${className}`}
 	>
 		{children}
+		<style jsx>{`
+			@import "assets/styles/mixins.scss";
+			.card {
+				@include box-shadow;
+				padding: var(--spacing-xs);
+				width: fit-content;
+				background-color: var(--bg);
+				&--loading {
+					min-height: 188px;
+				}
+			}
+		`}
+		</style>
 	</Component>
 );
 

@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import Peep from 'react-peeps';
-import './Avatar.module.scss';
 import { Hair, Face, FacialHair, Acessories } from './constants'
 
 const getStyles = (size) => {
@@ -58,6 +57,50 @@ const Avatar = ({
                         viewBox={{ x: '0', y: '0', width: '1050', height: '1200' }}
                     />
             }
+            <style jsx>{`
+            .avatar {
+                border-radius: 50%;
+                display: inline-block;
+                position: relative;
+                overflow: hidden;
+                border: 1px solid var(--border);
+                vertical-align: top;
+                background-color: var(--bg);
+
+                &--xs {
+                    height: 1.25rem;
+                    width: 1.25rem;
+                }
+
+                &--sm {
+                    height: 1.875rem;
+                    width: 1.875rem;
+                }
+
+                &--md {
+                    height: 3.75rem;
+                    width: 3.75rem;
+                }
+
+                &--lg {
+                    height: 5.625rem;
+                    width: 5.625rem;
+                }
+
+                .avatar:first-child {
+                    margin: 0;
+                }
+
+                .avatar-img {
+                    object-fit: cover;
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                }
+                }
+            `}
+            </style>
         </div>
     )
 }
