@@ -119,27 +119,11 @@ const Index = () => {
 };
 
 const Description = () => (
-  <div className="action">
+  <div className="hero__description--action">
     <p>Plataforma Online do Voluntariado Português</p>
     <ButtonAction>
-        Sou um voluntário
+      Sou um voluntário
     </ButtonAction>
-    <style jsx>{`
-      @import "assets/styles/mixins.scss";
-      .action {
-        display: flex;
-        @include screen(md) {
-          margin-bottom: var(--spacing-xs2);
-          flex-direction: column;
-        }
-        p {
-          margin-right: var(--spacing-xs);
-          @include screen(md) {
-            margin-right: 0;
-          }
-        }
-      }
-    `}</style>
   </div>
 )
 

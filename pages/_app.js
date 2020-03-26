@@ -2,6 +2,7 @@ import NProgress from 'nprogress';
 import Router from 'next/router';
 import 'assets/styles/bootstrap-grid.css'
 import { CSSBaseline, ZEITUIProvider } from '@zeit-ui/react'
+import 'assets/styles/global.scss'
 
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
@@ -14,10 +15,6 @@ function MyApp({ Component, pageProps }) {
     <ZEITUIProvider theme={{ type: 'light' }}>
       <CSSBaseline />
       <Component {...pageProps} />
-      <style jsx global>{`
-        @import "assets/styles/global.scss";
-      `}
-      </style>
     </ZEITUIProvider>
   );
 
