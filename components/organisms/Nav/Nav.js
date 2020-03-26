@@ -56,7 +56,7 @@ const Nav = ({ skipAuth = false }) => {
         </Link>
         <Link href="/sign-up">
           <a className={`nav__auth--primary ${asPath === '/sign-up' && 'btn--disabled'} btn--small`}>
-              inscrever
+              voluntariar
           </a>
         </Link>
       </motion.div>
