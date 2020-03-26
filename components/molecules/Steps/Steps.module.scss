@@ -1,4 +1,4 @@
-@import "assets/styles/global.scss";
+@import "assets/styles/mixins.scss";
 
 .steps {
   * {
@@ -46,7 +46,7 @@
 
   &__progress {
     width: 100%;
-    
+
     &__label {
       user-select: none;
       -moz-user-select: none;
