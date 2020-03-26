@@ -1,4 +1,4 @@
-@import "assets/styles/mixins.scss";
+@import 'assets/styles/mixins.scss';
 
 .nav {
   display: flex;
@@ -24,8 +24,9 @@
   a {
     text-decoration: none;
     color: var(--base40);
-    transition: color 140ms,fill 140ms;
-    &.nav--active, &:hover {
+    transition: color 140ms, fill 140ms;
+    &.nav--active,
+    &:hover {
       color: var(--base);
     }
     &.nav__auth {
@@ -35,6 +36,14 @@
     &.nav__auth--primary {
       margin-left: var(--spacing-xs);
       @include button--primary;
+    }
+    &.nav__profile {
+      background: transparent;
+      padding: 0;
+      border: 0;
+      margin-left: var(--spacing-xs);
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12);
+      border-radius: 50%
     }
   }
 
