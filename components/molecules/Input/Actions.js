@@ -26,7 +26,7 @@ const Actions = ({
 
     {showSkip && (
         <motion.button
-            className='btn--primary'
+            className='btn--action btn--primary'
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
@@ -40,7 +40,7 @@ const Actions = ({
       {showSubmit && (
           <motion.div className="input__submit">
               <motion.button
-                  className='btn--primary'
+                  className='btn--action btn--primary'
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}

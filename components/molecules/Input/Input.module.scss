@@ -40,8 +40,6 @@
     outline: none;
     font-weight: 500;
     font-size: var(--size-xl5);
-    padding-top: var(--spacing-sm);
-    padding-bottom: var(--spacing-xs2);
     transition: box-shadow 0.2s ease 0s;
 
     &:not(:focus) {
@@ -71,15 +69,20 @@
       font-size: var(--size-xs);
       background-color: var(--red);
     }
+    &--multiple {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
-  button {
+  button.btn--action {
     margin-top: var(--spacing-xs);
   }
 
   &__dropdown-list {
     list-style-type: none;
-    margin: var(--spacing-xs) 0;
+    margin-top: 0;
+    margin-bottom: var(--spacing-xs);
     padding: 0;
     max-height: 200px;
     overflow-y: auto;
@@ -102,9 +105,16 @@
     }
   }
 
+  &__dropdown {
+    padding-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs2);
+  }
+
   &__multiple {
     display: flex;
     align-items: center;
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs2);
 
     .label {
       margin-right: var(--spacing-xs4);

@@ -74,7 +74,7 @@ const InputMultiple = ({
                     <Label text={item.label} key={item.id} actionEnabled handleClick={() => removeSelected(item)} />
                 ))}
                 <input
-                    className='input__input-text'
+                    className='input__input-text input__input-text--multiple'
                     type='text'
                     placeholder={placeholder}
                     disabled={disabled}

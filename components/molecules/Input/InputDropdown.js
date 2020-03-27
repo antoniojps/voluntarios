@@ -49,7 +49,7 @@ const InputDropdown = ({
             </div>
 
             <input
-                className='input__input-text'
+                className='input__input-text input__dropdown'
                 type='text'
                 placeholder={placeholder}
                 disabled={disabled}
