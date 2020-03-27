@@ -14,7 +14,7 @@
   --border20: #f2f2f2;
   --bg: #ffffff;
   --bgPrimary: #000;
-  --bgLighter: var(--base60);
+  --bgLighter: #fafafa;
   --bgLoading: #ECEBEC;
   --error: var(--red);
 
@@ -24,6 +24,7 @@
     sans-serif;
 
   /* paddings and margins */
+  --spacing-xs5: 0.15625rem; // 2.5px;
   --spacing-xs4: 0.3125rem; // 5px
   --spacing-xs3: 0.625rem; // 10px
   --spacing-xs2: 0.9375rem; // 15px
