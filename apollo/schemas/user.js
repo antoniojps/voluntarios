@@ -49,6 +49,24 @@ export const typeDef = gql`
     orderBy: OrderByInput
   }
 
+  input UserInput {
+    _id: ID!
+    email: String!
+    firstName: String
+    lastName: String
+    description: String
+    name: String
+    job: String
+    categories: [ID!]
+    locations: LocationInput
+    admin: Boolean
+    moderator: Boolean
+    verified: Boolean
+    verifiedAt: DateTime
+    verificationTokenSentAt: DateTime
+    createdAt: DateTime
+  }
+
   type Location{
     _id: ID!
     name: String!
@@ -103,6 +121,7 @@ export const typeDef = gql`
     signIn(input: SignInInput!): User!
     signOut: Boolean!
     verifyEmail(input: VerifyEmailInput!): User!
+    updateUser(input: UserInput!): User!
   }
 `;
 
@@ -165,5 +184,9 @@ export const resolvers = {
         throw Error('Error verifying email');
       }
     }),
+    updateUser: async (_parent, args) => {
+      const user = await User.findById(args.input._id);
+      return user;
+    },
   },
 };

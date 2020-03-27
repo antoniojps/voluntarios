@@ -25,7 +25,7 @@ export const volunteerFragment = gql`
 `
 
 export const USERS_QUERY = gql`
-  query users($input: UsersFilterInput!, $pagination: PaginationInput) {
+  query users($input: UserInput!, $pagination: PaginationInput) {
     users(input: $input, pagination: $pagination) {
       list {
         ...VolunteerDetail
@@ -50,3 +50,16 @@ export const CURRENT_USER_QUERY = gql`
   }
   ${volunteerFragment}
 `
+
+export const UPDATE_USER_MUTATION = gql`
+  mutation updateUser($input: UserInput!) {
+    updateUser(input: $input) {
+      _id
+      name
+      admin
+      moderator
+      ...VolunteerDetail
+    }
+  }
+  ${volunteerFragment}
+`;
