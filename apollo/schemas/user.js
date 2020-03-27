@@ -171,19 +171,24 @@ export const resolvers = {
     },
     updateUser: secure(async (root, { userId, input: user }) => {
       if (userId !== user.id) new ForbiddenError('Unauthorized');
-      const updateUser = await User.findOneAndUpdate(
-        {
-          _id: userId,
-        },
-        {
-          $set: user,
-        },
-        {
-          new: true,
-        }
-      );
-      return updateUser;
-    }, true),
+      try {
+        const updateUser = await User.findOneAndUpdate(
+          {
+            _id: userId,
+          },
+          {
+            $set: user,
+          },
+          {
+            new: true,
+          },
+        );
+        return updateUser;
+      } catch (e) {
+        if (process.env !== 'production') throw new Error(e.message);
+        throw Error('Error updating user');
+      }
+    }),
     signOut: async (_parent, _args, context) => {
       logout(context);
       return true;
