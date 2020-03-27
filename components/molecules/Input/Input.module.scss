@@ -121,3 +121,22 @@
     }
   }
 }
+
+.input-places {
+  * {
+    outline: none;
+  }
+
+  font-size: var(--size-xs);
+  font-family: var(--font);
+  color: var(--base);
+
+  .css-1pahdxg-control {
+    border: 1px solid #666 !important;
+    box-shadow: none;
+  }
+  .css-26l3qy-menu {
+    position: relative;
+    z-index: 1000;
+  }
+}

@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { useSetState } from 'react-use'
-import { useQuery } from '@apollo/react-hooks';
-import { CATEGORIES_QUERY } from '../graphql'
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
+import { CATEGORIES_QUERY, UPDATE_USER_MUTATION } from '../graphql'
 import { Layout, Avatar, ButtonZeit } from 'components/atoms'
-import { Select } from 'components/molecules'
+import { Select, InputPlaces } from 'components/molecules'
 import { withAuth } from 'utils/auth';
 import { Input, Spacer, Fieldset, Note } from '@zeit-ui/react'
-import { fetchPlace } from '../services/places';
 import { withApollo } from '../apollo/client';
 import InputLabel from '../components/atoms/Label/InputLabel'
+import { fetchGeoLocation } from '../services/places';
 
 const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [1] } }) => {
     const [state, setState] = useSetState({
@@ -17,9 +17,11 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         email: user.email,
         job: user.job,
         categories: user.categories,
-        location: user.locations[0],
         description: '',
+        locations: user.locations[0],
     });
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
+    const client = useApolloClient();
 
     useEffect(() => {
         console.log('profile data', state)
@@ -27,7 +29,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
 
     function renderSelect() {
         const { data, loading, error } = useQuery(CATEGORIES_QUERY);
-        if (error) return <Note label={false} type="error" style={{height: 'fit-content'}}>Ocorreu um erro.</Note>
+        if (error) return <Note label={false} type="error" style={{ height: 'fit-content' }}>Ocorreu um erro.</Note>
 
         const addCategory = categories => {
             setState({
@@ -61,12 +63,58 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         )
     }
 
-    async function handleFetchPlace(e) {
-        setState({ location: { ...state.location, name: e.target.value } });
-        const place = await fetchPlace(e.target.value);
-        console.log({place});
+    async function handleSave(e) {
+        e.preventDefault();
+        let latitude = user.locations[0].geolocation.latitude;
+        let longitude = user.locations[0].geolocation.longitude;
+       
+        const geo = await fetchGeoLocation(state.locations._id);
+        if (!geo || !geo.results || geo.results.length === 0) {
+            console.log('erro. localizacao invalida')
+        } else {
+            const { geolocation: { lat, lng } } = geo.results;
+            latitude = lat,
+            longitude = lng; 
+        }
+
+        const formState = {
+            input: {
+                ...state,
+                _id: user._id,
+                email: user.email,
+                locations: {
+                    name: state.locations.name,
+                    geolocation: {
+                        lat: latitude,
+                        long: longitude,
+                    },
+                },
+                categories: state.categories.map(cat => (cat._id)),
+            },
+        }
+
+        console.log(formState);
+
+        try {
+            await client.resetStore();
+            const { data } = await updateUser({
+                variables: formState,
+            });
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
+    function handleChangePlaces({ value, label }) {
+        setState({
+            locations: {
+                ...state.locations,
+                _id: value,
+                name: label,
+            },
+        })
+    }
 
     return (
         <Layout title={`${state.firstName} ${state.lastName}`} description={<Description />}>
@@ -94,7 +142,14 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                                 Por favor utilize 32 caracteres no máximo para cada um dos campos.
                             </Fieldset.Footer.Status>
                             <Fieldset.Footer.Actions>
-                                <ButtonZeit type="secondary" size="small" auto>Guardar</ButtonZeit>
+                                <ButtonZeit
+                                    type="secondary"
+                                    size="small"
+                                    auto
+                                    onClick={handleSave}
+                                >
+                                    Guardar
+                                    </ButtonZeit>
                             </Fieldset.Footer.Actions>
                         </Fieldset.Footer>
                     </Fieldset>
@@ -119,11 +174,11 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         <Spacer y={1} />
                         <InputLabel>Localização</InputLabel>
                         <Spacer y={0.5} />
-                        <Input
-                            className='full-width'
-                            placeholder="Procure pela sua localização"
-                            value={state.location.name}
-                            onChange={handleFetchPlace}
+
+
+                        <InputPlaces
+                            initialValue={state.locations.name}
+                            onChange={handleChangePlaces}
                         />
 
                         <Spacer y={1} />
@@ -136,7 +191,14 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                                 Estas informações apenas serão utilizadas para criar o seu perfil de voluntário.
                             </Fieldset.Footer.Status>
                             <Fieldset.Footer.Actions>
-                                <ButtonZeit type="secondary" size="small" auto>Guardar</ButtonZeit>
+                                <ButtonZeit
+                                    type="secondary"
+                                    size="small"
+                                    auto
+                                    onClick={handleSave}
+                                >
+                                    Guardar
+                                </ButtonZeit>
                             </Fieldset.Footer.Actions>
                         </Fieldset.Footer>
                     </Fieldset>
@@ -159,7 +221,14 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                                 Por favor insira um e-mail válido. Caso contrário poderá não receber oportunidades de voluntariado.
                             </Fieldset.Footer.Status>
                             <Fieldset.Footer.Actions>
-                                <ButtonZeit type="secondary" size="small" auto>Guardar</ButtonZeit>
+                                <ButtonZeit
+                                    type="secondary"
+                                    size="small"
+                                    auto
+                                    onClick={handleSave}
+                                >
+                                    Guardar
+                                      </ButtonZeit>
                             </Fieldset.Footer.Actions>
                         </Fieldset.Footer>
                     </Fieldset>
@@ -181,6 +250,6 @@ const Description = () => (
     </div>
 )
 
-Profile.getInitialProps = (ctx) => withAuth(ctx, {redirectPublic: true, to: '/sign-in'})
+Profile.getInitialProps = (ctx) => withAuth(ctx, { redirectPublic: true, to: '/sign-in' })
 
-export default withApollo({ssr: true})(Profile)
+export default withApollo({ ssr: true })(Profile)
