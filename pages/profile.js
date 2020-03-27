@@ -99,28 +99,6 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         </Fieldset.Footer>
                     </Fieldset>
 
-                    <Spacer y={1} />
-
-                    <Fieldset>
-                        <Fieldset.Title>Endereço de e-mail</Fieldset.Title>
-                        <Fieldset.Subtitle>Por favor introduza o seu e-mail.</Fieldset.Subtitle>
-                        <Spacer y={1} />
-                        <Input
-                            label='E-mail'
-                            className='full-width'
-                            placeholder="Insira o seu e-mail"
-                            value={state.email}
-                            onChange={e => setState({ email: e.target.value })}
-                        />
-                        <Fieldset.Footer>
-                            <Fieldset.Footer.Status>
-                                Por favor insira um e-mail válido. Caso contrário poderá não receber oportunidades de voluntariado.
-                            </Fieldset.Footer.Status>
-                            <Fieldset.Footer.Actions>
-                                <ButtonZeit type="secondary" size="small" auto>Guardar</ButtonZeit>
-                            </Fieldset.Footer.Actions>
-                        </Fieldset.Footer>
-                    </Fieldset>
 
                     <Spacer y={1} />
 
@@ -156,6 +134,29 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         <Fieldset.Footer>
                             <Fieldset.Footer.Status>
                                 Estas informações apenas serão utilizadas para criar o seu perfil de voluntário.
+                            </Fieldset.Footer.Status>
+                            <Fieldset.Footer.Actions>
+                                <ButtonZeit type="secondary" size="small" auto>Guardar</ButtonZeit>
+                            </Fieldset.Footer.Actions>
+                        </Fieldset.Footer>
+                    </Fieldset>
+
+                    <Spacer y={1} />
+
+                    <Fieldset>
+                        <Fieldset.Title>Endereço de e-mail</Fieldset.Title>
+                        <Fieldset.Subtitle>Por favor introduza o seu e-mail.</Fieldset.Subtitle>
+                        <Spacer y={1} />
+                        <Input
+                            label='E-mail'
+                            className='full-width'
+                            placeholder="Insira o seu e-mail"
+                            value={state.email}
+                            onChange={e => setState({ email: e.target.value })}
+                        />
+                        <Fieldset.Footer>
+                            <Fieldset.Footer.Status>
+                                Por favor insira um e-mail válido. Caso contrário poderá não receber oportunidades de voluntariado.
                             </Fieldset.Footer.Status>
                             <Fieldset.Footer.Actions>
                                 <ButtonZeit type="secondary" size="small" auto>Guardar</ButtonZeit>
