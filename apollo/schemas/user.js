@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { AuthenticationError } from 'apollo-server-micro';
+import { AuthenticationError, AuthenticationError } from 'apollo-server-micro';
 import User from './../../models/user';
 import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
@@ -49,7 +49,7 @@ export const typeDef = gql`
     orderBy: OrderByInput
   }
 
-  type Location{
+  type Location {
     _id: ID!
     name: String!
     geolocation: Geolocation!
@@ -60,12 +60,12 @@ export const typeDef = gql`
     geolocation: GeolocationInput!
   }
 
-  type Geolocation{
+  type Geolocation {
     lat: Float!
     long: Float!
   }
 
-  input GeolocationInput{
+  input GeolocationInput {
     lat: Float!
     long: Float!
   }
@@ -108,16 +108,17 @@ export const typeDef = gql`
 
 export const resolvers = {
   User: {
-    categories: ({ categories }) => Category.find({ '_id': { $in: categories } }),
-    locations: ({ locations }) => locations.toObject().map(location => {
-      return {
-        ...location,
-        geolocation: {
-          long: location.geolocation.coordinates[0],
-          lat: location.geolocation.coordinates[1],
-        },
-      }
-    }),
+    categories: ({ categories }) => Category.find({ _id: { $in: categories } }),
+    locations: ({ locations }) =>
+      locations.toObject().map(location => {
+        return {
+          ...location,
+          geolocation: {
+            long: location.geolocation.coordinates[0],
+            lat: location.geolocation.coordinates[1],
+          },
+        };
+      }),
   },
   Query: {
     currentUser: secure(async (_parent, _args, context) => {
@@ -129,7 +130,8 @@ export const resolvers = {
       return user;
     }),
     user: (root, { id }) => User.findById(id),
-    users: async (root, { input, pagination = {} }) => User.searchByFilters({ input, pagination }),
+    users: async (root, { input, pagination = {} }) =>
+      User.searchByFilters({ input, pagination }),
   },
   Mutation: {
     signUp: async (_parent, args, context) => {
@@ -138,7 +140,7 @@ export const resolvers = {
       return user;
     },
 
-    signIn:  async  (_parent, args, context) => {
+    signIn: async (_parent, args, context) => {
       const user = await User.findByEmail(args.input.email);
       if (!user) throw new StatusError(404, 'User not found');
 
@@ -148,20 +150,35 @@ export const resolvers = {
       }
       throw new StatusError(401, 'Invalid email and password combination');
     },
+    updateUser: secure(async (root, { userId, input: user }, { user }) => {
+      if (userId !== user.id) new ForbiddenError('Unauthorized');
+      const updateUser = await User.findOneAndUpdate(
+        {
+          _id: userId,
+        },
+        {
+          $set: user,
+        },
+        {
+          new: true,
+        }
+      );
+      return updateUser;
+    }, true),
     signOut: async (_parent, _args, context) => {
       logout(context);
       return true;
     },
     verifyEmail: secure(async (_parent, args) => {
-      const { verificationToken } = args.input
-      const user = await User.findOne({verificationToken});
+      const { verificationToken } = args.input;
+      const user = await User.findOne({ verificationToken });
       if (!user) throw new StatusError(422, 'Invalid activation token.');
       try {
-        user.verify()
-        await user.save()
-        return user
+        user.verify();
+        await user.save();
+        return user;
       } catch (e) {
-        if (process.env !== 'production') throw new Error(e.message)
+        if (process.env !== 'production') throw new Error(e.message);
         throw Error('Error verifying email');
       }
     }),
