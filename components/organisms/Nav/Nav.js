@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
 import { CURRENT_USER_QUERY } from '../../../graphql'
 import { useRouter } from 'next/router'
+import { Spacer } from '@zeit-ui/react'
 
 const Nav = ({ skipAuth = false }) => {
   const client = useApolloClient();
@@ -73,12 +74,7 @@ const Nav = ({ skipAuth = false }) => {
       key="authenticated"
     >
       {renderList()}
-
-      <Link href="/sign-out">
-        <a className="nav__auth btn--small">
-          log out
-        </a>
-      </Link>
+      <Spacer x={1} />
       <Link href="/profile">
         <a className="nav__profile">
           <Avatar size='sm' />
@@ -101,7 +97,6 @@ const Nav = ({ skipAuth = false }) => {
   const showAuth = data && data.currentUser && !error
   const renderNavRight = () => {
     const cachedUser = cachedData && cachedData.currentUser
-    console.log(skipAuth, cachedUser, showAuth)
     if (skipAuth) return renderPublic()
     if (cachedUser || showAuth) return renderAuth()
     else return renderPublic()
