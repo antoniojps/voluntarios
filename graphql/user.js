@@ -25,7 +25,7 @@ export const volunteerFragment = gql`
 `
 
 export const USERS_QUERY = gql`
-  query users($input: UserInput!, $pagination: PaginationInput) {
+  query users($input: UsersFilterInput!, $pagination: PaginationInput) {
     users(input: $input, pagination: $pagination) {
       list {
         ...VolunteerDetail
