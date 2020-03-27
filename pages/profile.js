@@ -1,9 +1,11 @@
+import { useEffect } from 'react'
 import { useSetState } from 'react-use'
 import { useQuery } from '@apollo/react-hooks';
 import { CATEGORIES_QUERY } from '../graphql'
-import { Layout, Avatar, Label, ButtonZeit } from 'components/atoms'
+import { Layout, Avatar, ButtonZeit } from 'components/atoms'
+import { Select } from 'components/molecules'
 import { withAuth } from 'utils/auth';
-import { Input, Spacer, Fieldset, Select, Container, Col, Row } from '@zeit-ui/react'
+import { Input, Spacer, Fieldset, Note } from '@zeit-ui/react'
 import { fetchPlace } from '../services/places';
 import { withApollo } from '../apollo/client';
 import InputLabel from '../components/atoms/Label/InputLabel'
@@ -19,40 +21,43 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         description: '',
     });
 
-    const removeCategory = category => {
-        const index = state.categories.findIndex(i => i === category);
-        return setState({
-            categories: state.categories.slice(0, index).concat(state.categories.slice(index + 1, state.categories.length)),
-        });
-    }
+    useEffect(() => {
+        console.log('profile data', state)
+    }, [state])
 
     function renderSelect() {
         const { data, loading, error } = useQuery(CATEGORIES_QUERY);
-        if (loading || error || !data.allCategories || data.allCategories.length === 0) return null;
+        if (error) return <Note label={false} type="error" style={{height: 'fit-content'}}>Ocorreu um erro.</Note>
 
-        const addCategory = val => setState({
-            categories: [
-                ...state.categories,
-                data.allCategories[val],
-            ],
-        })
+        const addCategory = categories => {
+            setState({
+                categories,
+            })
+        }
+
+        const options = data && data.allCategories.length > 0 ? data.allCategories.map((category) => ({
+            value: category._id,
+            label: category.name,
+            color: category.color,
+        })) : []
+
+        const defaultValue = state.categories.map((category) => ({
+            value: category._id,
+            label: category.name,
+            color: category.color,
+        }))
 
         return (
             <Select
-                // className='full-width'
                 placeholder="Selecione áreas de interesse."
+                options={options}
                 onChange={addCategory}
-            >
-                {data.allCategories.map((category, i) => (
-                    <Select.Option
-                        key={category._id}
-                        value={i}
-                        disabled={state.categories.find(cat => cat._id === category._id)}
-                    >
-                        {category.name}
-                    </Select.Option>
-                ))}
-            </Select>
+                isLoading={loading}
+                isDisabled={loading}
+                value={state.categories}
+                defaultValue={defaultValue}
+                isMulti
+            />
         )
     }
 
@@ -147,28 +152,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         <InputLabel>Competências / Áreas de interesse</InputLabel>
                         <Spacer y={0.5} />
                         {renderSelect()}
-
-                        <Spacer y={1} />
-                        <Container>
-                            <Row>
-                                {state.categories.map(category => (
-                                    <div key={category._id}>
-                                        <Col auto>
-                                            <Label
-                                                text={category.name}
-                                                background={category.color}
-                                                actionEnabled
-                                                handleClick={() => removeCategory(category)}
-                                            />
-                                        </Col>
-                                        <Spacer x={.5} />
-                                    </div>
-                                ))}
-                            </Row>
-                        </Container>
-
                         <Spacer y={.5} />
-
                         <Fieldset.Footer>
                             <Fieldset.Footer.Status>
                                 Estas informações apenas serão utilizadas para criar o seu perfil de voluntário.

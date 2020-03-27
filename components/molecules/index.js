@@ -7,3 +7,4 @@ export { default as Actions } from './Input/Actions';
 export { default as Card } from './Card/Card';
 export { default as Search } from './Search/Search';
 export { default as Steps } from './Steps/Steps';
+export { default as Select } from './Select/Select';
