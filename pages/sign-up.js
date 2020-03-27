@@ -9,7 +9,7 @@ import { Layout } from '../components/atoms';
 import { getErrorMessage } from '../utils/form';
 import { useRouter } from 'next/router';
 import * as yup from 'yup'
-import { redirectAuthenticated } from 'utils/auth'
+import { withAuth } from 'utils/auth'
 import { withApollo } from '../apollo/client';
 
 const SignUpMutation = gql`
@@ -101,6 +101,6 @@ function SignUp() {
 }
 
 // redirect authenticated users on the server side to index
-SignUp.getInitialProps = redirectAuthenticated
+SignUp.getInitialProps = (ctx) => withAuth(ctx, {redirectAuthenticated: true})
 
 export default withApollo({ ssr: true })(SignUp);

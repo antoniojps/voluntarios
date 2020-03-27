@@ -7,7 +7,7 @@ import { Icon } from "components/atoms";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
 import { Input, Spacer, Note } from '@zeit-ui/react'
 import { withApollo } from '../apollo/client';
-import { redirectAuthenticated } from 'utils/auth'
+import { withAuth } from 'utils/auth'
 
 
 const SignInMutation = gql`
@@ -54,7 +54,7 @@ function SignIn() {
         variables: formState,
       });
       if (data.signIn._id) {
-        await router.push('/');
+        await router.push('/profile');
       }
     } catch (error) {
       setErrorMsg(getErrorMessage(error))
@@ -109,6 +109,6 @@ function SignIn() {
   );
 }
 
-SignIn.getInitialProps = redirectAuthenticated
+SignIn.getInitialProps = (ctx) => withAuth(ctx, {redirectAuthenticated: true})
 
 export default withApollo({ ssr: true })(SignIn);
