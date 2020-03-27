@@ -1,0 +1,110 @@
+.react-select {
+  &__indicator-separator {
+    padding: 0;
+    margin-right: var(--spacing-xs3);
+  }
+  &--id-disabled {
+    background-color: var(--bgLoading);
+  }
+  &__control {
+    z-index: 1;
+    cursor: pointer;
+    color: var(--base);
+    font-size: var(--size-s);
+    width: 100%;
+    border-radius: var(--borderRadius);
+    border: 1px solid var(--border);
+    &:hover {
+      border: 1px solid var(--border);
+      background-color: var(--bgLighter);
+      box-shadow: none;
+    }
+    &--is-focused {
+      box-shadow: none !important;
+      border: 1px solid;
+      border-color: var(--border) !important;
+      outline: none;
+    }
+  }
+
+  &__dropdown-indicator {
+    padding:  var(--spacing-xs3);
+  }
+
+
+  &__menu {
+    z-index: 10;
+    border-radius: 0;
+    box-shadow: none;
+    &-notice {
+      font-size: var(--size-s);
+    }
+    margin-top: 0 !important;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 30px 60px !important;
+    &-list {
+      padding: 0 !important;
+    }
+  }
+  &__option {
+    font-size:  var(--size-s) !important;
+    background-color:  var(--bg);
+    color: var(--base);
+    padding: var(--spacing-xs2) !important;
+    text-align: center;
+    &--is-focused {
+      background-color: var(--bgLighter) !important;
+      color: var(--base) !important;
+    }
+    &--is-selected {
+      background-color: var(--bgPrimary) !important;
+      color:  var(--baseInverse) !important;
+    }
+  }
+
+  &__single-value {
+    position: initial !important;
+    transform: translateY(0%) !important;
+  }
+  &__value-container {
+    flex-direction: row-reverse !important;
+    &--is-multi {
+      flex-direction: row !important;
+      justify-content: flex-start !important;
+    }
+  }
+  &__value-container {
+    justify-content: center;
+    position: initial !important;
+    &--has-value {
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__indicator {
+    color: var(--base);
+    &-seperator {
+      margin: 0;
+    }
+  }
+
+  &__multi-value {
+    background-color: var(--bgLighter);
+    border-radius: var(--borderRadius);
+    &__label {
+      font-size:  var(--size-s);
+    }
+    &__remove {
+      cursor: pointer;
+      background-color: var(--bgInverse) !important;
+      color: var(--baseInverse) !important;
+      padding: var(--spacing-xs4) !important;
+      transition: all 140ms,fill 140ms;
+
+      &:hover {
+        background-color: var(--bg) !important;
+        color: var(--base) !important;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
+      }
+    }
+  }
+}
