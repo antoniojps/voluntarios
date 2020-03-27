@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { AuthenticationError } from 'apollo-server-micro';
+import { AuthenticationError, ForbiddenError } from 'apollo-server-micro';
 import User from './../../models/user';
 import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
@@ -170,7 +170,7 @@ export const resolvers = {
       throw new StatusError(401, 'Invalid email and password combination');
     },
     updateUser: secure(async (root, { userId, input: user }) => {
-      // if (userId !== user.id) new ForbiddenError('Unauthorized');
+      if (userId !== user.id) new ForbiddenError('Unauthorized');
       const updateUser = await User.findOneAndUpdate(
         {
           _id: userId,
@@ -180,7 +180,7 @@ export const resolvers = {
         },
         {
           new: true,
-        },
+        }
       );
       return updateUser;
     }, true),
