@@ -6,7 +6,7 @@ import './Label.module.scss';
 const Label = ({ text, actionEnabled = false, handleClick, color = '#ffffff', background = '#89c4b2' }) => (
     <div className='label' style={{ color, background }}>
         <span>{text}</span>
-        {actionEnabled && <button onClick={handleClick}><Icon icon={faTimes} /></button>}
+        {actionEnabled && <button className="btn-label" onClick={handleClick}><Icon icon={faTimes} /></button>}
     </div>
 )
 
