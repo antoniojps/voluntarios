@@ -28,5 +28,10 @@
     border: 0;
     transform: translate(-70%, -50%);
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
+    color: var(--base);
+    &:hover {
+      border: 0;
+      color: var(--baseInverse);
+    }
 }
 }
