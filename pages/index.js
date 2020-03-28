@@ -131,13 +131,18 @@ const Title = () => {
       </h1>
       <style jsx>
         {`
+          @import "assets/styles/mixins.scss";
           .logo {
             h1 {
               display: flex;
               align-items: baseline;
+              font-size: var(--size-xl9);
+              @include screen(md) {
+                font-size: var(--size-xl7);
+              }
             }
             &--rest {
-              transform: translateX(-10px);
+              transform: translate(-10px, -2px);
             }
           }
         `}
@@ -161,8 +166,15 @@ const Description = ({ showAction = true }) => {
       )}
       <style jsx>
         {`
-          a {
-            display: flex;
+          @import "assets/styles/mixins.scss";
+          @include screen(md) {
+            a {
+              display: flex;
+              width: 100%;
+            }
+            button {
+              width: 100% !important;
+            }
           }
         `}
       </style>
