@@ -24,6 +24,12 @@
     }
   }
 
+  &__note {
+    font-size: var(--size-xs);
+    color: var(--base40);
+    padding-top: var(--spacing-xs4);
+  }
+
   &__submit {
     display: inline-flex;
     align-items: center;
@@ -41,6 +47,7 @@
     font-weight: 500;
     font-size: var(--size-xl5);
     transition: box-shadow 0.2s ease 0s;
+    padding-top: var(--spacing-xs2);
 
     &:not(:focus) {
       box-shadow: var(--border) 0px 1px;
@@ -81,8 +88,7 @@
 
   &__dropdown-list {
     list-style-type: none;
-    margin-top: 0;
-    margin-bottom: var(--spacing-xs);
+    margin: 0  0 var(--spacing-xs) 0;
     padding: 0;
     max-height: 200px;
     overflow-y: auto;
@@ -96,26 +102,30 @@
       background-color: var(--base80);
       font-size: var(--size-s);
       transition: all 0.2s ease 0s;
+      margin: 0;
 
       &:hover,
       &.selected {
         background-color: var(--bgPrimary);
         color: var(--baseInverse);
       }
+      &:before {
+        content: '';
+      }
     }
   }
 
   &__dropdown {
     padding-top: var(--spacing-sm);
-    margin-bottom: var(--spacing-xs2);
   }
 
   &__multiple {
     display: flex;
     align-items: center;
-    padding-top: var(--spacing-sm);
-    padding-bottom: var(--spacing-xs2);
-
+    padding-top: var(--spacing-xs);
+    &>div{
+      width: 100%;
+    }
     .label {
       margin-right: var(--spacing-xs4);
     }

@@ -1,59 +1,61 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import Actions from './Actions'
 import { Icon } from "components/atoms";
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import "./Input.module.scss";
-import Label from '../../atoms/Label/Label';
+import Select from '../Select/Select';
 
 const InputMultiple = ({
-    items = [],
+    options = [],
     number,
     title,
-    handleChange,
+    handleChange = () => null,
+    handleSubmit = () => null,
     disabled = false,
-    required = true,
     placeholder = 'Filtrar opcoes',
-    initialValue = '',
+    initialValue = [],
     autoFocus = false,
+    required = false,
+    note = null,
+    ...selectProps
 }) => {
-    const [inputValue, setInputValue] = useState(initialValue);
-    const [valid, setValid] = useState(false);
-    const [itemsToDisplay, setItemsToDisplay] = useState([...items]);
-    const [itemsSelected, setItemsSelected] = useState([]);
-    const inputEl = useRef(null)
+    const [selectedValues, setSelectedValues] = useState(initialValue);
+    const [isSelectOpen, setSelectOpen] = useState(false)
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+    const [{ valid, error, errorMessage }, setInputState] = useState({
+        valid: false,
+        error: false,
+        errorMessage: 'Campo inválido',
+    })
 
     useEffect(() => {
-        if (autoFocus && inputEl && inputEl.current) {
-            inputEl.current.focus()
-        }
-    }, [inputEl, autoFocus])
-
-    useEffect(() => {
-        if (inputValue.length > 0) {
-            return setItemsToDisplay([...items.filter(item => item.label.toLowerCase().includes(inputValue.toLowerCase()))])
-        }
-        return setItemsToDisplay([...items])
-    }, [inputValue])
-
-    useEffect(() => {
-        if (itemsSelected.length > 0) {
-            return setValid(true);
-        }
-        return setValid(false);
-    }, [itemsSelected])
-
-    function handleSelect(item) {
-        const index = itemsSelected.findIndex(i => i === item);
-        if (index !== -1) {
-            setItemsSelected(itemsSelected.slice(0, index).concat(itemsSelected.slice(index + 1, itemsSelected.length)));
+        if (required && selectedValues.length === 0) {
+            setInputState({valid: false,error: true, errorMessage: 'Por favor seleccione pelos menos uma opção.'})
         } else {
-            setItemsSelected([...itemsSelected, item])
+            setInputState({valid: true, error: false, errorMessage: ''})
         }
-        setInputValue('')
+    }, [selectedValues])
+
+    const onSubmit = () => {
+        setHasSubmitted(true)
+        if (valid) handleSubmit(selectedValues)
+    }
+    const showSkip = !required && selectedValues.length === 0
+    const showSubmit = !showSkip && (valid || (selectedValues.length === 0 && !hasSubmitted))
+    const showError = hasSubmitted && error
+
+    const onChange = (newValues) => {
+        handleChange(newValues)
+        setSelectedValues(newValues)
     }
 
-    function removeSelected(item) {
-        const index = itemsSelected.findIndex(i => i === item);
-        return setItemsSelected(itemsSelected.slice(0, index).concat(itemsSelected.slice(index + 1, itemsSelected.length)));
+    const defaultValue = useMemo(() => {
+        return initialValue.map(value => options.find(opt => opt.value === value))
+    }, [initialValue])
+
+    // enter press
+    const handleKeyPress = (e) => {
+        if(e.key === 'Enter' && !isSelectOpen) onSubmit()
     }
 
     return (
@@ -68,43 +70,37 @@ const InputMultiple = ({
                 )}
                 <span title='title'>{title}</span>
             </div>
+            {note && (
+                <div className='input__note'>
+                    {note}
+                </div>
+            )}
 
             <div className='input__multiple'>
-                {itemsSelected.map(item => (
-                    <Label text={item.label} key={item.id} actionEnabled handleClick={() => removeSelected(item)} />
-                ))}
-                <input
-                    className='input__input-text input__input-text--multiple'
-                    type='text'
+                <Select
                     placeholder={placeholder}
-                    disabled={disabled}
-                    onChange={e => setInputValue(e.target.value)}
-                    value={inputValue}
-                    ref={inputEl}
+                    options={options}
+                    onChange={onChange}
+                    isDisabled={disabled}
+                    value={selectedValues}
+                    defaultValue={defaultValue}
+                    isMulti
+                    isClearable={false}
+                    autoFocus={autoFocus}
+                    onMenuOpen={() => setSelectOpen(true)}
+                    onMenuClose={() => setSelectOpen(false)}
+                    onKeyDown={handleKeyPress}
+                    {...selectProps}
                 />
             </div>
 
-            {itemsToDisplay.length > 0 && (
-                <ul className='input__dropdown-list'>
-                    {itemsToDisplay.map(item => (
-                        <li
-                            key={item.id}
-                            className={itemsSelected.find(i => i === item) ? 'selected' : ''}
-                            onClick={() => handleSelect(item)}
-                        >
-                            {item.label}
-                        </li>
-                    ))}
-                </ul>
-            )}
-
-            {!required && !valid && (
-                <button className='btn--primary'>Passar</button>
-            )}
-
-            {valid && (
-                <button className='btn--primary' onClick={() => handleChange(itemsSelected)}>Ok</button>
-            )}
+            <Actions
+                showError={showError}
+                showSkip={showSkip}
+                showSubmit={showSubmit}
+                errorMessage={errorMessage}
+                onSubmit={onSubmit}
+            />
         </div>
     )
 }

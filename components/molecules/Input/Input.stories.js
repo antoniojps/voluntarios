@@ -91,19 +91,19 @@ export const PasswordInputValid = () => (
 )
 
 
-const items = [
-  { id: 0, label: 'Aveiro' },
-  { id: 1, label: 'Lisboa' },
-  { id: 2, label: 'Porto' },
-  { id: 3, label: 'Guimaraes' },
-  { id: 4, label: 'Braga' },
-  { id: 5, label: 'Beja' },
-  { id: 6, label: 'Evora' },
-  { id: 7, label: 'Faro' },
-  { id: 8, label: 'Coimbra' },
-  { id: 9, label: 'Guarda' },
-  { id: 10, label: 'Viana do Castelo' },
-  { id: 11, label: 'Alentejo' },
+const options = [
+  { value: 0, label: 'Aveiro' },
+  { value: 1, label: 'Lisboa' },
+  { value: 2, label: 'Porto' },
+  { value: 3, label: 'Guimaraes' },
+  { value: 4, label: 'Braga' },
+  { value: 5, label: 'Beja' },
+  { value: 6, label: 'Evora' },
+  { value: 7, label: 'Faro' },
+  { value: 8, label: 'Coimbra' },
+  { value: 9, label: 'Guarda' },
+  { value: 10, label: 'Viana do Castelo' },
+  { value: 11, label: 'Alentejo' },
 
 ]
 export const DropdownInput = () => (
@@ -112,7 +112,7 @@ export const DropdownInput = () => (
     number={1}
     handleChange={console.log}
     initialValue=''
-    items={items}
+    options={options}
     limit={5}
   />
 )
@@ -122,8 +122,8 @@ export const DropdownInputSelected = () => (
     title='Qual a sua localidade?'
     number={1}
     handleChange={console.log}
-    initialValue={items[2].label}
-    items={items}
+    initialValue={options[2].label}
+    items={options}
     limit={5}
   />
 )
@@ -133,8 +133,8 @@ export const MultipleInput = () => (
     title='Quais sao as suas competencias?'
     number={1}
     handleChange={console.log}
-    initialValue=''
-    items={items}
+    initialValue={[]}
+    options={options}
     limit={5}
   />
 )

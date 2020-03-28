@@ -38,7 +38,7 @@ export const Multiple = () => {
         value={value}
         defaultValue={[{ value: 'chocolate', label: 'Chocolate', color: 'brown' }]}
         isMulti
-        isClearable
+        isClearable={false}
         closeMenuOnSelect={false}
       />
     </div>

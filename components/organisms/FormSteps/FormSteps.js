@@ -26,6 +26,7 @@ const FormSteps = ({
     const { schema, name } = form[input]
     return schema.isValidSync(state[name])
   }, [input, state])
+
   useEffect(() => {
     onChangeValid(isInputValid)
   }, [isInputValid])
@@ -122,6 +123,7 @@ const FormSteps = ({
             }
             setState({[inputProps.name]: parsedValues})
           }}
+          handleSubmit={handleSubmit}
           {...inputProps}
           />
         </motion.div>
