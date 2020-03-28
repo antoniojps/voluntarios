@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/async';
 import "./Input.module.scss";
 
 const InputPlaces = ({ initialValue = '', onChange }) => {
-    const [inputValue, setInputValue] = useState(initialValue)
+    const [inputValue, setInputValue] = useState(initialValue.name)
     const filterData = (places) => places.results && places.results.length > 0 ? places.results.map(place => ({
         value: place.id,
         label: place.name,
