@@ -18,6 +18,7 @@ const Actions = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
             key="error"
         >
             {errorMessage}
@@ -30,6 +31,7 @@ const Actions = ({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
             key="skip"
             onClick={onSubmit}
         >
@@ -44,6 +46,7 @@ const Actions = ({
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
                   key="ok"
                   onClick={onSubmit}
               >
