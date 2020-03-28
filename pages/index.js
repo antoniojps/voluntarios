@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { USERS_QUERY, CURRENT_USER_QUERY } from './../graphql'
 import { Search } from 'components/molecules'
-import { Layout, ButtonAction, Logo } from 'components/atoms'
+import { Layout, ButtonAction } from 'components/atoms'
 import { VolunteersList } from 'components/organisms'
 import FilterCategories from '../hocs/FilterCategories/FilterCategories';
 import FilterOrder from '../hocs/FilterOrder/FilterOrder';
@@ -99,7 +99,7 @@ const Index = () => {
   }
 
   return (
-    <Layout title={<Title />} description={<Description showAction={!user} />}>
+    <Layout title="Voluntários" description={<Description showAction={!user} />}>
       <div className="volunteers">
         <div className="volunteers__sidebar">
           <FilterOrder handleChange={handleChangeOrder} />
@@ -118,38 +118,6 @@ const Index = () => {
     </Layout>
   );
 };
-
-
-const Title = () => {
-  return (
-    <div className="logo">
-      <h1>
-        <Logo height={58} />
-        <span className="logo--rest">
-          oluntários
-        </span>
-      </h1>
-      <style jsx>
-        {`
-          @import "assets/styles/mixins.scss";
-          .logo {
-            h1 {
-              display: flex;
-              align-items: baseline;
-              font-size: var(--size-xl9);
-              @include screen(md) {
-                font-size: var(--size-xl7);
-              }
-            }
-            &--rest {
-              transform: translate(-10px, -2px);
-            }
-          }
-        `}
-      </style>
-    </div>
-  )
-}
 
 const Description = ({ showAction = true }) => {
   return (
