@@ -32,7 +32,7 @@ const Card = memo(({ name, job, src = null, categories, locations, loading }) =>
                 </div>
                 <div className='card__body'>
                     <div className='card__body__competences'>
-                        <p>Competências</p>
+                        <p>Áreas de interesse</p>
                         <div className='card__body__competences__list'>
                             {categories.map(item => <Label key={item._id} text={item.name} background={item.color}/>)}
                         </div>
