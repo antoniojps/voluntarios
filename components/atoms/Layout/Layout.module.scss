@@ -4,7 +4,8 @@
   margin-top: var(--spacing-xs);
   display: flex;
   @include screen(md) {
-    margin-bottom: var(--spacing-xs2);
+    margin-bottom: 0;
+    margin-top: var(--spacing-xs3);
   }
 }
 
@@ -34,6 +35,7 @@
         margin-right: var(--spacing-xs);
         @include screen(md) {
           margin-right: 0;
+          margin-top: 0 !important;
         }
       }
     }
