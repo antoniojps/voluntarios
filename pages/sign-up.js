@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { CATEGORIES_QUERY } from '../graphql'
 import { FormSteps } from '../components/organisms';
 import { Steps } from '../components/molecules';
 import { Layout } from '../components/atoms';
@@ -11,6 +12,7 @@ import { useRouter } from 'next/router';
 import * as yup from 'yup'
 import { withAuth } from 'utils/auth'
 import { withApollo } from '../apollo/client';
+
 
 const SignUpMutation = gql`
   mutation SignUpMutation($input: SignUpInput!) {
@@ -26,6 +28,7 @@ const SignUpMutation = gql`
 function SignUp() {
   const [step, setStep] = useState(0)
   const [canChange, setCanChange] = useState(false)
+  const { data: categoriesData, loading, error } = useQuery(CATEGORIES_QUERY)
 
   const handleSubmit = (data) => {
     console.log('inscrever utilizador', data)
@@ -36,9 +39,16 @@ function SignUp() {
     if (next < step) setStep(next)
   }
 
+  const categories = useMemo(() => {
+    if (loading || error) return []
+    if (categoriesData && categoriesData.allCategories && categoriesData.allCategories.length > 0) {
+      return categoriesData.allCategories.map(category => ({...category, value: category._id, label: category.name }))
+    }
+  }, [categoriesData])
+
   return (
     <Layout
-      title="Inscrição"
+      title="Voluntariar"
       description={
         <Steps
           steps={3}
@@ -58,12 +68,22 @@ function SignUp() {
           onChangeValid={setCanChange}
           form={[
             {
+              type: 'multiple',
+              name: 'categories',
+              title: 'Áreas de interesse',
+              placeholder: 'Seleccione áreas de interesse',
+              autoFocus: true,
+              options: categories,
+              schema: yup.array().of(yup.string()),
+              note: 'Onde pode ajudar?',
+              isLoading: loading,
+            },
+            {
               type: 'text',
               name: 'firstName',
               placeholder: 'Primeiro nome...',
               title: 'Qual é o seu primeiro nome?',
               autoFocus: true,
-              value: '',
               schema: yup.string().required(),
             },
             {
@@ -71,7 +91,6 @@ function SignUp() {
               name: 'lastName',
               placeholder:'Último nome...',
               title: 'Qual é o seu último nome?',
-              value: '',
               autoFocus: true,
               schema: yup.string().required(),
             },
@@ -80,16 +99,14 @@ function SignUp() {
               name: 'email',
               title: 'Qual o seu endereço de email?',
               placeholder: 'nome@mail.com',
-              value: '',
               autoFocus: true,
-              schema: yup.string().required().email(),
+              schema: yup.string().required().email('Mhm...esse email não parece ser válido.'),
             },
             {
               type: 'password',
               name: 'password',
               title: 'Palavra-chave',
               placeholder: 'palavra-chave',
-              value: '',
               autoFocus: true,
               schema: yup.string().required().min(8),
             },
