@@ -2,16 +2,13 @@
 
 .filter {
   display: flex;
-  * {
-    font-family: var(--font);
-  }
 
   &__button {
     width: 100%;
     padding: 1rem calc(1rem - 5px) 1rem 1rem;
     border: 0;
     border-radius: var(--borderRadius);
-    background-color: var(--bg);
+    background-color: var(--bgElevated);
     outline: none;
     display: flex;
     align-items: center;
@@ -20,12 +17,14 @@
     @include box-shadow;
     border-left: 5px solid var(--bg);
     padding-left: calc(1rem - 5px);
+    justify-content: space-between;
 
     &:hover {
-      background: var(--bg);
+      background: var(--bgLighter);
       border: 0;
       border-left: 5px solid var(--primary);
       color: var(--base);
+      transform: scale(1.05);
       .filter__arrow {
         transform: translateX(2px);
       }
@@ -49,7 +48,7 @@
         font-size: 1rem;
         font-weight: bold;
         text-transform: uppercase;
-        color: var(--primary);
+        color: var(--base);
         margin: 0;
         margin-bottom: var(--spacing-xs4);
         padding: 0;
@@ -80,6 +79,9 @@
       font-size: 1rem;
       font-weight: bold;
       border-bottom: 1px solid var(--border);
+      &:hover {
+        background-color: var(--bgLighter);
+      }
     }
 
     &__scrollable {
@@ -133,5 +135,6 @@
   }
   &__arrow {
     transition: transform 0.2s ease;
+    padding-right: var(--spacing-xs4);
   }
 }

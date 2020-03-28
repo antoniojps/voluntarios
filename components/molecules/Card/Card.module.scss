@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: var(--spacing-xs);
+  background-color: var(--bgElevated);
   @include box-shadow;
   &__top {
     display: flex;

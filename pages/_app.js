@@ -15,7 +15,17 @@ function MyApp({ Component, pageProps }) {
       <CSSBaseline />
       <Component {...pageProps} />
       <style jsx global>{`
-        @import "assets/styles/global.scss"
+        @import "assets/styles/global.scss";
+
+        html,
+        body {
+          font-family: var(--font);
+          width: 100%;
+          height: 100%;
+          font-size: 16px;
+          background-color: var(--bg) !important;
+          color: var(--base);
+        }
       `}</style>
     </ZEITUIProvider>
   );
