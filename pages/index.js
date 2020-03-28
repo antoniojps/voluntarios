@@ -158,7 +158,7 @@ const Description = ({ showAction = true }) => {
       {showAction && (
           <Link href="/sign-up">
             <a>
-              <ButtonAction>
+              <ButtonAction className="btn--stretch">
                 Voluntariar
               </ButtonAction>
             </a>
@@ -167,12 +167,14 @@ const Description = ({ showAction = true }) => {
       <style jsx>
         {`
           @import "assets/styles/mixins.scss";
+          a {
+            display: flex;
+          }
           @include screen(md) {
             a {
-              display: flex;
               width: 100%;
             }
-            button {
+            .btn--action {
               width: 100% !important;
             }
           }
