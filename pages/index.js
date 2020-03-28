@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { USERS_QUERY } from './../graphql'
+import { USERS_QUERY, CURRENT_USER_QUERY } from './../graphql'
 import { Search } from 'components/molecules'
 import { Layout, ButtonAction } from 'components/atoms'
 import { VolunteersList } from 'components/organisms'
@@ -8,6 +8,7 @@ import FilterCategories from '../hocs/FilterCategories/FilterCategories';
 import FilterOrder from '../hocs/FilterOrder/FilterOrder';
 import cleanDeep from 'clean-deep'
 import { withApollo } from '../apollo/client';
+import Link from 'next/link'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
 
@@ -26,7 +27,7 @@ const Index = () => {
     },
   });
 
-  const { data, loading, error, fetchMore, refetch, called } = useQuery(
+  const { data, loading, error, fetchMore } = useQuery(
     USERS_QUERY,
     {
       variables: {
@@ -36,10 +37,14 @@ const Index = () => {
           page: 1,
         },
       },
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
     },
   );
+  const { data: user } = useQuery(CURRENT_USER_QUERY, {
+    fetchPolicy: 'cache-only',
+  })
+
   const hasNextPage = data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage;
 
   function handleFetchMore() {
@@ -80,10 +85,6 @@ const Index = () => {
     })
   }, [orderBy, categories, search])
 
-  useEffect(() => {
-    if (!called) return;
-    refetch(filters)
-  }, [filters, called])
 
   const handleChangeCategories = (value) => {
     setCategories([value])
@@ -98,7 +99,7 @@ const Index = () => {
   }
 
   return (
-    <Layout title="Voluntários" description={<Description />}>
+    <Layout title="Voluntários" description={<Description showAction={!user} />}>
       <div className="volunteers">
         <div className="volunteers__sidebar">
           <FilterOrder handleChange={handleChangeOrder} />
@@ -118,13 +119,28 @@ const Index = () => {
   );
 };
 
-const Description = () => (
-  <div className="hero__description--action">
-    <p>Plataforma Online do Voluntariado Português</p>
-    <ButtonAction>
-      Sou um voluntário
-    </ButtonAction>
-  </div>
-)
+const Description = ({ showAction = true }) => {
+  return (
+    <div className={showAction && 'hero__description--action'}>
+      <p>Plataforma Online do Voluntariado Português</p>
+      {showAction && (
+          <Link href="/sign-up">
+            <a>
+              <ButtonAction>
+                Voluntariar
+              </ButtonAction>
+            </a>
+        </Link>
+      )}
+      <style jsx>
+        {`
+          a {
+            display: flex;
+          }
+        `}
+      </style>
+    </div>
+  )
+}
 
 export default withApollo({ ssr: false })(Index);
