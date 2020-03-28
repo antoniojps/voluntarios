@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
-import { Layout } from '../components/atoms';
+import { Layout, ButtonZeit } from '../components/atoms';
 import { Icon } from "components/atoms";
 import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
 import { Input, Spacer, Note } from '@zeit-ui/react'
@@ -41,7 +41,7 @@ export function getErrorMessage(error) {
 
 function SignIn() {
   const client = useApolloClient();
-  const [signIn] = useMutation(SignInMutation);
+  const [signIn, { loading }] = useMutation(SignInMutation);
   const [errorMsg, setErrorMsg] = useState(null);
   const router = useRouter();
   const [formState, setFormState] = useState({ email: '', password: ''})
@@ -94,9 +94,9 @@ function SignIn() {
             />
             <Spacer y={0.5} />
             <Spacer y={0.5} />
-            <button type="submit" className="btn--primary">
+            <ButtonZeit type="secondary" loading={loading}>
               Continuar
-            </button>
+            </ButtonZeit>
           </form>
       </div>
       <Spacer y={1} />
