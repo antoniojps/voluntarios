@@ -3,10 +3,10 @@ import { Icon } from 'components/atoms'
 import { faChevronRight} from '@fortawesome/free-solid-svg-icons'
 import './Button.module.scss'
 
-const ButtonAction = ({ children = 'Button', onClick = () => null }) => {
+const ButtonAction = ({ children = 'Button', onClick = () => null, className = '' }) => {
   return (
     <>
-      <button className="btn--primary btn--action" onClick={onClick}>
+      <button className={`btn--primary btn--action ${className}`} onClick={onClick}>
           {children}
           <span className="btn__icon">
               <Icon icon={faChevronRight} />

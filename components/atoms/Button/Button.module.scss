@@ -3,7 +3,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
     &:hover {
       .btn__icon {
         transform: translateX(2px);
@@ -13,5 +12,8 @@
   &__icon {
     transition: all 0.2s ease;
     padding-left: var(--spacing-xs5);
+  }
+  &--stretch {
+    width: 100%;
   }
 }

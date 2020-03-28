@@ -18,8 +18,9 @@ export default async (req, res) => {
         key: GOOGLE_PLACES_API_KEY,
         input: search,
         inputtype: 'textquery',
-        language: 'pt-PT',
+        language: 'pt',
         fields: 'name,geometry',
+        components: 'country:pt',
       }
       const query = queryString.stringify(params, { encode: false })
       const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?${query}`
@@ -29,6 +30,7 @@ export default async (req, res) => {
         const data = await placesRes.json()
         const autocomplete = data.predictions.map(prediction => ({
           name: prediction.structured_formatting.main_text,
+          secondary: prediction.structured_formatting.secondary_text,
           id: prediction.place_id,
         }))
         res.status(200).json(
