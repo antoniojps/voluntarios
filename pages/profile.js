@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { useSetState } from 'react-use'
 import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks';
 import { CATEGORIES_QUERY, UPDATE_USER_MUTATION } from '../graphql'
@@ -11,6 +11,48 @@ import InputLabel from '../components/atoms/Label/InputLabel'
 import { fetchGeoLocation } from '../services/places';
 
 const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [1] } }) => {
+    // Nao ler este componente. Perigo de apanhar corona virus.
+    const [personalFields] = useState([
+        {
+            name: 'firstName',
+            placeholder: 'Primeiro nome',
+            type: 'text',
+        },
+        {
+            name: 'lastName',
+            placeholder: 'Sobrenome',
+            type: 'text',
+        },
+    ])
+    const [volunteerDetailsFields] = useState([
+        {
+            label: 'Profissão/Ocupação',
+            placeholder: 'Insira a sua profissão ou ocupação',
+            name: 'job',
+            type: 'text',
+        },
+        {
+            label: 'Localização',
+            name: 'locations',
+            type: 'locations',
+        },
+        {
+            label: 'Competências / Áreas de interesse',
+            name: 'categories',
+            type: 'categories',
+        },
+    ])
+    const [privacyFields] = useState([
+        {
+            name: 'email',
+            label: 'email',
+            placeholder: 'Por favor introduza o seu e-mail.',
+            type: 'text',
+        },
+    ])
+    const [loadingSubmit, setLoadingSubmit] = useState(false);
+    const [submitError, setSubmitError] = useState(false);
+
     const [state, setState] = useSetState({
         firstName: user.firstName,
         lastName: user.lastName,
@@ -20,12 +62,9 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         description: '',
         locations: user.locations[0],
     });
+
     const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     const client = useApolloClient();
-
-    useEffect(() => {
-        console.log('profile data', state)
-    }, [state])
 
     function renderSelect() {
         const { data, loading, error } = useQuery(CATEGORIES_QUERY);
@@ -65,16 +104,19 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
 
     async function handleSave(e) {
         e.preventDefault();
+        setSubmitError(false);
+        setLoadingSubmit(true);
         let latitude = user.locations[0].geolocation.latitude;
         let longitude = user.locations[0].geolocation.longitude;
-       
+
         const geo = await fetchGeoLocation(state.locations._id);
         if (!geo || !geo.results || geo.results.length === 0) {
-            console.log('erro. localizacao invalida')
+            setLoadingSubmit(false);
+            return setSubmitError(true);
         } else {
             const { geolocation: { lat, lng } } = geo.results;
             latitude = lat,
-            longitude = lng; 
+                longitude = lng;
         }
 
         const formState = {
@@ -93,16 +135,15 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
             },
         }
 
-        console.log(formState);
-
         try {
             await client.resetStore();
-            const { data } = await updateUser({
+            await updateUser({
                 variables: formState,
             });
-            console.log(data);
+            setLoadingSubmit(false);
         } catch (error) {
-            console.log(error);
+            setSubmitError(true);
+            setLoadingSubmit(false);
         }
     }
 
@@ -116,27 +157,43 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         })
     }
 
+    function handleInputChange(e, input) {
+        if (input.type === 'text') {
+            setState({ [input.name]: e.target.value })
+        }
+    }
+
     return (
         <Layout title={`${state.firstName} ${state.lastName}`} description={<Description />}>
             <div className="container">
                 <div className="row flex-column justify-content-md-center">
-
+                    {submitError && (
+                        <>
+                            <Note label={false} type="error" style={{ height: 'fit-content' }}>Pedimos desculpa. Ocorreu um erro a atualizar os seus dados.</Note>
+                            <Spacer y={1} />
+                        </>
+                    )}
                     <Fieldset>
                         <Fieldset.Title>Informações pessoais</Fieldset.Title>
                         <Fieldset.Subtitle>Por favor introduza o seu primeiro e último nome.</Fieldset.Subtitle>
                         <Spacer y={1} />
-                        <Input
-                            className='full-width'
-                            placeholder="Primeiro nome"
-                            value={state.firstName}
-                            onChange={e => setState({ firstName: e.target.value })} />
-                        <Spacer y={0.5} />
-                        <Input
-                            className='full-width'
-                            placeholder="Sobrenome"
-                            value={state.lastName}
-                            onChange={e => setState({ lastName: e.target.value })}
-                        />
+                        {personalFields.map(input => (
+                            <>
+                                {input.label && (
+                                    <>
+                                        <InputLabel>{input.label}</InputLabel>
+                                        <Spacer y={0.5} />
+                                    </>
+                                )}
+                                <Input
+                                    className='full-width'
+                                    placeholder={input.placeholder}
+                                    value={state[input.name]}
+                                    onChange={e => handleInputChange(e, input)}
+                                />
+                                <Spacer y={0.5} />
+                            </>
+                        ))}
                         <Fieldset.Footer>
                             <Fieldset.Footer.Status>
                                 Por favor utilize 32 caracteres no máximo para cada um dos campos.
@@ -146,6 +203,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                                     type="secondary"
                                     size="small"
                                     auto
+                                    loading={loadingSubmit}
                                     onClick={handleSave}
                                 >
                                     Guardar
@@ -154,7 +212,6 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         </Fieldset.Footer>
                     </Fieldset>
 
-
                     <Spacer y={1} />
 
                     <Fieldset>
@@ -162,30 +219,65 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         <Fieldset.Subtitle>Informação acerca da sua experiência, áreas de atuação e interesse.</Fieldset.Subtitle>
 
                         <Spacer y={1.5} />
-                        <InputLabel>Profissão/Ocupação</InputLabel>
-                        <Spacer y={0.5} />
-                        <Input
-                            className='full-width'
-                            placeholder="Insira a sua profissão ou ocupação"
-                            value={state.job}
-                            onChange={e => setState({ job: e.target.value })}
-                        />
+                        {volunteerDetailsFields.map(input => {
+                            if (input.type === 'text') {
+                                return (
+                                    <>
+                                        {input.label && (
+                                            <>
+                                                <InputLabel>{input.label}</InputLabel>
+                                                <Spacer y={0.5} />
+                                            </>
+                                        )}
 
-                        <Spacer y={1} />
-                        <InputLabel>Localização</InputLabel>
-                        <Spacer y={0.5} />
+                                        <Input
+                                            className='full-width'
+                                            placeholder={input.placeholder}
+                                            value={state[input.name]}
+                                            onChange={e => handleInputChange(e, input)}
+                                        />
+                                        <Spacer y={1} />
+                                    </>
+                                )
+                            }
 
+                            if (input.type === 'locations') {
+                                return (
+                                    <>
+                                        {input.label && (
+                                            <>
+                                                <InputLabel>{input.label}</InputLabel>
+                                                <Spacer y={0.5} />
+                                            </>
+                                        )}
 
-                        <InputPlaces
-                            initialValue={state.locations.name}
-                            onChange={handleChangePlaces}
-                        />
+                                        <InputPlaces
+                                            initialValue={state.locations.name}
+                                            onChange={handleChangePlaces}
+                                        />
 
-                        <Spacer y={1} />
-                        <InputLabel>Competências / Áreas de interesse</InputLabel>
-                        <Spacer y={0.5} />
-                        {renderSelect()}
-                        <Spacer y={.5} />
+                                        <Spacer y={1} />
+                                    </>
+                                )
+                            }
+
+                            if (input.type === 'categories') {
+                                return (
+                                    <>
+                                        {input.label && (
+                                            <>
+                                                <InputLabel>{input.label}</InputLabel>
+                                                <Spacer y={0.5} />
+                                            </>
+                                        )}
+                                        {renderSelect()}
+                                        <Spacer y={.5} />
+                                    </>
+                                )
+                            }
+
+                        })}
+
                         <Fieldset.Footer>
                             <Fieldset.Footer.Status>
                                 Estas informações apenas serão utilizadas para criar o seu perfil de voluntário.
@@ -195,6 +287,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                                     type="secondary"
                                     size="small"
                                     auto
+                                    loading={loadingSubmit}
                                     onClick={handleSave}
                                 >
                                     Guardar
@@ -209,13 +302,22 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         <Fieldset.Title>Endereço de e-mail</Fieldset.Title>
                         <Fieldset.Subtitle>Por favor introduza o seu e-mail.</Fieldset.Subtitle>
                         <Spacer y={1} />
-                        <Input
-                            label='E-mail'
-                            className='full-width'
-                            placeholder="Insira o seu e-mail"
-                            value={state.email}
-                            onChange={e => setState({ email: e.target.value })}
-                        />
+                        {privacyFields.map(input => {
+                            if (input.type === 'text') {
+                                return (
+                                    <>
+                                        <Input
+                                            label={input.label}
+                                            className='full-width'
+                                            placeholder={input.placeholder}
+                                            value={state[input.name]}
+                                            onChange={e => handleInputChange(e, input)}
+                                        />
+                                    </>
+                                )
+                            }
+                        })}
+
                         <Fieldset.Footer>
                             <Fieldset.Footer.Status>
                                 Por favor insira um e-mail válido. Caso contrário poderá não receber oportunidades de voluntariado.
@@ -225,6 +327,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                                     type="secondary"
                                     size="small"
                                     auto
+                                    loading={loadingSubmit}
                                     onClick={handleSave}
                                 >
                                     Guardar
@@ -236,9 +339,6 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                     <Spacer y={5} />
                 </div>
             </div>
-            <style jsx>{`
-
-            `}</style>
         </Layout >
     );
 

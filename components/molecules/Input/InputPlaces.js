@@ -19,7 +19,13 @@ const InputPlaces = ({ initialValue = '', onChange }) => {
         ...base,
         cursor: 'pointer',
         backgroundColor: state.isFocused ? '#fafafa' : '#ffffff',
+        color: state.isSelected ? '#000' : '#000',
     });
+
+    const dropdownIndicatorStyles = (base) => ({
+        ...base,
+        display: 'none',
+    })
 
     return (
         <div className='input-places'>
@@ -31,7 +37,11 @@ const InputPlaces = ({ initialValue = '', onChange }) => {
                 defaultOptions
                 placeholder='Pesquisar localização'
                 loadOptions={promiseOptions}
-                styles={{ option: optionStyles }}
+                styles={{
+                    option: optionStyles,
+                    dropdownIndicator: dropdownIndicatorStyles,
+                    indicatorSeparator: dropdownIndicatorStyles,
+                }}
             />
         </div>
     )
