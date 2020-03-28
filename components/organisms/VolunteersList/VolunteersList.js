@@ -2,7 +2,6 @@ import React, { memo } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
 import { Card } from 'components/molecules'
 import './VolunteersList.module.scss'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Note } from '@zeit-ui/react'
 
 const VolunteersList = ({
@@ -25,22 +24,15 @@ const VolunteersList = ({
       className="volunteers__cards"
       threshold={0}
     >
-    <AnimatePresence initial={true} exitBeforeEnter>
       {
         volunteers.map(volunteer => (
-          <motion.div
-            key={volunteer._id}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
             <Card
+              key={volunteer._id}
               {...volunteer}
-              loading={(loading || (!data || !data.users || !data.users.list))}
+              loading={(loading && (!data || !data.users || !data.users.list))}
             />
-          </motion.div>
           ))
         }
-        </AnimatePresence>
       {hasNextPage && <button onClick={handleFetchMore}>Carregar mais</button>}
     </InfiniteScroll>
   )

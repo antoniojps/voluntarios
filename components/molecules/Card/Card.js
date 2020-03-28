@@ -4,7 +4,6 @@ import { PersonHeader, Button, Label, Icon } from 'components/atoms';
 import './Card.module.scss';
 import Placeholder from '../../atoms/Placeholder/Placeholder'
 import { Avatar, Spacer } from '@zeit-ui/react'
-import { AnimatePresence, motion } from 'framer-motion'
 
 const Card = memo(({ name, job, src = null, categories, locations, loading }) => {
 
@@ -56,30 +55,11 @@ const Card = memo(({ name, job, src = null, categories, locations, loading }) =>
 
     return (
     <div className='card'>
-        <AnimatePresence initial={false} exitBeforeEnter>
-                {loading ? (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        key="loading"
-                    >
-                        {renderLoading()}
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        key="default"
-                    >
-                        {renderDefault()}
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+        {loading
+            ? renderLoading()
+            : renderDefault()
+        }
+    </div>
     )
 })
 
