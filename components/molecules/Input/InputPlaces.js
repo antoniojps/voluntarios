@@ -3,7 +3,8 @@ import { fetchPlace } from '../../../services/places';
 import AsyncSelect from 'react-select/async';
 import "./Input.module.scss";
 
-const InputPlaces = ({ initialValue = '', onChange }) => {
+const InputPlaces = props => {
+    const { initialValue = '', onChange } = props;
     const [inputValue, setInputValue] = useState(initialValue.name)
     const filterData = (places) => places.results && places.results.length > 0 ? places.results.map(place => ({
         value: place.id,
@@ -30,6 +31,7 @@ const InputPlaces = ({ initialValue = '', onChange }) => {
     return (
         <div className='input-places'>
             <AsyncSelect
+                {...props}
                 onInputChange={setInputValue}
                 onChange={onChange}
                 inputValue={inputValue}
