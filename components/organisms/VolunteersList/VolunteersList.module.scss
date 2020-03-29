@@ -16,6 +16,29 @@
     flex-direction: column;
   }
 
+  .filters-mobile {
+    button {
+      &.btn-filters {
+        @include box-shadow;
+        
+        svg {
+          margin-right: var(--spacing-xs3);
+          path {
+            fill:  var(--base);
+          }
+        }
+
+        &:hover, &:active, &:focus {
+          svg {
+            path {
+              fill: var(--baseInverse);
+            }
+          }
+        }
+      }
+    }
+  }
+
   &__sidebar {
     width: 100%;
 

@@ -9,6 +9,9 @@ import FilterOrder from '../hocs/FilterOrder/FilterOrder';
 import cleanDeep from 'clean-deep'
 import { withApollo } from '../apollo/client';
 import Link from 'next/link'
+import { Spacer } from '@zeit-ui/react'
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
+import { Icon } from 'components/atoms'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
 
@@ -26,6 +29,8 @@ const Index = () => {
       },
     },
   });
+  const [showFilters, setShowFilters] = useState(false);
+  const [width, setWidth] = useState(null)
 
   const { data, loading, error, fetchMore } = useQuery(
     USERS_QUERY,
@@ -44,6 +49,12 @@ const Index = () => {
   const { data: user } = useQuery(CURRENT_USER_QUERY, {
     fetchPolicy: 'cache-only',
   })
+
+  if (process.browser) {
+    useEffect(() =>
+      setWidth(document.children[0].clientWidth), [document.children[0].clientWidth],
+    );
+  }
 
   const hasNextPage = data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage;
 
@@ -95,17 +106,45 @@ const Index = () => {
   }
 
   const handleChangeOrder = (value) => {
-    setOrderBy(value === '' ? orderByDefault : {...orderBy, sort: value})
+    setOrderBy(value === '' ? orderByDefault : { ...orderBy, sort: value })
+  }
+
+  const renderFilters = () => {
+    const filters = (
+      <div className="volunteers__sidebar">
+        <FilterOrder handleChange={handleChangeOrder} />
+        <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' />
+        <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} />
+      </div>
+    )
+
+    if (width && width < 768) {
+      return (
+        <div className='filters-mobile'>
+          <button
+            style={{ width: 'fit-content' }}
+            className='btn--secondary btn-filters'
+            onClick={() => setShowFilters(!showFilters)}
+          >
+
+            <Icon icon={faFilter} />
+            {showFilters ? 'Esconder filtros' : 'Filtrar'}
+
+          </button>
+          <Spacer y={1} />
+          {showFilters && filters}
+        </div>
+      )
+    } else {
+      return filters;
+    }
   }
 
   return (
     <Layout title="Voluntários" description={<Description showAction={!user} />}>
       <div className="volunteers">
-        <div className="volunteers__sidebar">
-          <FilterOrder handleChange={handleChangeOrder} />
-          <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' />
-          <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} />
-        </div>
+        {renderFilters()}
+
         <VolunteersList
           data={data}
           loading={loading}
@@ -124,12 +163,12 @@ const Description = ({ showAction = true }) => {
     <div className={showAction && 'hero__description--action'}>
       <p>Plataforma Online do Voluntariado Português</p>
       {showAction && (
-          <Link href="/sign-up">
-            <a>
-              <ButtonAction className="btn--stretch">
-                Voluntariar
+        <Link href="/sign-up">
+          <a>
+            <ButtonAction className="btn--stretch">
+              Voluntariar
               </ButtonAction>
-            </a>
+          </a>
         </Link>
       )}
       <style jsx>
