@@ -31,6 +31,7 @@
     "apollo-link-http": "1.5.16",
     "apollo-server-micro": "2.9.16",
     "bcrypt": "3.0.7",
+    "body-scroll-lock": "^3.0.1",
     "clean-deep": "^3.3.0",
     "cookie": "0.4.0",
     "dotenv": "^8.2.0",
