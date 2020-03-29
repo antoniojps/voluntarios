@@ -52,6 +52,7 @@ export const typeDef = gql`
   input UserUpdateInput {
     firstName: String
     lastName: String
+    name: String
     description: String
     job: String
     categories: [ID!]

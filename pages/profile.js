@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { UPDATE_USER_MUTATION } from '../graphql'
 import { Layout, Avatar } from 'components/atoms'
 import { ProfileForm } from 'components/organisms'
 import { withAuth } from 'utils/auth';
-import { Spacer, Note } from '@zeit-ui/react'
+import { Spacer, Note, useToasts } from '@zeit-ui/react'
 import { withApollo } from '../apollo/client';
 import { fetchGeolocationsById } from '../services/places';
 import { mergeLocations, computeNewLocationsIDs, parseCategories } from '../utils/form'
@@ -12,8 +12,17 @@ import { mergeLocations, computeNewLocationsIDs, parseCategories } from '../util
 const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [] } }) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [submitError, setSubmitError] = useState(false);
-    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
+    const [updateUser, { data, loading }] = useMutation(UPDATE_USER_MUTATION);
     const client = useApolloClient();
+    const [, setToast] = useToasts()
+    const [userState, setUser] = useState(user)
+
+    useEffect(() => {
+        if (!loading && data && data.updateUser) {
+            const { updateUser } = data
+            setUser(updateUser)
+        }
+    }, [data, loading])
 
     async function handleSave(data) {
         setSubmitError(false);
@@ -32,6 +41,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         const input = {
             firstName,
             lastName,
+            name: `${firstName} ${lastName}`,
             job,
             locations: newUserLocations,
             categories: parseCategories(categories),
@@ -45,15 +55,22 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                     userId: user._id,
                 },
             });
+            setToast({
+                text: 'Perfil atualizado.',
+            })
             setLoadingSubmit(false);
         } catch (error) {
+            setToast({
+                text: 'Não foi possível atualizar o perfil.',
+                type: 'error',
+            })
             setSubmitError(true);
             setLoadingSubmit(false);
         }
     }
 
     return (
-        <Layout title={`${user.firstName} ${user.lastName}`} description={<Description />}>
+        <Layout title={`${userState.firstName} ${userState.lastName}`} description={<Description />}>
             <div className="container">
                 <div className="row flex-column justify-content-md-center">
                     {submitError && (

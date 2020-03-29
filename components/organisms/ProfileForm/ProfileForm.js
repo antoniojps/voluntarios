@@ -13,13 +13,13 @@ const ProfileSchema = Yup.object({
   firstName: Yup.string().required().max(32).min(2),
   lastName: Yup.string().required().max(32).min(2),
   job: Yup.string().notRequired().max(48).min(2),
-  locations: Yup.object({
+  locations: Yup.array().of(Yup.object({
     name: Yup.string().required(),
     geolocation: Yup.object({
       lat: Yup.number().required(),
       long: Yup.number().required(),
     }),
-  }).notRequired(),
+  }).notRequired()).notRequired(),
   categories: Yup.array().of(Yup.number()).notRequired(),
 })
 
