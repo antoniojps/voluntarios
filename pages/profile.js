@@ -38,7 +38,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                 _id: user._id,
                 email: data.email,
                 locations: {
-                    name: data.locations.name,
+                    name: data.locations[0].name,
                     geolocation: {
                         lat: latitude,
                         long: longitude,

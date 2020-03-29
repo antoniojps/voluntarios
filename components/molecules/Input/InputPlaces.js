@@ -33,7 +33,7 @@ const InputPlaces = props => {
         <div className='input-places'>
             <AsyncSelect
                 {...props}
-                onInputChange={value => value && value.length > 0 && setInputValue(value)}
+                onInputChange={setInputValue}
                 onChange={onChange}
                 inputValue={inputValue}
                 cacheOptions
