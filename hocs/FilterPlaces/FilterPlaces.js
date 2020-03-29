@@ -4,6 +4,7 @@ import { Icon } from "components/atoms";
 import { faChevronRight, faChevronLeft, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import "components/molecules/Filter/Filter.module.scss";
 import { fetchPlace, fetchGeolocationsById } from '../../services/places';
+import useDebounce from '../../utils/hooks/useDebounce';
 
 const FilterPlaces = props => {
     const [nearBy, setNearBy] = useState(false);
@@ -17,6 +18,7 @@ const FilterPlaces = props => {
     const searchRef = useRef(null);
     const nearById = 'nearBy';
     const { geoLocation } = props;
+    const debouncedSearchTerm = useDebounce(searchValue, 500);
 
     useEffect(() => {
         if (geoLocation && !geoLocation.loading && geoLocation.latitude && geoLocation.longitude) {
@@ -36,11 +38,11 @@ const FilterPlaces = props => {
     }, [open]);
 
     useEffect(() => {
-        if (searchValue) {
+        if (debouncedSearchTerm) {
             setLoading(true);
-            fetchPlaces(searchValue.toLowerCase())
+            fetchPlaces(debouncedSearchTerm.toLowerCase())
         }
-    }, [searchValue])
+    }, [debouncedSearchTerm]);
 
     async function fetchPlaces(search) {
         const placesResult = await fetchPlace(search);
