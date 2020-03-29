@@ -38,7 +38,8 @@ const VolunteersList = ({
               loading={(loading && (!data || !data.users || !data.users.list))}
             />
           ))
-        }
+      }
+      {volunteers.length === 0 && <p>Não encontramos nenhum voluntário.</p>}
       {hasNextPage && <button onClick={handleFetchMore}>Carregar mais</button>}
     </InfiniteScroll>
   )
