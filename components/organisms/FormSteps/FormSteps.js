@@ -129,6 +129,22 @@ const FormSteps = ({
         </motion.div>
       )
     }
+    // if (inputProps.type === 'location') {
+    //   return (
+    //     <motion.div
+    //       initial={{ y: 30, opacity: 0 }}
+    //       animate={{ y: 0, opacity: 1 }}
+    //       exit={{ y: -30, opacity: 0 }}
+    //       transition={{ ease: 'easeIn' }}
+    //       key={inputProps.name}
+    //     >
+    //       <InputPlaces
+    //           initialValue={state[inputProps.name]}
+    //           onChange={handleChangePlaces}
+    //       />
+    //     </motion.div>
+    //   )
+    // }
 
     return null;
   }
