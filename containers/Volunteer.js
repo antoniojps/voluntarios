@@ -29,11 +29,13 @@ const Volunteer = ({_id, name, ...props}) => {
   }
 
   useEffect(() => {
-    loadEmail({
-      variables: {
-        id: _id,
-      },
-    })
+    if (hasVerified) {
+      loadEmail({
+        variables: {
+          id: _id,
+        },
+      })
+    }
   }, [hasVerified])
 
   return (
