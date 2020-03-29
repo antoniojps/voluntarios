@@ -10,7 +10,7 @@ import cleanDeep from 'clean-deep'
 import { withApollo } from '../apollo/client';
 import Link from 'next/link'
 import { Spacer } from '@zeit-ui/react'
-import { faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faFilter, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
@@ -123,12 +123,12 @@ const Index = () => {
         <div className='filters-mobile'>
           <button
             style={{ width: 'fit-content' }}
-            className='btn--secondary btn-filters'
+            className='btn--secondary btn--filters'
             onClick={() => setShowFilters(!showFilters)}
           >
 
-            <Icon icon={faFilter} />
-            {showFilters ? 'Esconder filtros' : 'Filtrar'}
+            {showFilters ? <Icon icon={faChevronLeft} /> : <Icon icon={faFilter} />}
+            {showFilters ? 'Filtros' : 'Filtrar'}
 
           </button>
           <Spacer y={1} />

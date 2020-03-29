@@ -18,9 +18,9 @@
 
   .filters-mobile {
     button {
-      &.btn-filters {
+      &.btn--filters {
         @include box-shadow;
-        
+
         svg {
           margin-right: var(--spacing-xs3);
           path {
