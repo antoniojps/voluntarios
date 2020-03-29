@@ -7,7 +7,6 @@ import InputPlaces from './InputPlaces';
 import * as yup from 'yup';
 
 const InputLocations = ({
-    options = [],
     number,
     title,
     handleChange = () => null,
@@ -64,13 +63,10 @@ const InputLocations = ({
     const showError = hasSubmitted && error
 
     const onChange = (newValues) => {
-        handleChange(newValues)
-        setSelectedValues(newValues)
+        const newLocations = newValues && newValues.length > 0 ? newValues : []
+        handleChange(newLocations)
+        setSelectedValues(newLocations)
     }
-
-    const defaultValue = useMemo(() => {
-        return initialValue.map(value => options.find(opt => opt.value === value))
-    }, [initialValue])
 
     // enter press
     const handleKeyPress = (e) => {
@@ -97,16 +93,16 @@ const InputLocations = ({
 
             <div className='input__multiple'>
                 <InputPlaces
+                    ref={inputEl}
                     placeholder={placeholder}
-                    onChange={onChange}
                     isDisabled={disabled}
-                    defaultValue={defaultValue}
                     isClearable={false}
                     autoFocus={autoFocus}
                     onMenuOpen={() => setSelectOpen(true)}
                     onMenuClose={() => setSelectOpen(false)}
                     onKeyDown={handleKeyPress}
-                    ref={inputEl}
+                    onChange={onChange}
+                    initialValue={initialValue}
                     {...selectProps}
                 />
             </div>

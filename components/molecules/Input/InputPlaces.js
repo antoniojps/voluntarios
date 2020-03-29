@@ -96,18 +96,24 @@ const InputPlaces = ({
 
     // initial value from user locations
     const defaultValue = React.useMemo(() => {
-        return initialValue.map(location => ({
-            value: location._id,
-            label: location.name,
-        }))
+        if (initialValue && initialValue.length > 0) {
+            return initialValue.map(location => ({
+                value: location._id ? location._id : location.value,
+                label: location.name,
+            }))
+        }
+        return []
     }, [initialValue])
 
         // initial value from user locations
     const defaultOptions = React.useMemo(() => {
-        return initialValue.map(location => ({
-            value: location._id,
-            label: location.name,
-        }))
+        if (initialValue && initialValue.length > 0) {
+            return initialValue.map(location => ({
+                value: location._id,
+                label: location.name,
+            }))
+        }
+        return []
     }, [initialValue])
 
     return (

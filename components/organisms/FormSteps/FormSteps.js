@@ -131,7 +131,7 @@ const FormSteps = ({
         >
           <InputLocations
               initialValue={state[inputProps.name]}
-              onChange={(values) => {
+              handleChange={(values) => {
                 let parsedValues = values
                 if (typeof inputProps.handler === 'function') {
                   parsedValues = inputProps.handler(values)

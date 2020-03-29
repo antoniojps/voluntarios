@@ -46,6 +46,63 @@ function SignUp() {
     }
   }, [categoriesData])
 
+  const form = useMemo(() => [
+    {
+      type: 'multiple',
+      name: 'categories',
+      title: 'Áreas de interesse',
+      placeholder: 'Seleccione áreas de interesse',
+      autoFocus: true,
+      options: categories,
+      schema: yup.array().of(yup.string()),
+      note: 'Onde pode ajudar?',
+      isLoading: loading,
+    },
+    {
+      type: 'location',
+      name: 'locations',
+      title: 'Qual a sua localidade?',
+      placeholder: 'Pesquise uma localização',
+      autoFocus: true,
+      schema: yup.array().of(yup.object({
+        name: yup.string(),
+        id: yup.string(),
+      })),
+    },
+    {
+      type: 'text',
+      name: 'firstName',
+      placeholder: 'Primeiro nome...',
+      title: 'Qual é o seu primeiro nome?',
+      autoFocus: true,
+      schema: yup.string().required(),
+    },
+    {
+      type: 'text',
+      name: 'lastName',
+      placeholder:'Último nome...',
+      title: 'Qual é o seu último nome?',
+      autoFocus: true,
+      schema: yup.string().required(),
+    },
+    {
+      type: 'text',
+      name: 'email',
+      title: 'Qual o seu endereço de email?',
+      placeholder: 'nome@mail.com',
+      autoFocus: true,
+      schema: yup.string().required().email('Mhm...esse email não parece ser válido.'),
+    },
+    {
+      type: 'password',
+      name: 'password',
+      title: 'Palavra-chave',
+      placeholder: 'palavra-chave',
+      autoFocus: true,
+      schema: yup.string().required().min(8),
+    },
+  ], [categories, loading])
+
   return (
     <Layout
       title="Voluntariar"
@@ -53,7 +110,7 @@ function SignUp() {
         <Steps
           steps={3}
           currentStep={step}
-          title={`${step + 1} de 4 até estar inscrito`}
+          title={`${step + 1} de ${form.length} até estar inscrito`}
           handleChange={handleStepChange}
           showNext={canChange}
         />
@@ -66,62 +123,7 @@ function SignUp() {
           onSubmit={handleSubmit}
           onStepChange={handleStepChange}
           onChangeValid={setCanChange}
-          form={[
-            {
-              type: 'location',
-              name: 'locations',
-              title: 'Qual a sua localidade?',
-              placeholder: 'Pesquise uma localização',
-              autoFocus: true,
-              schema: yup.array().of(yup.object({
-                name: yup.string(),
-                id: yup.string(),
-              })).required(),
-            },
-            {
-              type: 'multiple',
-              name: 'categories',
-              title: 'Áreas de interesse',
-              placeholder: 'Seleccione áreas de interesse',
-              autoFocus: true,
-              options: categories,
-              schema: yup.array().of(yup.string()),
-              note: 'Onde pode ajudar?',
-              isLoading: loading,
-            },
-            {
-              type: 'text',
-              name: 'firstName',
-              placeholder: 'Primeiro nome...',
-              title: 'Qual é o seu primeiro nome?',
-              autoFocus: true,
-              schema: yup.string().required(),
-            },
-            {
-              type: 'text',
-              name: 'lastName',
-              placeholder:'Último nome...',
-              title: 'Qual é o seu último nome?',
-              autoFocus: true,
-              schema: yup.string().required(),
-            },
-            {
-              type: 'text',
-              name: 'email',
-              title: 'Qual o seu endereço de email?',
-              placeholder: 'nome@mail.com',
-              autoFocus: true,
-              schema: yup.string().required().email('Mhm...esse email não parece ser válido.'),
-            },
-            {
-              type: 'password',
-              name: 'password',
-              title: 'Palavra-chave',
-              placeholder: 'palavra-chave',
-              autoFocus: true,
-              schema: yup.string().required().min(8),
-            },
-          ]}
+          form={form}
         />
       </div>
     </Layout>
