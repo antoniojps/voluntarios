@@ -1,13 +1,21 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useState, useEffect } from 'react';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { CATEGORIES_QUERY } from '../../graphql'
 import { Filter } from 'components/molecules'
 
 const FilterCategories = props => {
-    const { data, loading, error } = useQuery(CATEGORIES_QUERY);
+    const [items, setItems] = useState([]);
+    const [loadCategories, { data }] = useLazyQuery(CATEGORIES_QUERY, {
+        fetchPolicy: 'cache-and-network',
+    })
 
-    if (loading || error || !data || !data.allCategories) return null;
+    useEffect(() => {
+        if (data && data.allCategories) {
+            setItems(data.allCategories);
+        }
+    }, [data])
 
-    return <Filter {...props} items={data.allCategories} />
+    return <Filter {...props} items={items} lazyFetchItems={loadCategories} />
 }
 
 export default FilterCategories;

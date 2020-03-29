@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import { Icon } from "components/atoms";
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import "./Filter.module.scss";
@@ -11,6 +11,7 @@ const Filter = ({
   searchEnabled = false,
   searchPlaceholder = "| procurar",
   handleChange,
+  lazyFetchItems = null,
 }) => {
   const [itemsToShow, setItemsToShow] = useState([...items]);
   const [open, setOpen] = useState(false);
@@ -20,12 +21,18 @@ const Filter = ({
 
   useEffect(() => {
     if (open) {
-      setItemsToShow([...items]);
+      if (lazyFetchItems) {
+        lazyFetchItems();
+      }
       if (searchEnabled) {
         searchRef.current.focus()
       }
     }
   }, [open]);
+
+  useEffect(() => {
+    setItemsToShow([...items]);
+  }, [items])
 
   useEffect(() => {
     setItemsToShow([...items.filter(item => item.name.toLowerCase().includes(searchValue.toLowerCase()))]);
@@ -94,4 +101,4 @@ const Filter = ({
   );
 };
 
-export default Filter;
+export default memo(Filter);
