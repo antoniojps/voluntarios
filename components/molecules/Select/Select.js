@@ -1,6 +1,7 @@
 /* Custom Input Component to be used with Formik */
 import React, { useMemo } from 'react';
 import Select, { components } from 'react-select';
+import AsyncSelect from 'react-select/async';
 import './Select.module.scss'
 
 const MultiValueContainer = props => {
@@ -28,13 +29,16 @@ const FieldSelect = ({
   onChange,
   value,
   placeholder = 'Seleccione',
+  isAsync = false,
+  components = {},
   ...props
 }) => {
 
   const handleChange = option => {
     if (isMulti) {
       const values = option ? option.map(({ value }) => value) : [];
-      onChange(values)
+      if (isAsync) onChange(option)
+      else onChange(values)
       return;
     }
     if (option && option.value) onChange(option.value);
@@ -46,9 +50,11 @@ const FieldSelect = ({
     return 'Sem opções';
   }, [creatable]);
 
+  const SelectComponent = isAsync ? AsyncSelect : Select
+
   const isomorphicWindow = typeof window !== 'undefined' ? window : {}
   return (
-      <Select
+      <SelectComponent
         classNamePrefix="react-select"
         noOptionsMessage={() => noOptionsMessage}
         options={options}
@@ -60,7 +66,8 @@ const FieldSelect = ({
         onBlur={onBlur}
         isMulti={isMulti}
         placeholder={placeholder}
-        components={{ MultiValueContainer }}
+        components={{ MultiValueContainer, ...components }}
+        loadingMessage={({inputValue}) => `A procurar "${inputValue}"...`}
         styles={{
           multiValue: base => ({
             ...base,
@@ -77,7 +84,7 @@ const FieldSelect = ({
         menuPortalTarget={isomorphicWindow && isomorphicWindow.document && isomorphicWindow.document.body ? isomorphicWindow.document.body : {}}
         {...props}
     >
-      </Select>
+      </SelectComponent>
   );
 };
 
