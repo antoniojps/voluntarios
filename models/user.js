@@ -124,7 +124,7 @@ UserSchema.statics = {
   pagination: mongoosePaginate,
   async searchByFilters({ input, pagination = {} }) {
     const { name, geolocation, categories, orderBy } = input
-    const distanceKm = 30
+    const distanceKm = 30000
     const radiusOfEarthKm = 6378.1
     let query = {}
     let sort = {}
