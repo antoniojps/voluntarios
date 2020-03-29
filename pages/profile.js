@@ -29,12 +29,15 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         } else {
             const { geolocation: { lat, lng } } = geo.results;
             latitude = lat,
-            longitude = lng;
+                longitude = lng;
         }
+
+        /* eslint-disable no-unused-vars */
+        const { __typename, ...noTypeName } = user;
 
         const formState = {
             input: {
-                ...user,
+                ...noTypeName,
                 _id: user._id,
                 email: data.email,
                 locations: {
