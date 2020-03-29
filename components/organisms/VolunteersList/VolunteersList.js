@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
-import { Card } from 'components/molecules'
+import Volunteer from '../../../containers/Volunteer'
 import './VolunteersList.module.scss'
 import { Note } from '@zeit-ui/react'
 
@@ -32,12 +32,12 @@ const VolunteersList = ({
     >
       {
         volunteers.map(volunteer => (
-            <Card
-              key={volunteer._id}
-              {...volunteer}
-              loading={(loading && (!data || !data.users || !data.users.list))}
-            />
-          ))
+          <Volunteer
+            key={volunteer._id}
+            {...volunteer}
+            loading={(loading && (!data || !data.users || !data.users.list))}
+          />
+        ))
       }
       {volunteers.length === 0 && <p>Não encontramos nenhum voluntário.</p>}
       {hasNextPage && <button onClick={handleFetchMore}>Carregar mais</button>}

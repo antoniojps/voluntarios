@@ -6,7 +6,6 @@ export const volunteerFragment = gql`
     name
     firstName
     lastName
-    email
     job
     categories {
       name
@@ -36,6 +35,15 @@ export const USERS_QUERY = gql`
     }
   }
   ${volunteerFragment}
+`
+
+export const USER_EMAIL_QUERY = gql`
+  query user($id: ID!) {
+    user(id: $id) {
+      _id
+      email
+    }
+  }
 `
 
 export const CURRENT_USER_QUERY = gql`
