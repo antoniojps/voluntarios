@@ -68,6 +68,17 @@ function SignUp() {
           onChangeValid={setCanChange}
           form={[
             {
+              type: 'location',
+              name: 'locations',
+              title: 'Qual a sua localidade?',
+              placeholder: 'Pesquise uma localização',
+              autoFocus: true,
+              schema: yup.array().of(yup.object({
+                name: yup.string(),
+                id: yup.string(),
+              })).required(),
+            },
+            {
               type: 'multiple',
               name: 'categories',
               title: 'Áreas de interesse',
@@ -78,20 +89,6 @@ function SignUp() {
               note: 'Onde pode ajudar?',
               isLoading: loading,
             },
-            // {
-            //   type: 'location',
-            //   name: 'locations',
-            //   title: 'Qual a sua localidade?',
-            //   placeholder: 'Seleccione uma localização',
-            //   autoFocus: true,
-            //   schema: yup.array().of(yup.object({
-            //     name: yup.string(),
-            //     geolocation: {
-            //         long: yup.number(),
-            //         lat: yup.number(),
-            //     },
-            //   })),
-            // },
             {
               type: 'text',
               name: 'firstName',

@@ -88,6 +88,7 @@ const debouncedLoadOptions = debounce(loadOptions, 1000);
 const InputPlaces = ({
     initialValue = [],
     onChange,
+    ...props
 }) => {
     const handleChange = (value) => {
         onChange(value)
@@ -125,6 +126,8 @@ const InputPlaces = ({
                 onChange={handleChange}
                 isMulti
                 cacheOptions
+                loadingMessage={({ inputValue }) => `A procurar "${inputValue}"...`}
+                {...props}
             />
         </div>
     )

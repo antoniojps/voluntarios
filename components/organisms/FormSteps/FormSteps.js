@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useSetState } from 'react-use'
-import { InputText, InputMultiple, InputPassword } from 'components/molecules'
+import { InputText, InputMultiple, InputPassword, InputLocations } from 'components/molecules'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const FormSteps = ({
@@ -47,15 +47,6 @@ const FormSteps = ({
       onStepChange(next)
     }
   }
-
-  // const goToPreviousInput = () => {
-  //   if (input > 0 && input < form.length) setInput(input - 1)
-  // }
-
-  // const handleStepsChange = (step) => {
-  //   if (step > input) goToNextInput()
-  //   if (step < input) goToPreviousInput()
-  // }
 
   const handleSubmit = () => {
     if (isLastPage) onSubmit(state)
@@ -129,22 +120,30 @@ const FormSteps = ({
         </motion.div>
       )
     }
-    // if (inputProps.type === 'location') {
-    //   return (
-    //     <motion.div
-    //       initial={{ y: 30, opacity: 0 }}
-    //       animate={{ y: 0, opacity: 1 }}
-    //       exit={{ y: -30, opacity: 0 }}
-    //       transition={{ ease: 'easeIn' }}
-    //       key={inputProps.name}
-    //     >
-    //       <InputPlaces
-    //           initialValue={state[inputProps.name]}
-    //           onChange={handleChangePlaces}
-    //       />
-    //     </motion.div>
-    //   )
-    // }
+    if (inputProps.type === 'location') {
+      return (
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -30, opacity: 0 }}
+          transition={{ ease: 'easeIn' }}
+          key={inputProps.name}
+        >
+          <InputLocations
+              initialValue={state[inputProps.name]}
+              onChange={(values) => {
+                let parsedValues = values
+                if (typeof inputProps.handler === 'function') {
+                  parsedValues = inputProps.handler(values)
+                }
+                setState({[inputProps.name]: parsedValues})
+              }}
+              handleSubmit={handleSubmit}
+              {...inputProps}
+          />
+        </motion.div>
+      )
+    }
 
     return null;
   }
