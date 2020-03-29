@@ -6,7 +6,9 @@
   justify-content: space-between;
   padding: var(--spacing-xs);
   background-color: var(--bgElevated);
-  @include box-shadow;
+  &--shadow {
+    @include box-shadow;
+  }
   &__top {
     display: flex;
     justify-content: space-between;
@@ -47,7 +49,6 @@
       p {
         margin: 0;
         padding: 0;
-        margin-left: var(--spacing-xs4);
         font-weight: 500;
 
         span {
