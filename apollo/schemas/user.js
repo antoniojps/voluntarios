@@ -3,7 +3,7 @@ import { AuthenticationError } from 'apollo-server-micro';
 import User from './../../models/user';
 import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
-import { createUser, login, logout, isValidPassword } from './../utils/user';
+import { createUser, login, logout, isValidPassword, generateLocation } from './../utils/user';
 
 export const typeDef = gql`
   type User {
@@ -49,22 +49,13 @@ export const typeDef = gql`
     orderBy: OrderByInput
   }
 
-  input UserInput {
-    _id: ID!
-    email: String!
+  input UserUpdateInput {
     firstName: String
     lastName: String
     description: String
-    name: String
     job: String
     categories: [ID!]
-    locations: LocationInput
-    admin: Boolean
-    moderator: Boolean
-    verified: Boolean
-    verifiedAt: DateTime
-    verificationTokenSentAt: DateTime
-    createdAt: DateTime
+    locations: [LocationInput!]
   }
 
   type Location {
@@ -121,7 +112,7 @@ export const typeDef = gql`
     signIn(input: SignInInput!): User!
     signOut: Boolean!
     verifyEmail(input: VerifyEmailInput!): User!
-    updateUser(input: UserInput!): User!
+    updateUser(userId: ID!, input: UserUpdateInput!): User!
   }
 `;
 
@@ -169,16 +160,20 @@ export const resolvers = {
       }
       throw new StatusError(401, 'Invalid email and password combination');
     },
-    updateUser: secure(async (root, { input }) => {
+    updateUser: secure(async (root, { userId, input: dirtyInput }) => {
+      let input = dirtyInput
+      if (input.locations && input.locations.length > 0) {
+        input.locations = generateLocation(input.locations)
+      }
       try {
-        await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
           {
-            _id: input._id,
+            _id: userId,
           },
-          {
-            $set: input,
-          },
+          input,
+          { new: true },
         );
+        return updatedUser
       } catch (e) {
         if (process.env !== 'production') throw new Error(e.message);
         throw Error('Error updating user');
