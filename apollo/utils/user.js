@@ -7,10 +7,9 @@ import { v1 as uuidv1 } from 'uuid';
 
 const { JWT_SECRET, JWT_ISSUER, JWT_AUDIENCE } = process.env;
 
-export async function createUser(data) {
-  const salt = bcrypt.genSaltSync();
-  const locations = data.locations.length > 0
-    ? data.locations.map(location => ({
+export function generateLocation(locations = []) {
+  const parsed = locations.length > 0
+    ? locations.map(location => ({
       name: location.name,
       geolocation: {
         type: 'Point',
@@ -18,6 +17,13 @@ export async function createUser(data) {
       },
     }))
     : []
+  return parsed
+}
+
+export async function createUser(data) {
+  const salt = bcrypt.genSaltSync();
+  const locations = generateLocation(data.locations)
+
   const newUser = {
     email: data.email,
     password: bcrypt.hashSync(data.password, salt),
