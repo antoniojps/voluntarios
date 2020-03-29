@@ -5,18 +5,27 @@ import { InputLabel } from 'components/atoms'
 import { InputPlaces, ProfileSelect } from 'components/molecules'
 import { ButtonZeit } from 'components/atoms'
 
-const ProfileForm = ({ firstName, lastName, job, locations, email, categories, loading = false, onSubmit }) => {
+const ProfileForm = ({
+  firstName,
+  lastName,
+  job,
+  locations,
+  email,
+  categories,
+  loading = false,
+  onSubmit,
+}) => {
   const { handleSubmit, errors, control } = useForm();
   const [locationsData, setLocationsData] = useState(locations);
   const [categoriesData, setCategoriesData] = useState(categories);
-  const submit = data => { onSubmit({ ...data, locations: [locationsData], categories: categoriesData }) }
 
-  function handleChangePlaces({ value, label }) {
-    setLocationsData({
-      ...locations,
-      _id: value,
-      name: label,
-    })
+  const submit = data => {
+    onSubmit({ ...data, locations: locationsData, categories: categoriesData })
+  }
+
+  function handleChangePlaces(newLocations) {
+    if (newLocations) setLocationsData(newLocations)
+    else setLocationsData([])
   }
 
   const renderError = (errors) => {
@@ -76,7 +85,7 @@ const ProfileForm = ({ firstName, lastName, job, locations, email, categories, l
               loading={loading}
             >
               Guardar
-                                    </ButtonZeit>
+            </ButtonZeit>
           </Fieldset.Footer.Actions>
         </Fieldset.Footer>
       </Fieldset>
@@ -106,12 +115,12 @@ const ProfileForm = ({ firstName, lastName, job, locations, email, categories, l
         <Spacer y={0.5} />
         {renderError(errors.job)}
 
-        <InputLabel>Localização</InputLabel>
+        <InputLabel>Localização(s)</InputLabel>
         <Spacer y={0.5} />
 
         <InputPlaces
           className='full-width'
-          initialValue={locationsData}
+          initialValue={locations}
           onChange={handleChangePlaces}
         />
 
@@ -160,6 +169,7 @@ const ProfileForm = ({ firstName, lastName, job, locations, email, categories, l
           placeholder='Por favor introduza o seu e-mail.'
           defaultValue={email}
           rules={{ required: true, email: true }}
+          disabled
         />
         {renderError(errors.email)}
 

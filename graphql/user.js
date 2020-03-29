@@ -52,8 +52,8 @@ export const CURRENT_USER_QUERY = gql`
 `
 
 export const UPDATE_USER_MUTATION = gql`
-  mutation updateUser($input: UserInput!) {
-    updateUser(input: $input) {
+  mutation updateUser($userId: ID!, $input: UserUpdateInput!) {
+    updateUser(userId: $userId, input: $input) {
       _id
       name
       admin

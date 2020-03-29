@@ -3,13 +3,13 @@ import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { UPDATE_USER_MUTATION } from '../graphql'
 import { Layout, Avatar } from 'components/atoms'
 import { ProfileForm } from 'components/organisms'
-
 import { withAuth } from 'utils/auth';
 import { Spacer, Note } from '@zeit-ui/react'
 import { withApollo } from '../apollo/client';
-import { fetchGeoLocation } from '../services/places';
+import { fetchGeolocationsById } from '../services/places';
+import { mergeLocations, computeNewLocationsIDs, parseCategories } from '../utils/form'
 
-const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [1] } }) => {
+const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [] } }) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [submitError, setSubmitError] = useState(false);
     const [updateUser] = useMutation(UPDATE_USER_MUTATION);
@@ -19,42 +19,31 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         setSubmitError(false);
         setLoadingSubmit(true);
 
-        let latitude = data.locations[0].geolocation.latitude;
-        let longitude = data.locations[0].geolocation.longitude;
+        const userLocations = user && user.locations && user.locations.length > 0 ? user.locations : []
+        const selectedLocations = data && data.locations && data.locations.length > 0 ? data.locations : []
+        const newLocationsIDs = computeNewLocationsIDs(userLocations, selectedLocations)
 
-        const geo = await fetchGeoLocation(data.locations[0]._id);
-        if (!geo || !geo.results || geo.results.length === 0) {
-            setLoadingSubmit(false);
-            return setSubmitError(true);
-        } else {
-            const { geolocation: { lat, lng } } = geo.results;
-            latitude = lat,
-                longitude = lng;
-        }
+        // fetch all new locations
+        const newGeolocations = await fetchGeolocationsById(newLocationsIDs)
+        // merge old locations and new locations
+        const newUserLocations = mergeLocations(newGeolocations, userLocations, selectedLocations)
 
-        /* eslint-disable no-unused-vars */
-        const { __typename, ...noTypeName } = user;
-
-        const formState = {
-            input: {
-                ...noTypeName,
-                _id: user._id,
-                email: data.email,
-                locations: {
-                    name: data.locations[0].name,
-                    geolocation: {
-                        lat: latitude,
-                        long: longitude,
-                    },
-                },
-                categories: data.categories.map(cat => (cat._id)),
-            },
+        const { firstName, lastName, job, categories } = data
+        const input = {
+            firstName,
+            lastName,
+            job,
+            locations: newUserLocations,
+            categories: parseCategories(categories),
         }
 
         try {
             await client.resetStore();
             await updateUser({
-                variables: formState,
+                variables: {
+                    input,
+                    userId: user._id,
+                },
             });
             setLoadingSubmit(false);
         } catch (error) {
@@ -77,7 +66,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         firstName={user.firstName}
                         lastName={user.lastName}
                         job={user.job}
-                        locations={user.locations[0]}
+                        locations={user.locations}
                         email={user.email}
                         categories={user.categories}
                         loading={loadingSubmit}

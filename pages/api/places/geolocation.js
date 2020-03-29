@@ -30,12 +30,15 @@ export default async (req, res) => {
           name: null,
           geolocation: {
             lat: null,
-            lng: null,
+            long: null,
           },
         }
 
         location.name = result.name
-        location.geolocation = result.geometry.location
+        location.geolocation = {
+          lat: result.geometry.location.lat,
+          long: result.geometry.location.lng,
+        }
 
         res.status(200).json(
           resSchema(
