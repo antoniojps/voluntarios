@@ -26,7 +26,7 @@ export const Simple = () => {
 }
 
 export const Multiple = () => {
-  const [value, setValue] = React.useState('')
+  const [value, setValue] = React.useState([{ value: 'chocolate' }])
   React.useEffect(() => {
     console.log(value)
   }, [value])

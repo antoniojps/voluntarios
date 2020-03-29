@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { fetchPlace } from '../../../services/places';
-import Select from '../Select/Select';
+import { MultiValueContainer } from '../Select/Select';
 import "./Input.module.scss";
 import debounce from 'lodash.debounce'
+import AsyncSelect from 'react-select/async';
 
+// custom option for place description
 const Option = (props) => {
     const {
       children,
@@ -33,7 +35,9 @@ const Option = (props) => {
         {...innerProps}
       >
         <div className="option--place">
-            {children}
+            <div>
+                {children}
+            </div>
             {data.secondary && (
                 <div className="secondary">
                     {data.secondary}
@@ -41,17 +45,20 @@ const Option = (props) => {
             )}
             </div>
             <style jsx>{`
+                @import "assets/styles/mixins.scss";
+
                 .option--place {
                     display: flex;
-                    align-items: center;
+                    align-items: baseline;
+                    justify-content: center;
+                    @include screen(md) {
+                        flex-direction: column;
+                    }
                 }
                 .secondary {
-                    font-size: var(--sizes-xs);
+                    padding-left: var(--spacing-xs4);
+                    font-size: var(--size-xs2);
                     color: var(--base40);
-                    &:before {
-                        content: '-';
-                        padding: 0 var(--spacing-xs4);
-                    }
                 }
             `}</style>
       </div>
@@ -68,6 +75,8 @@ const getAsyncOptions = async (inputValue) => {
     return options
 }
 
+// had some difficulty making debounce work with async select
+// here's the solution: https://github.com/JedWatson/react-select/issues/3075#issuecomment-506647171
 const loadOptions = (inputValue, callback) => {
     getAsyncOptions(inputValue)
     .then(results => callback(results))
@@ -76,38 +85,46 @@ const loadOptions = (inputValue, callback) => {
 }
 const debouncedLoadOptions = debounce(loadOptions, 1000);
 
-const InputPlaces = props => {
-    const { initialValue = '', onChange } = props;
-    const [inputValue, setInputValue] = useState(initialValue.name)
-
-    const dropdownIndicatorStyles = (base) => ({
-        ...base,
-        display: 'none',
-    })
-
+const InputPlaces = ({
+    initialValue = [],
+    onChange,
+}) => {
     const handleChange = (value) => {
-        console.log(value)
         onChange(value)
     }
 
+    // initial value from user locations
+    const defaultValue = React.useMemo(() => {
+        return initialValue.map(location => ({
+            value: location._id,
+            label: location.name,
+        }))
+    }, [initialValue])
+
+        // initial value from user locations
+    const defaultOptions = React.useMemo(() => {
+        return initialValue.map(location => ({
+            value: location._id,
+            label: location.name,
+        }))
+    }, [initialValue])
+
     return (
         <div className='input-places'>
-            <Select
-                {...props}
-                onInputChange={setInputValue}
-                onChange={handleChange}
-                inputValue={inputValue}
-                placeholder='Pesquisar localização'
+            <AsyncSelect
+                classNamePrefix="react-select"
+                defaultOptions={defaultOptions}
                 loadOptions={debouncedLoadOptions}
-                noOptionsMessage={() => 'Nenhuma localização'}
-                styles={{
-                    dropdownIndicator: dropdownIndicatorStyles,
-                    indicatorSeparator: dropdownIndicatorStyles,
-                }}
+                noOptionsMessage={() => 'Pesquise por exemplo "Lisboa"'}
+                defaultValue={defaultValue}
+                placeholder='Pesquisar localização'
                 components={{
                     Option,
+                    MultiValueContainer,
                 }}
-                isAsync
+                onChange={handleChange}
+                isMulti
+                cacheOptions
             />
         </div>
     )

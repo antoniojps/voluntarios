@@ -88,9 +88,10 @@
   }
 
   &__multi-value {
-    background-color: var(--bgLighter);
+    background-color: transparent !important;
     border-radius: var(--borderRadius);
     &__label {
+      color: var(--baseInverse) !important;
       font-size:  var(--size-s);
     }
     &__remove {

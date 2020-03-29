@@ -1,10 +1,9 @@
 /* Custom Input Component to be used with Formik */
 import React, { useMemo } from 'react';
 import Select, { components } from 'react-select';
-import AsyncSelect from 'react-select/async';
 import './Select.module.scss'
 
-const MultiValueContainer = props => {
+export const MultiValueContainer = props => {
   return (
     <div className="multi-value">
       <components.MultiValueContainer {...props} />
@@ -12,7 +11,7 @@ const MultiValueContainer = props => {
         .multi-value {
             margin: var(--spacing-xs5) var(--spacing-xs4) var(--spacing-xs5) 0;
             border-radius: var(--borderRadius);
-            background-color: ${props.data.color || 'black'} !important;
+            background-color: ${props.data.color || '#000'} !important;
         }
       `}</style>
     </div>
@@ -29,16 +28,12 @@ const FieldSelect = ({
   onChange,
   value,
   placeholder = 'Seleccione',
-  isAsync = false,
-  components = {},
   ...props
 }) => {
-
   const handleChange = option => {
     if (isMulti) {
       const values = option ? option.map(({ value }) => value) : [];
-      if (isAsync) onChange(option)
-      else onChange(values)
+      onChange(values)
       return;
     }
     if (option && option.value) onChange(option.value);
@@ -50,23 +45,20 @@ const FieldSelect = ({
     return 'Sem opções';
   }, [creatable]);
 
-  const SelectComponent = isAsync ? AsyncSelect : Select
 
   const isomorphicWindow = typeof window !== 'undefined' ? window : {}
   return (
-      <SelectComponent
+      <Select
         classNamePrefix="react-select"
         noOptionsMessage={() => noOptionsMessage}
         options={options}
         name={name}
-        value={
-          options ? options.find(option => option.value === value) : ''
-        }
+        value={options ? options.find(option => option.value === value) : ''}
         onChange={handleChange}
         onBlur={onBlur}
         isMulti={isMulti}
         placeholder={placeholder}
-        components={{ MultiValueContainer, ...components }}
+        components={{ MultiValueContainer }}
         loadingMessage={({inputValue}) => `A procurar "${inputValue}"...`}
         styles={{
           multiValue: base => ({
@@ -83,8 +75,7 @@ const FieldSelect = ({
         }}
         menuPortalTarget={isomorphicWindow && isomorphicWindow.document && isomorphicWindow.document.body ? isomorphicWindow.document.body : {}}
         {...props}
-    >
-      </SelectComponent>
+    />
   );
 };
 
