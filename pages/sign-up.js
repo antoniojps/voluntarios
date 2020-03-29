@@ -78,6 +78,20 @@ function SignUp() {
               note: 'Onde pode ajudar?',
               isLoading: loading,
             },
+            // {
+            //   type: 'location',
+            //   name: 'locations',
+            //   title: 'Qual a sua localidade?',
+            //   placeholder: 'Seleccione uma localização',
+            //   autoFocus: true,
+            //   schema: yup.array().of(yup.object({
+            //     name: yup.string(),
+            //     geolocation: {
+            //         long: yup.number(),
+            //         lat: yup.number(),
+            //     },
+            //   })),
+            // },
             {
               type: 'text',
               name: 'firstName',
