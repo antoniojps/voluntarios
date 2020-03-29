@@ -93,6 +93,11 @@
     &__item {
       font-size: 0.8rem;
       font-weight: normal;
+
+      &__loading {
+        font-size: 0.8rem;
+        color: var(--base40)
+      }
     }
 
     &__item,

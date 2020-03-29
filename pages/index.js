@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useGeolocation } from 'react-use';
 import { useQuery } from '@apollo/react-hooks';
 import { USERS_QUERY, CURRENT_USER_QUERY } from './../graphql'
 import { Search } from 'components/molecules'
@@ -6,11 +7,12 @@ import { Layout, ButtonAction } from 'components/atoms'
 import { VolunteersList } from 'components/organisms'
 import FilterCategories from '../hocs/FilterCategories/FilterCategories';
 import FilterOrder from '../hocs/FilterOrder/FilterOrder';
+import FilterPlaces from '../hocs/FilterPlaces/FilterPlaces';
 import cleanDeep from 'clean-deep'
 import { withApollo } from '../apollo/client';
 import Link from 'next/link'
 import { Spacer } from '@zeit-ui/react'
-import { faFilter, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
@@ -31,6 +33,7 @@ const Index = () => {
   });
   const [showFilters, setShowFilters] = useState(false);
   const [width, setWidth] = useState(null)
+  const [geolocation, setGeolocation] = useState(null);
 
   const { data, loading, error, fetchMore } = useQuery(
     USERS_QUERY,
@@ -92,9 +95,10 @@ const Index = () => {
         categories,
         name: search,
         orderBy,
+        geolocation,
       }),
     })
-  }, [orderBy, categories, search])
+  }, [orderBy, categories, search, geolocation])
 
 
   const handleChangeCategories = (value) => {
@@ -105,6 +109,10 @@ const Index = () => {
     setSearch(value)
   }
 
+  const handleChangeSearchPlaces = (value) => {
+    setGeolocation(value)
+  }
+
   const handleChangeOrder = (value) => {
     setOrderBy(value === '' ? orderByDefault : { ...orderBy, sort: value })
   }
@@ -113,6 +121,7 @@ const Index = () => {
     const filters = (
       <div className="volunteers__sidebar">
         <FilterOrder handleChange={handleChangeOrder} />
+        <FilterPlaces title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearchPlaces} geoLocation={useGeolocation()} />
         <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' />
         <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} />
       </div>
@@ -127,8 +136,8 @@ const Index = () => {
             onClick={() => setShowFilters(!showFilters)}
           >
 
-            {showFilters ? <Icon icon={faChevronLeft} /> : <Icon icon={faFilter} />}
-            {showFilters ? 'Filtros' : 'Filtrar'}
+            <Icon icon={faFilter} />
+            {showFilters ? 'Esconder filtros' : 'Filtrar'}
 
           </button>
           <Spacer y={1} />
