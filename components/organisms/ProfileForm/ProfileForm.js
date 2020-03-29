@@ -1,9 +1,27 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form'
-import { Input, Spacer, Fieldset, Note } from '@zeit-ui/react'
+import { Input, Spacer, Fieldset } from '@zeit-ui/react'
 import { InputLabel } from 'components/atoms'
 import { InputPlaces, ProfileSelect } from 'components/molecules'
 import { ButtonZeit } from 'components/atoms'
+import messages from 'assets/data/messages.pt'
+import * as Yup from 'yup'
+
+Yup.setLocale(messages)
+
+const ProfileSchema = Yup.object({
+  firstName: Yup.string().required().max(32).min(2),
+  lastName: Yup.string().required().max(32).min(2),
+  job: Yup.string().notRequired().max(48).min(2),
+  locations: Yup.object({
+    name: Yup.string().required(),
+    geolocation: Yup.object({
+      lat: Yup.number().required(),
+      long: Yup.number().required(),
+    }),
+  }).notRequired(),
+  categories: Yup.array().of(Yup.number()).notRequired(),
+})
 
 const ProfileForm = ({
   firstName,
@@ -15,7 +33,9 @@ const ProfileForm = ({
   loading = false,
   onSubmit,
 }) => {
-  const { handleSubmit, errors, control } = useForm();
+  const { handleSubmit, errors, control } = useForm({
+    validationSchema: ProfileSchema,
+  });
   const [locationsData, setLocationsData] = useState(locations);
   const [categoriesData, setCategoriesData] = useState(categories);
 
@@ -30,13 +50,23 @@ const ProfileForm = ({
 
   const renderError = (errors) => {
     if (!errors) return null;
+
     return (
-      <>
-        <Note label={false} type="error" small>
-          O valor inserido é inválido.
-        </Note>
-        <Spacer y={0.5} />
-      </>
+      <div>
+        <p className="error">
+          {errors.message}
+        </p>
+        <Spacer y={1} />
+        <style jsx>
+          {`
+            p {
+              color: var(--red);
+              margin: 0;
+              font-size: var(--size-xs);
+            }
+          `}
+        </style>
+      </div>
     )
   }
 
@@ -56,6 +86,7 @@ const ProfileForm = ({
           placeholder='Primeiro nome'
           defaultValue={firstName}
           rules={{ required: true, maxLength: 32 }}
+          status={errors.firstName ? 'error' : ''}
         />
         <Spacer y={0.5} />
         {renderError(errors.firstName)}
@@ -69,6 +100,7 @@ const ProfileForm = ({
           placeholder='Sobrenome'
           defaultValue={lastName}
           rules={{ required: true, maxLength: 32 }}
+          status={errors.lastName ? 'error' : ''}
         />
         <Spacer y={0.5} />
         {renderError(errors.lastName)}
@@ -111,6 +143,7 @@ const ProfileForm = ({
           placeholder='Insira a sua profissão ou ocupação'
           defaultValue={job}
           rules={{ required: true, maxLength: 32 }}
+          status={errors.job ? 'error' : ''}
         />
         <Spacer y={0.5} />
         {renderError(errors.job)}
@@ -169,6 +202,7 @@ const ProfileForm = ({
           placeholder='Por favor introduza o seu e-mail.'
           defaultValue={email}
           rules={{ required: true, email: true }}
+          status={errors.email ? 'error' : ''}
           disabled
         />
         {renderError(errors.email)}
@@ -189,7 +223,6 @@ const ProfileForm = ({
           </Fieldset.Footer.Actions>
         </Fieldset.Footer>
       </Fieldset>
-
     </form>
   )
 }
