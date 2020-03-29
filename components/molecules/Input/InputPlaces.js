@@ -5,7 +5,8 @@ import "./Input.module.scss";
 
 const InputPlaces = props => {
     const { initialValue = '', onChange } = props;
-    const [inputValue, setInputValue] = useState(initialValue)
+    const [inputValue, setInputValue] = useState(initialValue.name)
+
     const filterData = (places) => places.results && places.results.length > 0 ? places.results.map(place => ({
         value: place.id,
         label: place.name,
@@ -32,7 +33,7 @@ const InputPlaces = props => {
         <div className='input-places'>
             <AsyncSelect
                 {...props}
-                onInputChange={setInputValue}
+                onInputChange={value => value && value.length > 0 && setInputValue(value)}
                 onChange={onChange}
                 inputValue={inputValue}
                 cacheOptions
