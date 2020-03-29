@@ -54,13 +54,18 @@ const Card = memo(({
             </div>
             <div className="card__bottom">
                 <div className='card__body__item' >
-                    <Icon icon={faMapMarkerAlt} />
-                    <Spacer x={0.4} />
-                    <p>
-                        {hasLocations && locations.map((location, i) => (
-                            <span key={location._id}>{i === 0 ? '' : ', '}{location.name}</span>
-                        ))}
-                    </p>
+                    {hasLocations &&
+                        <>
+                            <Icon icon={faMapMarkerAlt} />
+                            <Spacer x={0.4} />
+
+                            <p>
+                                {locations.map((location, i) => (
+                                    <span key={location._id}>{i === 0 ? '' : ', '}{location.name}</span>
+                                ))}
+                            </p>
+                        </>
+                    }
                 </div>
                 {hasContact && (
                     <Button onClick={onContact} type='secondary'>
