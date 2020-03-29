@@ -38,6 +38,10 @@ const Nav = ({ skipAuth = false }) => {
     return () => clearAllBodyScrollLocks();
   })
 
+  const toggleMobileNav = () => {
+    setNavMobileOpen(false)
+  }
+
   const renderList = () => (
     <ul>
       <li>
@@ -59,24 +63,24 @@ const Nav = ({ skipAuth = false }) => {
 
     return (
       <ul>
-        <li>
+        <li onClick={toggleMobileNav}>
           <LinkActive href="/" activeClassName='nav--active'>
             <a>Voluntários</a>
           </LinkActive>
         </li>
-        <li>
+        <li onClick={toggleMobileNav}>
           <LinkActive href="/sobre" activeClassName='nav--active'>
             <a>Sobre</a>
           </LinkActive>
         </li>
         {!isAuth && (
           <>
-            <li>
+            <li onClick={toggleMobileNav}>
               <LinkActive href="/sign-in" activeClassName='nav--active'>
                 <a>Log in</a>
               </LinkActive>
             </li>
-            <li>
+            <li onClick={toggleMobileNav}>
               <LinkActive href="/sign-up" activeClassName='nav--active'>
                 <a>Voluntariar</a>
               </LinkActive>
@@ -223,7 +227,9 @@ const Nav = ({ skipAuth = false }) => {
       </nav>
       {navMobileOpen && (
         <div className='nav-mobile-content container' ref={mobileNav}>
-          {renderMobileList()}
+          <AnimatePresence initial={false} exitBeforeEnter>
+            {renderMobileList()}
+          </AnimatePresence>
         </div>
       )}
 
@@ -295,7 +301,7 @@ const Nav = ({ skipAuth = false }) => {
         z-index: 100;
         left: 0;
         overflow: hidden;
-        
+
         ul {
           list-style: none;
           display: flex;
@@ -316,7 +322,7 @@ const Nav = ({ skipAuth = false }) => {
               border-bottom: 1px solid var(--border);
             }
 
-            a { 
+            a {
               color: var(--base)
             }
 
