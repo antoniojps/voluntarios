@@ -11,14 +11,9 @@ const FormSteps = ({
   onSubmit = () => null,
   onChange = () => null,
   onChangeValid = () => null,
+  initialState = {},
 }) => {
-  const [state, setState] = useSetState({
-      email: null,
-      password: null,
-      firstName: null,
-      lastName: null,
-    },
-  );
+  const [state, setState] = useSetState(initialState);
   const [input, setInput] = useState(initial)
   const isLastPage = input === form.length - 1
 

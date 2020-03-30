@@ -4,6 +4,9 @@ import { Icon } from "components/atoms";
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import * as yup from 'yup';
 import "./Input.module.scss";
+import messages from 'assets/data/messages.pt'
+
+yup.setLocale(messages)
 
 const InputText = ({
     number,

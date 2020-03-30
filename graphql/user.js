@@ -71,3 +71,16 @@ export const UPDATE_USER_MUTATION = gql`
   }
   ${volunteerFragment}
 `;
+
+export const SIGNUP_USER_MUTATION = gql`
+  mutation SignUpMutation($input: SignUpInput!) {
+    signUp(input: $input) {
+      _id
+      name
+      admin
+      moderator
+      ...VolunteerDetail
+    }
+  }
+  ${volunteerFragment}
+`;

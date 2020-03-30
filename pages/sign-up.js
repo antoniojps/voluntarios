@@ -2,9 +2,9 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import { CATEGORIES_QUERY } from '../graphql'
-import { FormSteps } from '../components/organisms';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { SIGNUP_USER_MUTATION, CATEGORIES_QUERY, CURRENT_USER_QUERY } from '../graphql'
+import { FormSteps, SignupSubmit } from '../components/organisms';
 import { Steps } from '../components/molecules';
 import { Layout } from '../components/atoms';
 import { getErrorMessage } from '../utils/form';
@@ -12,27 +12,49 @@ import { useRouter } from 'next/router';
 import * as yup from 'yup'
 import { withAuth } from 'utils/auth'
 import { withApollo } from '../apollo/client';
+import { fetchGeolocationsById } from '../services/places';
+import cleanDeep from 'clean-deep'
 
-
-const SignUpMutation = gql`
-  mutation SignUpMutation($input: SignUpInput!) {
-    signUp(input: $input) {
-      _id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
+const parseLocationsIds = (locations) => {
+  return locations.map(location => location.value)
+}
 
 function SignUp() {
   const [step, setStep] = useState(0)
   const [canChange, setCanChange] = useState(false)
   const { data: categoriesData, loading, error } = useQuery(CATEGORIES_QUERY)
+  const [signUp, { data: signUpData, loading: signUpLoading, error: signUpError }] = useMutation(SIGNUP_USER_MUTATION)
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
 
-  const handleSubmit = (data) => {
-    console.log('inscrever utilizador', data)
-  }
+  const handleSubmit = async (data) => {
+    setHasSubmitted(true)
+    try {
+      const locationsIds = data.locations && data.locations.length > 0 ? parseLocationsIds(data.locations) : [];
+      let locations = []
+      if (locationsIds.length > 0) locations = await fetchGeolocationsById(locationsIds)
+
+      const dirty = {
+        ...data,
+        locations,
+      }
+      const input = cleanDeep(dirty)
+      await signUp({
+        variables: {
+          input,
+        },
+        update(cache, { data: { signUp } }) {
+          cache.writeQuery({
+            query: CURRENT_USER_QUERY,
+            data: {currentUser: signUp},
+          })
+        },
+      })
+      setSubmitError(false)
+    } catch (err) {
+      setSubmitError(err.message)
+    }
+ }
 
   const handleStepChange = (next) => {
     if (next > step && canChange) setStep(next)
@@ -59,6 +81,30 @@ function SignUp() {
       isLoading: loading,
     },
     {
+      type: 'text',
+      name: 'job',
+      title: 'Qual a sua ocupação/profissão?',
+      placeholder: 'Ocupação...',
+      autoFocus: true,
+      schema: yup.string().test(
+        'is-job',
+        'Deve ter no mínimo 3 caracteres',
+        (input) => {
+          const value = input || ''
+          if (value === '') return true
+          return value.length >= 3
+        },
+      ).test(
+        'is-job',
+        'Deve ter no máximo 48 caracteres',
+        (input) => {
+          const value = input || ''
+          if (value === '') return true
+          return value.length <= 48
+        },
+      ),
+    },
+    {
       type: 'location',
       name: 'locations',
       title: 'Qual a sua localidade?',
@@ -75,7 +121,7 @@ function SignUp() {
       placeholder: 'Primeiro nome...',
       title: 'Qual é o seu primeiro nome?',
       autoFocus: true,
-      schema: yup.string().required(),
+      schema: yup.string().required().max(32).min(2),
     },
     {
       type: 'text',
@@ -83,7 +129,7 @@ function SignUp() {
       placeholder:'Último nome...',
       title: 'Qual é o seu último nome?',
       autoFocus: true,
-      schema: yup.string().required(),
+      schema: yup.string().required().max(32).min(2),
     },
     {
       type: 'text',
@@ -103,28 +149,44 @@ function SignUp() {
     },
   ], [categories, loading])
 
+  const hasRegistered = !loading && signUpData
+
+  const title = useMemo(() => {
+    if (hasRegistered) return 'Bem-vindo!'
+    return 'Voluntariar'
+  }, [hasRegistered])
+
   return (
     <Layout
-      title="Voluntariar"
+      title={title}
       description={
-        <Steps
-          steps={3}
-          currentStep={step}
-          title={`${step + 1} de ${form.length} até estar inscrito`}
-          handleChange={handleStepChange}
-          showNext={canChange}
-        />
+        hasRegistered
+          ? <p>Agora pode ser contactado a qualquer momento no seu email por quem mais precisa.</p>
+          : (
+            <Steps
+              steps={form.length - 1}
+              currentStep={step}
+              title={`${step + 1} de ${form.length} até estar inscrito`}
+              handleChange={handleStepChange}
+              showNext={canChange}
+            />
+          )
       }
       skipAuth
     >
       <div className="form-fullscreen">
-        <FormSteps
-          currentStep={step}
-          onSubmit={handleSubmit}
-          onStepChange={handleStepChange}
-          onChangeValid={setCanChange}
-          form={form}
-        />
+          {hasSubmitted ? (
+            <SignupSubmit successToggle={!loading && signUpData} user={hasRegistered ? signUpData.signUp : {}} />
+          ) : (
+            <FormSteps
+              currentStep={step}
+              onSubmit={handleSubmit}
+              onStepChange={handleStepChange}
+              onChangeValid={setCanChange}
+              form={form}
+            />
+          )
+        }
       </div>
     </Layout>
   );
