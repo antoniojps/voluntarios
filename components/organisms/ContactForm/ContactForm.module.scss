@@ -1,0 +1,27 @@
+form {
+    padding: var(--spacing-xs);
+    width: 100%;
+
+    textarea {
+        padding: 4px 10px;
+        box-shadow: none;
+        line-height: 1.625rem;
+        font-size: .875rem;
+        background-color: transparent;
+        border-radius: 5px;
+        border: 1px solid #eaeaea;
+        color: #000;
+        outline: none;
+        width: 100%;
+        -webkit-appearance: none;
+        min-height: 150px;
+
+        &:focus {
+            border: 1px solid #000;
+        }
+
+        &.textarea--error {
+            border: 1px solid #ff0000;
+        }
+    }
+}

@@ -19,7 +19,7 @@ const Card = memo(({
     hasCategories = true,
 }) => {
     const renderLoading = () => (
-        <div className='card--loading' style={{height: '216px'}}>
+        <div className='card--loading' style={{ height: '216px' }}>
             <div className="card__top">
                 <div className='card__header'>
                     <Avatar />
@@ -46,20 +46,27 @@ const Card = memo(({
                         <div className='card__body__competences'>
                             <p>Áreas de interesse</p>
                             <div className='card__body__competences__list'>
-                                {categories.map(item => <Label key={item._id} text={item.name} background={item.color}/>)}
+                                {categories.map(item => <Label key={item._id} text={item.name} background={item.color} />)}
                             </div>
                         </div>
                     </div>
                 )}
             </div>
             <div className="card__bottom">
-                {hasLocations && locations.map(location => (
-                    <div className='card__body__item' key={location._id}>
-                        <Icon icon={faMapMarkerAlt} />
-                        <Spacer x={0.4} />
-                        <p>{location.name}</p>
-                    </div>
-                ))}
+                <div className='card__body__item' >
+                    {hasLocations &&
+                        <>
+                            <Icon icon={faMapMarkerAlt} />
+                            <Spacer x={0.4} />
+
+                            <p>
+                                {locations.map((location, i) => (
+                                    <span key={location._id}>{i === 0 ? '' : ', '}{location.name}</span>
+                                ))}
+                            </p>
+                        </>
+                    }
+                </div>
                 {hasContact && (
                     <Button onClick={onContact} type='secondary'>
                         contactar
@@ -71,11 +78,11 @@ const Card = memo(({
 
     return (
         <div className={`card ${hasShadow ? 'card--shadow' : ''}`}>
-        {loading
-            ? renderLoading()
-            : renderDefault()
-        }
-    </div>
+            {loading
+                ? renderLoading()
+                : renderDefault()
+            }
+        </div>
     )
 })
 
