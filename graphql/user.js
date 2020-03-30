@@ -84,3 +84,12 @@ export const SIGNUP_USER_MUTATION = gql`
   }
   ${volunteerFragment}
 `;
+
+export const VERIFY_EMAIL_MUTATION = gql`
+  mutation verifyEmail($input: VerifyEmailInput!) {
+    verifyEmail(input: $input) {
+      email
+      verified
+    }
+  }
+`

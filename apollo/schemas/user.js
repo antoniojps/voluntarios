@@ -4,6 +4,7 @@ import User from './../../models/user';
 import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
 import { createUser, login, logout, isValidPassword, generateLocation } from './../utils/user';
+import { sendVerificationEmail } from 'services/email'
 
 export const typeDef = gql`
   type User {
@@ -109,11 +110,17 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
+    # Sign up new user
     signUp(input: SignUpInput!): User!
+    # Sign in user
     signIn(input: SignInInput!): User!
+    # Sign out user
     signOut: Boolean!
+    # (Owner) Verify email address
     verifyEmail(input: VerifyEmailInput!): User!
+    # (Owner) Update user
     updateUser(userId: ID!, input: UserUpdateInput!): User!
+    # Send message to user
   }
 `;
 
@@ -132,6 +139,7 @@ export const resolvers = {
       }),
   },
   Query: {
+
     currentUser: secure(async (_parent, _args, context) => {
       const user = await User.findByEmail(context.req.user.email);
       if (!user) {
@@ -151,13 +159,14 @@ export const resolvers = {
         if (alreadyExists) throw new Error('409');
         const user = await createUser(args.input);
         login(user, context);
+        const { email: to, verificationToken, name } = user;
+        await sendVerificationEmail({ to, token: verificationToken, name })
         return user;
       } catch (err) {
         if (err.message === '409') throw new StatusError(409, 'Email already in use');
         else throw new ApolloError(err)
       }
     },
-
     signIn: async (_parent, args, context) => {
       const user = await User.findByEmail(args.input.email);
       if (!user) throw new StatusError(404, 'User not found');
@@ -191,7 +200,7 @@ export const resolvers = {
       logout(context);
       return true;
     },
-    verifyEmail: secure(async (_parent, args) => {
+    verifyEmail: async (_parent, args) => {
       const { verificationToken } = args.input;
       const user = await User.findOne({ verificationToken });
       if (!user) throw new StatusError(422, 'Invalid activation token.');
@@ -203,6 +212,6 @@ export const resolvers = {
         if (process.env !== 'production') throw new Error(e.message);
         throw Error('Error verifying email');
       }
-    }),
+    },
   },
 };
