@@ -84,3 +84,9 @@ export const SIGNUP_USER_MUTATION = gql`
   }
   ${volunteerFragment}
 `;
+
+export const CONTACT_MESSAGE_MUTATION = gql`
+  mutation contactMessageMutation($userId: ID!, $input: ContactMessage!) {
+    contactMessage(userId: $userId, input: $input) 
+  }
+`;

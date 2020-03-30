@@ -1,42 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card } from 'components/molecules'
 import { ContactForm } from 'components/organisms'
-import { Modal, Spacer, Note } from '@zeit-ui/react'
+import { Modal, Spacer, Note, useToasts } from '@zeit-ui/react'
 import ReCAPTCHA from 'react-google-recaptcha'
-// import { useLazyQuery } from '@apollo/react-hooks'
-// import { USER_EMAIL_QUERY } from '../graphql'
+import { useMutation } from '@apollo/react-hooks'
+import { CONTACT_MESSAGE_MUTATION } from '../graphql'
 
-const Volunteer = ({ name, ...props }) => {
+const Volunteer = ({ name, _id, ...props }) => {
   const [hasVerified, setHasVerified] = useState(false)
-  // const [hasTappedSubmit, setHasTappedSubmit] = useState(false)
   const [isOpen, setOpen] = useState(false)
+  const [, setToast] = useToasts()
   const handler = () => setOpen(true)
   const closeHandler = () => {
     setOpen(false)
   }
-  // const [loadEmail, { data, loading, error }] = useLazyQuery(USER_EMAIL_QUERY, {
-  //   fetchPolicy: 'cache-and-network',
-  // })
 
-  // const showCaptchaError = !hasVerified && hasTappedSubmit
-  // const isomorphicWindow = typeof window !== 'undefined' ? window : {}
+  const [contactMessage, { data, loading, error }] = useMutation(CONTACT_MESSAGE_MUTATION);
 
-  // const handleContact = () => {
-  //   setHasTappedSubmit(true)
-  //   if (hasVerified && data && data.user && data.user.email) {
-  //     isomorphicWindow.location = `mailto:${data.user.email}`
-  //   }
-  // }
+  const handleContact = async input => {
+    if (input) {
+      await contactMessage({
+        variables: {
+          userId: _id,
+          input,
+        },
+      })
 
-  // useEffect(() => {
-  //   if (hasVerified) {
-  //     loadEmail({
-  //       variables: {
-  //         id: _id,
-  //       },
-  //     })
-  //   }
-  // }, [hasVerified])
+    }
+  }
+
+  useEffect(()=> {
+    if (data && data.contactMessage) {
+      setOpen(false);
+      setToast({
+        text: `Contacto efetuado com sucesso! ${name} receberá um e-mail com a sua mensagem.`,
+        delay: 5000,
+    })
+    }
+  }, [data])
 
   return (
     <>
@@ -53,18 +54,15 @@ const Volunteer = ({ name, ...props }) => {
             hasLocations={false}
             hasCategories={false}
           />
-          {hasVerified && <ContactForm volunteer={name} onSubmit={console.log} loading={false} />}
-          {/* <ButtonZeit stretch type="secondary" disabled={!hasVerified} onClick={handleContact} loading={loading}>
-            Enviar e-mail
-            </ButtonZeit> */}
-          {/* {error && (
+          {hasVerified && <ContactForm volunteer={name} onSubmit={handleContact} loading={loading} />}
+          {error && (
             <>
               <Spacer y={0.5} />
               <Note label={false} type="error" style={{ height: 'fit-content' }}>
                 Lamentamos, ocorreu um erro a obter o contacto.
                 </Note>
             </>
-          )} */}
+          )}
           {!hasVerified && (
             <section>
               <Note label={false} style={{ height: 'fit-content' }}>
@@ -80,19 +78,6 @@ const Volunteer = ({ name, ...props }) => {
               />
             </section>
           )}
-          {/* {showCaptchaError && (
-            <>
-              <Spacer y={0.5} />
-              <Note label={false} type="error" style={{ height: 'fit-content' }}>
-                Para que o
-                    {' '}
-                {name}
-                {' '}
-                    não receba spam é necessário verificar que não é um robô...
-                  </Note>
-            </>
-          )
-          } */}
         </Modal.Content>
       </Modal>
     </>
