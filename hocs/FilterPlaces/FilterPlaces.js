@@ -59,6 +59,10 @@ const FilterPlaces = props => {
     async function handleSelect(value) {
         setLoadingPlaces(true);
         if (value === '') {
+            props.handleChange({
+                lat: null,
+                long: null,
+            });
             setLoadingPlaces(false);
             return false;
         }
@@ -145,13 +149,15 @@ const FilterPlaces = props => {
                                         item.id === selected ? "filter__list__item--selected" : ""
                                         }`}
                                     onClick={() => {
-                                        setSelected(item.id)
+                                        setSelected(item.id === selected ? null : item.id)
+                                        handleSelect(item.id === selected ? '' : item.id)
                                         setOpen(false);
-                                        handleSelect(item.id)
                                     }}
                                 >
-                                    <input type="radio" checked={item.id === selected} id={`radio${item.id}`} />
-                                    <label htmlFor={`radio${item.id}`}>{item.name} {item.secondaryName ? ` - ${item.secondaryName}` : ''}</label>
+                                    <div>
+                                        <input type="radio" checked={item.id === selected} id={`radio${item.id}`} />
+                                        <label htmlFor={`radio${item.id}`}>{item.name} {item.secondaryName ? ` - ${item.secondaryName}` : ''}</label>
+                                    </div>
                                 </div>
                             ))}
                         </div>
