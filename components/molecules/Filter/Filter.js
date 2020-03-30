@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, memo } from "react";
+import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from "react";
 import { Icon } from "components/atoms";
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import "./Filter.module.scss";
 
-const Filter = ({
+const Filter = forwardRef(({
   title = "ordenar por",
   descriptionDefault = 'Todos',
   items,
@@ -12,12 +12,19 @@ const Filter = ({
   searchPlaceholder = "| procurar",
   handleChange,
   lazyFetchItems = null,
-}) => {
+}, ref) => {
   const [itemsToShow, setItemsToShow] = useState([...items]);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(itemSelected);
   const [searchValue, setSearchValue] = useState('');
   const searchRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    removeSelected() {
+      setSelected(null);
+      setOpen(false);
+    },
+  }));
 
   useEffect(() => {
     if (open) {
@@ -99,6 +106,6 @@ const Filter = ({
         )}
     </div>
   );
-};
+});
 
-export default memo(Filter);
+export default Filter;

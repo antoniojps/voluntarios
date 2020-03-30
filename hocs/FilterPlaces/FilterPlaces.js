@@ -1,12 +1,12 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Icon } from "components/atoms";
 import { faChevronRight, faChevronLeft, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import "components/molecules/Filter/Filter.module.scss";
 import { fetchPlace, fetchGeolocationsById } from '../../services/places';
 import useDebounce from '../../utils/hooks/useDebounce';
 
-const FilterPlaces = props => {
+const FilterPlaces = forwardRef((props, ref) => {
     const [nearBy, setNearBy] = useState(false);
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState(null);
@@ -19,6 +19,13 @@ const FilterPlaces = props => {
     const nearById = 'nearBy';
     const { geoLocation } = props;
     const debouncedSearchTerm = useDebounce(searchValue, 500);
+
+    useImperativeHandle(ref, () => ({
+        removeSelected() {
+            setSelected(null);
+            setOpen(false);
+        },
+    }));
 
     useEffect(() => {
         if (geoLocation && !geoLocation.loading && geoLocation.latitude && geoLocation.longitude) {
@@ -59,10 +66,7 @@ const FilterPlaces = props => {
     async function handleSelect(value) {
         setLoadingPlaces(true);
         if (value === '') {
-            props.handleChange({
-                lat: null,
-                long: null,
-            });
+            props.handleChange(null);
             setLoadingPlaces(false);
             return false;
         }
@@ -165,6 +169,6 @@ const FilterPlaces = props => {
                 )}
         </div>
     );
-}
+})
 
 export default FilterPlaces;

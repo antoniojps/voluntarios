@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGeolocation } from 'react-use';
 import { useQuery } from '@apollo/react-hooks';
 import { USERS_QUERY, CURRENT_USER_QUERY } from './../graphql'
@@ -34,7 +34,9 @@ const Index = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [width, setWidth] = useState(null)
   const [geolocation, setGeolocation] = useState(null);
-
+  const filterCategoriesRef = useRef(null);
+  const filterPlacesRef = useRef(null);
+  const searchRef = useRef(null);
   const { data, loading, error, fetchMore } = useQuery(
     USERS_QUERY,
     {
@@ -52,6 +54,28 @@ const Index = () => {
   const { data: user } = useQuery(CURRENT_USER_QUERY, {
     fetchPolicy: 'cache-only',
   })
+
+  function hasFilters() {
+    return (search !== '' || categories.length > 0 || geolocation !== null);
+  }
+
+  function removeFilters() {
+    setSearch('');
+    setCategories([]);
+    setGeolocation(null);
+    // force the unselect on categories filter
+    if (filterCategoriesRef && filterCategoriesRef.current) {
+      filterCategoriesRef.current.removeSelected();
+    }
+    // force the unselect on places filter
+    if (filterPlacesRef && filterPlacesRef.current) {
+      filterPlacesRef.current.removeSelected();
+    }
+    // force the unselect on places filter
+    if (searchRef && searchRef.current) {
+      searchRef.current.clear();
+    }
+  }
 
   if (process.browser) {
     useEffect(() =>
@@ -121,9 +145,9 @@ const Index = () => {
     const filters = (
       <div className="volunteers__sidebar">
         <FilterOrder handleChange={handleChangeOrder} />
-        <FilterPlaces title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearchPlaces} geoLocation={useGeolocation()} />
-        <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' />
-        <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} />
+        <FilterPlaces title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearchPlaces} geoLocation={useGeolocation()} ref={filterPlacesRef} />
+        <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' ref={filterCategoriesRef} />
+        <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} ref={searchRef} />
       </div>
     )
 
@@ -161,6 +185,8 @@ const Index = () => {
           handleFetchMore={handleFetchMore}
           hasNextPage={hasNextPage}
           hasMore={data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage}
+          hasFilters={hasFilters()}
+          removeFilters={removeFilters}
         />
       </div>
     </Layout>
