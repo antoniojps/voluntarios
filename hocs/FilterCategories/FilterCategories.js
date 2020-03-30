@@ -1,4 +1,4 @@
-import { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { CATEGORIES_QUERY } from '../../graphql'
 import { Filter } from 'components/molecules'
