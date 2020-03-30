@@ -7,6 +7,7 @@ import { Spacer, Tag, Note } from '@zeit-ui/react'
 import Confetti from 'react-dom-confetti';
 import { useRouter } from 'next/router'
 import { VERIFY_EMAIL_MUTATION } from '../graphql'
+import Link from 'next/link'
 
 const config = {
   angle: "90",
@@ -59,7 +60,19 @@ const Verify = ({ token }) => {
         )}
         {
           error && (
-            <Tag type="error">Estado: {error.message}</Tag>
+            <>
+              <Tag type="error">Estado: {error.message}</Tag>
+              <Spacer y={1} />
+              <Note label={false}>
+                Se já tiver verificado, não consegue verificar de novo.
+                {' '}
+                <Link href="/">
+                  <a>
+                    Voltar à página inicial.
+                  </a>
+                </Link>
+              </Note>
+            </>
           )
         }
         {hasVerified && (
