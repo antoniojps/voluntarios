@@ -53,6 +53,7 @@ const LoaderSignUp = ({ successToggle = false, user = null }) => {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: var(--spacing-lg);
           }
           h3 {
             display: flex;

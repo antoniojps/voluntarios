@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { AuthenticationError } from 'apollo-server-micro';
+import { AuthenticationError, ApolloError } from 'apollo-server-micro';
 import User from './../../models/user';
 import Category from './../../models/category';
 import { secure, StatusError } from './../utils/filters';
@@ -153,9 +153,16 @@ export const resolvers = {
   },
   Mutation: {
     signUp: async (_parent, args, context) => {
-      const user = await createUser(args.input);
-      login(user, context);
-      return user;
+      try {
+        const alreadyExists = await User.findByEmail(args.input.email)
+        if (alreadyExists) throw new Error('409');
+        const user = await createUser(args.input);
+        login(user, context);
+        return user;
+      } catch (err) {
+        if (err.message === '409') throw new StatusError(409, 'Email already in use');
+        else throw new ApolloError(err)
+      }
     },
 
     signIn: async (_parent, args, context) => {

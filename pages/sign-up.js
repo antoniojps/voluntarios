@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery, useLazyQuery } from '@apollo/react-hooks';
@@ -13,6 +13,7 @@ import * as yup from 'yup'
 import { withAuth } from 'utils/auth'
 import { withApollo } from '../apollo/client';
 import { fetchGeolocationsById } from '../services/places';
+import { Note } from '@zeit-ui/react'
 import cleanDeep from 'clean-deep'
 
 const parseLocationsIds = (locations) => {
@@ -156,6 +157,12 @@ function SignUp() {
     return 'Voluntariar'
   }, [hasRegistered])
 
+  useEffect(() => {
+    if (signUpError) {
+      setHasSubmitted(false)
+    }
+  }, [signUpError])
+
   return (
     <Layout
       title={title}
@@ -176,15 +183,24 @@ function SignUp() {
     >
       <div className="form-fullscreen">
           {hasSubmitted ? (
-            <SignupSubmit successToggle={!loading && signUpData} user={hasRegistered ? signUpData.signUp : {}} />
-          ) : (
-            <FormSteps
-              currentStep={step}
-              onSubmit={handleSubmit}
-              onStepChange={handleStepChange}
-              onChangeValid={setCanChange}
-              form={form}
-            />
+            <SignupSubmit successToggle={!loading && !signUpError && signUpData} user={hasRegistered ? signUpData.signUp : {}} />
+        ) : (
+            <>
+              <FormSteps
+                currentStep={step}
+                onSubmit={handleSubmit}
+                onStepChange={handleStepChange}
+                onChangeValid={setCanChange}
+                form={form}
+              />
+              {
+                signUpError && (
+                  <Note label={false} type="error">
+                    Não foi possivel inscrever, contacte-nos caso o erro persista. Tente outro email.
+                  </Note>
+                )
+              }
+            </>
           )
         }
       </div>
