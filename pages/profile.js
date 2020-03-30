@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { useMutation, useApolloClient } from '@apollo/react-hooks';
-import { UPDATE_USER_MUTATION } from '../graphql'
+import { useState } from 'react'
+import { useMutation, useApolloClient, useQuery } from '@apollo/react-hooks';
+import { UPDATE_USER_MUTATION, CURRENT_USER_QUERY } from '../graphql'
 import { Layout, Avatar } from 'components/atoms'
 import { ProfileForm } from 'components/organisms'
 import { withAuth } from 'utils/auth';
@@ -12,17 +12,10 @@ import { mergeLocations, computeNewLocationsIDs, parseCategories } from '../util
 const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [] } }) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [submitError, setSubmitError] = useState(false);
-    const [updateUser, { data, loading }] = useMutation(UPDATE_USER_MUTATION);
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     const client = useApolloClient();
     const [, setToast] = useToasts()
-    const [userState, setUser] = useState(user)
-
-    useEffect(() => {
-        if (!loading && data && data.updateUser) {
-            const { updateUser } = data
-            setUser(updateUser)
-        }
-    }, [data, loading])
+    const { data: { currentUser } } = useQuery(CURRENT_USER_QUERY, { fetchPolicy: 'cache-only'})
 
     async function handleSave(data) {
         setSubmitError(false);
@@ -54,6 +47,12 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                     input,
                     userId: user._id,
                 },
+                update(cache, { data: { updateUser } }) {
+                    cache.writeQuery({
+                      query: CURRENT_USER_QUERY,
+                      data: {currentUser: updateUser},
+                    })
+                  },
             });
             setToast({
                 text: 'Perfil atualizado.',
@@ -70,7 +69,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
     }
 
     return (
-        <Layout title={`${userState.firstName} ${userState.lastName}`} description={<Description />}>
+        <Layout title={`${currentUser.firstName} ${currentUser.lastName}`} description={<Description />}>
             <div className="container">
                 <div className="row flex-column justify-content-md-center">
                     {submitError && (
