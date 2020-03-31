@@ -100,6 +100,12 @@ export const typeDef = gql`
     verificationToken: String!
   }
 
+  input ContactMessage {
+    email: String!
+    message: String!
+    name: String!
+  }
+
   extend type Query {
     # (User) User by id
     user(id: ID!): User
@@ -120,7 +126,7 @@ export const typeDef = gql`
     verifyEmail(input: VerifyEmailInput!): User!
     # (Owner) Update user
     updateUser(userId: ID!, input: UserUpdateInput!): User!
-    # Send message to user
+    contactMessage(userId: ID!, input: ContactMessage!): Boolean
   }
 `;
 
@@ -211,6 +217,10 @@ export const resolvers = {
         if (process.env !== 'production') throw new Error(e.message);
         throw Error('Error verifying email');
       }
+    },
+    contactMessage: async (_parent, args) => {
+      console.log(args);
+      return true;
     },
   },
 };

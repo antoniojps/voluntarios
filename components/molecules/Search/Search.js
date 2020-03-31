@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import { Icon } from "components/atoms";
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import useKeyPress from 'utils/hooks/useKeyPress';
 import "../Filter/Filter.module.scss";
 
-const Search = ({
+const Search = forwardRef(({
   title = 'procurar por',
   desc,
   searchPlaceholder = "| procurar",
   handleChange,
   value = '',
-}) => {
+}, ref) => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState(value);
   const searchRef = useRef(null);
@@ -31,6 +31,13 @@ const Search = ({
   useEffect(() => {
     handleChange(searchValue)
   }, [searchValue]);
+
+  useImperativeHandle(ref, () => ({
+    clear() {
+      setSearchValue('');
+      setOpen(false);
+    },
+  }));
 
   return (
     <div className="filter">
@@ -70,6 +77,6 @@ const Search = ({
         )}
     </div>
   );
-};
+});
 
 export default Search;
