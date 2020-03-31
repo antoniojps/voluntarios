@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { VERIFY_EMAIL_MUTATION } from '../graphql'
 import Link from 'next/link'
 import { confettiConfig } from '../services/contants'
+import Seo from 'containers/Seo'
 
 const Verify = ({ token }) => {
   const router = useRouter()
@@ -36,8 +37,9 @@ const Verify = ({ token }) => {
   }, [hasVerified])
 
   return (
-  <Layout title="👋" description="Sabia que 5 de dezembro é o dia internacional do Voluntariado?">
-    <div className="loader-signup">
+    <Layout title="👋" description="Sabia que 5 de dezembro é o dia internacional do Voluntariado?">
+      <Seo title="Verificação" />
+      <div className="loader-signup">
         <Confetti active={hasVerified} config={confettiConfig} />
         {loading && (
           <Tag>

@@ -8,7 +8,7 @@ import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons'
 import { Input, Spacer, Note } from '@zeit-ui/react'
 import { withApollo } from '../apollo/client';
 import { withAuth } from 'utils/auth'
-
+import Seo from 'containers/Seo'
 
 const SignInMutation = gql`
   mutation SignInMutation($email: EmailAddress!, $password: String!) {
@@ -67,6 +67,7 @@ function SignIn() {
         description="Insira o seu email e palavra-chave"
         showPublicNav={true}
       >
+        <Seo title="Entrar" description="Entre na sua conta de voluntário para gerir as definições." />
         <div className="row justify-content-center">
           <form onSubmit={handleSubmit}>
             <Input

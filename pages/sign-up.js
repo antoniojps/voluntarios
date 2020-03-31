@@ -15,6 +15,7 @@ import { withApollo } from '../apollo/client';
 import { fetchGeolocationsById } from '../services/places';
 import { Note } from '@zeit-ui/react'
 import cleanDeep from 'clean-deep'
+import Seo from 'containers/Seo'
 
 const parseLocationsIds = (locations) => {
   return locations.map(location => location.value)
@@ -164,47 +165,50 @@ function SignUp() {
   }, [signUpError])
 
   return (
-    <Layout
-      title={title}
-      description={
-        hasRegistered
-          ? <p>Agora pode ser contactado a qualquer momento no seu email por quem mais precisa.</p>
-          : (
-            <Steps
-              steps={form.length - 1}
-              currentStep={step}
-              title={`${step + 1} de ${form.length} até estar inscrito`}
-              handleChange={handleStepChange}
-              showNext={canChange}
-            />
-          )
-      }
-      skipAuth
-    >
-      <div className="form-fullscreen">
-          {hasSubmitted ? (
-            <SignupSubmit successToggle={!loading && !signUpError && signUpData} user={hasRegistered ? signUpData.signUp : {}} />
-        ) : (
-            <>
-              <FormSteps
+    <>
+      <Seo title="Inscrição" description="Preenche um formulário para te tornares um voluntário." />
+      <Layout
+        title={title}
+        description={
+          hasRegistered
+            ? <p>Agora pode ser contactado a qualquer momento no seu email por quem mais precisa.</p>
+            : (
+              <Steps
+                steps={form.length - 1}
                 currentStep={step}
-                onSubmit={handleSubmit}
-                onStepChange={handleStepChange}
-                onChangeValid={setCanChange}
-                form={form}
+                title={`${step + 1} de ${form.length} até estar inscrito`}
+                handleChange={handleStepChange}
+                showNext={canChange}
               />
-              {
-                signUpError && (
-                  <Note label={false} type="error">
-                    Não foi possivel inscrever, contacte-nos caso o erro persista. Tente outro email.
-                  </Note>
-                )
-              }
-            </>
-          )
+            )
         }
-      </div>
-    </Layout>
+        skipAuth
+      >
+        <div className="form-fullscreen">
+            {hasSubmitted ? (
+              <SignupSubmit successToggle={!loading && !signUpError && signUpData} user={hasRegistered ? signUpData.signUp : {}} />
+          ) : (
+              <>
+                <FormSteps
+                  currentStep={step}
+                  onSubmit={handleSubmit}
+                  onStepChange={handleStepChange}
+                  onChangeValid={setCanChange}
+                  form={form}
+                />
+                {
+                  signUpError && (
+                    <Note label={false} type="error">
+                      Não foi possivel inscrever, contacte-nos caso o erro persista. Tente outro email.
+                    </Note>
+                  )
+                }
+              </>
+            )
+          }
+        </div>
+      </Layout>
+    </>
   );
 }
 
