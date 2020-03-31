@@ -17,6 +17,7 @@ const Card = memo(({
     hasContact = true,
     hasLocations = true,
     hasCategories = true,
+    heightStretch = false,
 }) => {
     const renderLoading = () => (
         <div className='card--loading' style={{ height: '216px' }}>
@@ -41,7 +42,7 @@ const Card = memo(({
                 <div className='card__header'>
                     <PersonHeader name={name} desc={job} src={src} />
                 </div>
-                {hasCategories && (
+                {(hasCategories && categories.length > 0) && (
                     <div className='card__body'>
                         <div className='card__body__competences'>
                             <p>Áreas de interesse</p>
@@ -55,7 +56,7 @@ const Card = memo(({
             {(hasLocations || hasContact) && (
                 <div className="card__bottom">
                     <div className='card__body__item' >
-                        {hasLocations &&
+                        {(hasLocations && locations.length > 0) &&
                             <>
                                 <Icon icon={faMapMarkerAlt} />
                                 <Spacer x={0.4} />
@@ -79,7 +80,7 @@ const Card = memo(({
     )
 
     return (
-        <div className={`card ${hasShadow ? 'card--shadow' : ''}`}>
+        <div className={`card ${hasShadow ? 'card--shadow' : ''} ${heightStretch ? 'card--height-stretch' : ''}`}>
             {loading
                 ? renderLoading()
                 : renderDefault()

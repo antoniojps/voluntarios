@@ -10,21 +10,25 @@
   &--xs {
     height: 1.25rem;
     width: 1.25rem;
+    min-width: 1.25rem;
   }
 
   &--sm {
     height: 2.75rem;
     width: 2.75rem;
+    min-width: 2.75rem;
   }
 
   &--md {
     height: 3.75rem;
     width: 3.75rem;
+    min-width: 3.75rem;
   }
 
   &--lg {
     height: 7.625rem;
     width: 7.625rem;
+    min-width: 7.625rem;
   }
 
   .avatar:first-child {
