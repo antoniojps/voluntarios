@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import Head from 'next/head';
-import PropTypes from 'prop-types';
 import SEO_DATA from '../assets/data/seo.json';
 
-const Seo = ({ title, description }) => {
+const Seo = ({ title = null, description = null, shouldAppend = true }) => {
   const computedTitle = useMemo(() => {
-    if (title) return `${title} - ${SEO_DATA.title}`;
+    if (title && shouldAppend) return `${title} - ${SEO_DATA.title}`;
+    if (title) return `${title}`
     return SEO_DATA.title;
   },
-  [title]);
+  [title, shouldAppend]);
 
 
   const computedImg = useMemo(() => {
@@ -38,16 +38,6 @@ const Seo = ({ title, description }) => {
       <link rel="icon" href="/favicon.png" />
     </Head>
   );
-};
-
-Seo.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-};
-
-Seo.defaultProps = {
-  title: null,
-  description: null,
 };
 
 export default Seo;

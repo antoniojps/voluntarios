@@ -176,7 +176,7 @@ const Index = () => {
 
   return (
     <>
-    <Seo />
+    <Seo title="Voluntários - Inscreva-se!"/>
     <Layout title="Voluntários" description={<Description showAction={!user} />}>
         <div className="volunteers">
           {renderFilters()}

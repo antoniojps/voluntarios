@@ -209,6 +209,10 @@ const Nav = ({ skipAuth = false }) => {
               <Logo />
             </a>
           </Link>
+          <Spacer x={0.5} />
+          <div className="badge badge--mini badge--inverse">
+              #fightcovid19
+          </div>
         </div>
         <div className="nav__end">
           <AnimatePresence initial={false} exitBeforeEnter>
@@ -243,6 +247,10 @@ const Nav = ({ skipAuth = false }) => {
         justify-content: space-between;
         padding: var(--spacing-xs4) 0px;
         height: 56px;
+        &__start {
+          display: flex;
+          align-items: center;
+        }
         &__end {
           display: flex;
           @media (max-width: 768px) {
