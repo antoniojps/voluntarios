@@ -4,7 +4,7 @@ import Category from './category'
 const { ObjectId } = mongoose.Schema
 import { UserInputError } from 'apollo-server-micro';
 import { paginate } from '../apollo/utils/filters'
-import { paginate as mongoosePaginate } from 'mongoose-paginate-v2'
+import { paginate as mongoosePaginate } from 'mongoose-paginate'
 
 // USER
 // schema
@@ -124,30 +124,42 @@ UserSchema.statics = {
   pagination: mongoosePaginate,
   async searchByFilters({ input, pagination = {} }) {
     const { name, geolocation, categories, orderBy } = input
-    const distanceKm = 30
-    const radiusOfEarthKm = 6378.1
     let query = {}
     let sort = {}
 
+    // name
     if (name) {
       query.name = { $regex: name, $options: 'i' }
     }
+
+    // order by closest to geolocation
     if (geolocation && geolocation.long && geolocation.lat) {
       query["locations.geolocation"] = {
-        $geoWithin: {
-          $centerSphere: [
-            [geolocation.long, geolocation.lat],
-            distanceKm / radiusOfEarthKm,
-          ],
+        "$nearSphere": {
+          "$geometry": {
+            "type": "Point",
+            "coordinates": [geolocation.long, geolocation.lat],
+          },
         },
       }
     }
+
+    // in this categories
     if (categories && categories.length > 0) {
-      query.categories = categories.map(id => mongoose.Types.ObjectId(id))
+      const categoriesObjectIds = categories.map(id => mongoose.Types.ObjectId(id))
+      query["categories"] = { "$in" : categoriesObjectIds }
     }
-    if (orderBy && orderBy.sort && orderBy.field) {
+
+    // remove sort when geolocation active
+    // if sort is used with $geoWithin it overrides the distance order
+    // "If you also include a sort() for the query, sort()
+    // re - orders the matching documents, effectively overriding the sort
+    // operation already performed by $nearSphere."
+    // https://docs.mongodb.com/manual/reference/operator/query/nearSphere/#sort-operation
+    if (!geolocation && orderBy && orderBy.sort && orderBy.field) {
       sort = { [orderBy.field]: orderBy.sort }
     }
+
     return paginate(this, query, pagination, sort)
   },
 };

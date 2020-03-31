@@ -48,19 +48,27 @@ export function secureUserOnly (func, userIdParam = 'userId') {
   }
 }
 
-
-export async function paginate (Model, query, pagination, sort) {
+export async function paginate (Model, query, pagination) {
   const { limit = 10, page = 1 } = pagination
 
-  const documents = await Model.pagination(query, { page, limit, sort })
+  const documents = await Model.pagination(query, { page, limit })
   const {
     docs: list,
     ...pageInfo
   } = documents
 
+  const computedPageInfo = {
+    totalDocs: pageInfo.total,
+    limit: pageInfo.limit,
+    totalPages: pageInfo.pages,
+    hasPrevPage: pageInfo.page > 1,
+    hasNextPage: pageInfo.page < pageInfo.pages,
+    pagingCounter: ((pageInfo.page - 1) * pageInfo.limit) + 1,
+  }
+
   return {
     list,
-    pageInfo,
+    pageInfo: computedPageInfo,
   }
 }
 
