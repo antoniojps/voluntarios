@@ -105,6 +105,13 @@ function SignIn() {
             <Note label={false} type="error">{errorMsg}</Note>
           )}
       </div>
+      <style jsx>{`
+          form {
+            display: inline-flex;
+            flex-direction: column;
+            width: auto;
+          }
+      `}</style>
       </Layout>
   );
 }
