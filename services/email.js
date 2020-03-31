@@ -37,6 +37,7 @@ export const sendMessageEmail = async ({ to, name, email, message }) => {
     await sendEmail({
       to,
       templateId: "d-6d37a4d689fb4c40b1dcbb58370293b1",
+      replyTo: email,
       dynamic_template_data: {
         name,
         email,
