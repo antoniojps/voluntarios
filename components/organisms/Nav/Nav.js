@@ -42,20 +42,35 @@ const Nav = ({ skipAuth = false }) => {
     setNavMobileOpen(false)
   }
 
-  const renderList = () => (
-    <ul>
-      <li>
-        <LinkActive href="/" activeClassName='nav--active'>
-          <a>Voluntários</a>
-        </LinkActive>
-      </li>
-      <li>
-        <LinkActive href="/sobre" activeClassName='nav--active'>
-          <a>Sobre</a>
-        </LinkActive>
-      </li>
-    </ul>
-  )
+  const renderList = () => {
+    const cachedUser = cachedData && cachedData.currentUser
+    const isAuth = cachedUser || showAuth;
+
+    return (
+      <ul>
+        <li>
+          <LinkActive href="/" activeClassName='nav--active'>
+            <a>Voluntários</a>
+          </LinkActive>
+        </li>
+        <li>
+          <LinkActive href="/sobre" activeClassName='nav--active'>
+            <a>Sobre</a>
+          </LinkActive>
+        </li>
+
+        {isAuth && (
+          <li>
+            <LinkActive href="/sign-out" activeClassName='nav--active' >
+              <a className={`nav__auth btn--small`} disabled>
+                log out
+              </a>
+            </LinkActive>
+          </li>
+        )}
+      </ul>
+    )
+  }
 
   const renderMobileList = () => {
     const cachedUser = cachedData && cachedData.currentUser
@@ -73,6 +88,13 @@ const Nav = ({ skipAuth = false }) => {
             <a>Sobre</a>
           </LinkActive>
         </li>
+        {isAuth && (
+          <li onClick={toggleMobileNav}>
+            <LinkActive href="/sign-out" activeClassName='nav--active'>
+              <a>Log out</a>
+            </LinkActive>
+          </li>
+        )}
         {!isAuth && (
           <>
             <li onClick={toggleMobileNav}>
@@ -211,7 +233,7 @@ const Nav = ({ skipAuth = false }) => {
           </Link>
           <Spacer x={0.5} />
           <div className="badge badge--mini badge--inverse">
-              #fightcovid19
+            #fightcovid19
           </div>
         </div>
         <div className="nav__end">
@@ -220,11 +242,14 @@ const Nav = ({ skipAuth = false }) => {
           </AnimatePresence>
         </div>
         <div className="nav-mobile__end">
-          <Icon
-            size="lg"
-            icon={navMobileOpen ? faTimes : faBars}
+          <div
             onClick={() => setNavMobileOpen(!navMobileOpen)}
-          />
+            className='navigation__icon'
+          >
+            <Icon
+              icon={navMobileOpen ? faTimes : faBars}
+            />
+          </div>
           <AnimatePresence initial={false} exitBeforeEnter>
             {renderNavRightMobile()}
           </AnimatePresence>
@@ -298,6 +323,12 @@ const Nav = ({ skipAuth = false }) => {
         .nav-mobile__end {
           @media (min-width: 768px) {
             display: none;
+          }
+          .navigation__icon {
+            cursor: pointer;
+            position: relative;
+            height: 20px;
+            width: 20px;
           }
           display: flex;
           align-items:center;

@@ -32,12 +32,13 @@ const Index = () => {
       },
     },
   });
+  const [width, setWidth] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [width, setWidth] = useState(null)
   const [geolocation, setGeolocation] = useState(null);
   const filterCategoriesRef = useRef(null);
   const filterPlacesRef = useRef(null);
   const searchRef = useRef(null);
+
   const { data, loading, error, fetchMore } = useQuery(
     USERS_QUERY,
     {
@@ -78,11 +79,13 @@ const Index = () => {
     }
   }
 
-  if (process.browser) {
-    useEffect(() =>
-      setWidth(document.children[0].clientWidth), [document.children[0].clientWidth],
-    );
-  }
+  useEffect(() => {
+    if (process.browser) {
+      const w = document.children[0].clientWidth
+      setWidth(w);
+      setShowFilters(w >= 768);
+    }
+  }, []);
 
   const hasNextPage = data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage;
 
@@ -144,7 +147,7 @@ const Index = () => {
 
   const renderFilters = () => {
     const filters = (
-      <div className="volunteers__sidebar">
+      <div className={`volunteers__sidebar ${showFilters ? '' : 'volunteers__sidebar--hidden'}`} >
         <FilterOrder handleChange={handleChangeOrder} />
         <FilterPlaces title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearchPlaces} geoLocation={useGeolocation()} ref={filterPlacesRef} />
         <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' ref={filterCategoriesRef} />
@@ -152,26 +155,25 @@ const Index = () => {
       </div>
     )
 
-    if (width && width < 768) {
-      return (
-        <div className='filters-mobile'>
-          <button
-            style={{ width: 'fit-content' }}
-            className='btn--secondary btn--filters'
-            onClick={() => setShowFilters(!showFilters)}
-          >
+    return (
+      <div className='filters'>
+        {width && width < 768 && (
+          <>
+            <button
+              style={{ width: 'fit-content' }}
+              className='btn--secondary btn--filters'
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Icon icon={faFilter} />
+              {showFilters ? 'Esconder filtros' : 'Filtrar'}
+            </button>
+            <Spacer y={1} />
+          </>
+        )}
 
-            <Icon icon={faFilter} />
-            {showFilters ? 'Esconder filtros' : 'Filtrar'}
-
-          </button>
-          <Spacer y={1} />
-          {showFilters && filters}
-        </div>
-      )
-    } else {
-      return filters;
-    }
+        {filters}
+      </div>
+    )
   }
 
   return (
