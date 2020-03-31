@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { Spacer } from '@zeit-ui/react'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
-import Seo from 'containers/seo'
+import Seo from 'containers/Seo'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
 
