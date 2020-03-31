@@ -11,7 +11,7 @@ import { withAuth } from 'utils/auth'
 
 
 const SignInMutation = gql`
-  mutation SignInMutation($email: String!, $password: String!) {
+  mutation SignInMutation($email: EmailAddress!, $password: String!) {
     signIn(input: { email: $email, password: $password }) {
       _id
       email

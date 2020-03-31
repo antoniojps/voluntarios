@@ -9,7 +9,7 @@ import { sendVerificationEmail } from 'services/email'
 export const typeDef = gql`
   type User {
     _id: ID!
-    email: String!
+    email: EmailAddress!
     firstName: String!
     lastName: String!
     name: String!
@@ -82,7 +82,7 @@ export const typeDef = gql`
   }
 
   input SignUpInput {
-    email: String!
+    email: EmailAddress!
     password: String!
     firstName: String!
     lastName: String!
@@ -92,7 +92,7 @@ export const typeDef = gql`
   }
 
   input SignInInput {
-    email: String!
+    email: EmailAddress!
     password: String!
   }
 
@@ -139,7 +139,6 @@ export const resolvers = {
       }),
   },
   Query: {
-
     currentUser: secure(async (_parent, _args, context) => {
       const user = await User.findByEmail(context.req.user.email);
       if (!user) {
