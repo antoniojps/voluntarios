@@ -8,6 +8,7 @@ import { Spacer, Note, useToasts } from '@zeit-ui/react'
 import { withApollo } from '../apollo/client';
 import { fetchGeolocationsById } from '../services/places';
 import { mergeLocations, computeNewLocationsIDs, parseCategories } from '../utils/form'
+import Seo from 'containers/Seo'
 
 const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [] } }) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -70,6 +71,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
 
     return (
         <Layout title={`${currentUser.firstName} ${currentUser.lastName}`} description={<Description />}>
+            <Seo title="Dashboard" />
             <div className="container">
                 <div className="row flex-column justify-content-md-center">
                     {submitError && (

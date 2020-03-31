@@ -9,6 +9,9 @@
   &--shadow {
     @include box-shadow;
   }
+  &--height-stretch {
+    height: 100%;
+  }
   &__top {
     display: flex;
     justify-content: space-between;
@@ -54,7 +57,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        
+
         span {
             color: var(--base40)
         }

@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { Spacer } from '@zeit-ui/react'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
+import Seo from 'containers/Seo'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
 
@@ -174,22 +175,24 @@ const Index = () => {
   }
 
   return (
+    <>
+      <Seo title="Voluntários - Inscreva-se!" shouldAppend={false} />
     <Layout title="Voluntários" description={<Description showAction={!user} />}>
-      <div className="volunteers">
-        {renderFilters()}
-
-        <VolunteersList
-          data={data}
-          loading={loading}
-          error={error}
-          handleFetchMore={handleFetchMore}
-          hasNextPage={hasNextPage}
-          hasMore={data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage}
-          hasFilters={hasFilters()}
-          removeFilters={removeFilters}
-        />
-      </div>
-    </Layout>
+        <div className="volunteers">
+          {renderFilters()}
+          <VolunteersList
+            data={data}
+            loading={loading}
+            error={error}
+            handleFetchMore={handleFetchMore}
+            hasNextPage={hasNextPage}
+            hasMore={data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage}
+            hasFilters={hasFilters()}
+            removeFilters={removeFilters}
+          />
+        </div>
+      </Layout>
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { withApollo } from '../apollo/client';
+import Seo from 'containers/Seo'
 
 const SignOutMutation = gql`
   mutation SignOutMutation {
@@ -25,6 +26,7 @@ function SignOut() {
 
   return (
     <div className="container">
+      <Seo title="A sair..." />
       <div className="row">
         <p>Logging out...</p>
       </div>

@@ -1,8 +1,17 @@
 .badge {
 	color: var(--baseInverse);
 	font-size: var(--size-xs);
-	padding: var(--spacing-xs4) var(--spacing-xs2); 
+	padding: var(--spacing-xs4) var(--spacing-xs2);
 	border-radius: var(--borderRadius);
 	font-weight: bold;
 	text-align: center;
+	&--mini {
+		font-size: var(--size-xs2);
+		padding: var(--spacing-xs4);
+	}
+	&--inverse {
+		background-color: var(--bg);
+		color: var(--base);
+		border: 1px solid var(--border);
+	}
 }

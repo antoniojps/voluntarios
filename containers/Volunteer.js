@@ -4,34 +4,36 @@ import { ContactForm } from 'components/organisms'
 import { Modal, Spacer, Note, useToasts } from '@zeit-ui/react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useMutation } from '@apollo/react-hooks'
-import { CONTACT_MESSAGE_MUTATION } from '../graphql'
+import { SEND_MESSAGE_MUTATION } from '../graphql'
+import Confetti from 'react-dom-confetti';
+import { confettiConfig } from '../services/contants'
 
 const Volunteer = ({ name, _id, ...props }) => {
   const [hasVerified, setHasVerified] = useState(false)
   const [isOpen, setOpen] = useState(false)
   const [, setToast] = useToasts()
+
   const handler = () => setOpen(true)
   const closeHandler = () => {
     setOpen(false)
   }
 
-  const [contactMessage, { data, loading, error }] = useMutation(CONTACT_MESSAGE_MUTATION);
+  const [sendMessageToUser, { data, loading, error }] = useMutation(SEND_MESSAGE_MUTATION);
 
   const handleContact = async input => {
     if (input) {
-      await contactMessage({
+      await sendMessageToUser({
         variables: {
           userId: _id,
           input,
         },
       })
-
     }
   }
 
   useEffect(()=> {
-    if (data && data.contactMessage) {
-      setOpen(false);
+    if (data && data.sendMessageToUser) {
+      setOpen(false)
       setToast({
         text: `Contacto efetuado com sucesso! ${name} receberá um e-mail com a sua mensagem.`,
         delay: 5000,
@@ -40,15 +42,19 @@ const Volunteer = ({ name, _id, ...props }) => {
   }, [data])
 
   return (
-    <>
-      <Card name={name} {...props} onContact={handler} />
+    <div>
+      <Card name={name} {...props} onContact={handler} heightStretch />
+        <div className="confetti-wrapper">
+          <Confetti active={!loading && data} config={confettiConfig} />
+        </div>
       <Modal open={isOpen} onClose={closeHandler}>
-        <Modal.Title>Contactar</Modal.Title>
+        <Modal.Title>
+          Contactar
+        </Modal.Title>
         <Modal.Content>
           <Card
             name={name}
             {...props}
-            onContact={handler}
             hasShadow={false}
             hasContact={false}
             hasLocations={false}
@@ -80,7 +86,15 @@ const Volunteer = ({ name, _id, ...props }) => {
           )}
         </Modal.Content>
       </Modal>
-    </>
+      <style jsx>{`
+          .confetti-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+          }
+      `}</style>
+    </div>
   )
 }
 

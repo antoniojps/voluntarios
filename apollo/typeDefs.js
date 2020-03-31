@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import { typeDef as Category } from './schemas/category';
 import { typeDef as Pagination } from './schemas/pagination';
 import { typeDef as User } from './schemas/user';
+import { typeDef as Message } from './schemas/message';
 
 const setup = gql`
   # Directives
@@ -32,6 +33,6 @@ const setup = gql`
   }
 `;
 
-const typeDefs = [setup, Pagination, Category, User];
+const typeDefs = [setup, Pagination, Category, User, Message];
 
 export default typeDefs;
