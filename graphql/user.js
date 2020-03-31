@@ -93,9 +93,3 @@ export const VERIFY_EMAIL_MUTATION = gql`
     }
   }
 `
-
-export const CONTACT_MESSAGE_MUTATION = gql`
-  mutation contactMessageMutation($userId: ID!, $input: ContactMessage!) {
-    contactMessage(userId: $userId, input: $input)
-  }
-`;
