@@ -12,7 +12,7 @@ const Card = memo(({
     categories,
     locations,
     loading,
-    onContact = () => { },
+    onContact,
     hasShadow = true,
     hasContact = true,
     hasLocations = true,

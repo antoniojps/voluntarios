@@ -1,10 +1,12 @@
 
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Icon } from "components/atoms";
-import { faChevronRight, faChevronLeft, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import "components/molecules/Filter/Filter.module.scss";
 import { fetchPlace, fetchGeolocationsById } from '../../services/places';
 import useDebounce from '../../utils/hooks/useDebounce';
+import { Spinner } from '@zeit-ui/react'
+
 
 const FilterPlaces = forwardRef((props, ref) => {
     const [nearBy, setNearBy] = useState(false);
@@ -116,14 +118,22 @@ const FilterPlaces = forwardRef((props, ref) => {
                         </div>
 
                         <span className="filter__arrow">
-                            <Icon icon={loadingPlaces ? faCircleNotch : faChevronRight} spin={loadingPlaces} />
+                            {loadingPlaces
+                                ? <Spinner size="small" />
+                                : <Icon icon={faChevronRight} />
+                            }
+
+
                         </span>
                     </button>
                 )
                 : (
                     <div className="filter__list">
                         <div className="filter__list__head" onClick={() => setOpen(false)}>
-                            <Icon icon={loadingPlaces ? faCircleNotch : faChevronLeft} spin={loadingPlaces} />
+                            {loadingPlaces
+                                ? <Spinner size="small" />
+                                : <Icon icon={faChevronRight} />
+                            }
                             <span>Localização</span>
                         </div>
 

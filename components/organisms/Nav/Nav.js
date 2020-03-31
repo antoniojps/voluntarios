@@ -233,7 +233,7 @@ const Nav = ({ skipAuth = false }) => {
           </Link>
           <Spacer x={0.5} />
           <div className="badge badge--mini badge--inverse">
-              #fightcovid19
+            #fightcovid19
           </div>
         </div>
         <div className="nav__end">
@@ -242,11 +242,14 @@ const Nav = ({ skipAuth = false }) => {
           </AnimatePresence>
         </div>
         <div className="nav-mobile__end">
-          <Icon
-            size="lg"
-            icon={navMobileOpen ? faTimes : faBars}
+          <div
             onClick={() => setNavMobileOpen(!navMobileOpen)}
-          />
+            className='navigation__icon'
+          >
+            <Icon
+              icon={navMobileOpen ? faTimes : faBars}
+            />
+          </div>
           <AnimatePresence initial={false} exitBeforeEnter>
             {renderNavRightMobile()}
           </AnimatePresence>
@@ -320,6 +323,12 @@ const Nav = ({ skipAuth = false }) => {
         .nav-mobile__end {
           @media (min-width: 768px) {
             display: none;
+          }
+          .navigation__icon {
+            cursor: pointer;
+            position: relative;
+            height: 20px;
+            width: 20px;
           }
           display: flex;
           align-items:center;
