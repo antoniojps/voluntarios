@@ -31,3 +31,20 @@ export const sendVerificationEmail = async ({ to, name, token }) => {
     throw new Error(err.message || 'error sending email');
   }
 }
+
+export const sendMessageEmail = async ({ to, name, email, message }) => {
+  try {
+    await sendEmail({
+      to,
+      templateId: "d-6d37a4d689fb4c40b1dcbb58370293b1",
+      dynamic_template_data: {
+        name,
+        email,
+        message,
+      },
+    });
+  } catch (err) {
+    if (process.env !== "production") console.log(err.message)
+    throw new Error(err.message || 'error sending email');
+  }
+}

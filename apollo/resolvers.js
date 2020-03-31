@@ -1,6 +1,7 @@
 import merge from 'lodash.merge';
 import { resolvers as CategoryResolvers } from './schemas/category';
 import { resolvers as UserResolvers } from './schemas/user';
+import { resolvers as MessageResolvers } from './schemas/message';
 
 import {
   DateTimeResolver,
@@ -25,6 +26,6 @@ const setupResolvers = {
   Mutation: {},
 };
 
-const resolvers = merge(setupResolvers, CategoryResolvers, UserResolvers);
+const resolvers = merge(setupResolvers, CategoryResolvers, UserResolvers, MessageResolvers);
 
 export default resolvers;
