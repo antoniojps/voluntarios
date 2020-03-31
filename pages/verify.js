@@ -8,19 +8,7 @@ import Confetti from 'react-dom-confetti';
 import { useRouter } from 'next/router'
 import { VERIFY_EMAIL_MUTATION } from '../graphql'
 import Link from 'next/link'
-
-const config = {
-  angle: "90",
-  spread: "91",
-  startVelocity: "20",
-  elementCount: "40",
-  dragFriction: 0.1,
-  duration: 2000,
-  stagger: 0,
-  width: "5px",
-  height: "5px",
-  colors: ["#FF7FA8", "#89C5B3", "#8E80C5", "#fdff6a"],
-};
+import { confettiConfig } from '../services/contants'
 
 const Verify = ({ token }) => {
   const router = useRouter()
@@ -50,7 +38,7 @@ const Verify = ({ token }) => {
   return (
   <Layout title="👋" description="Sabia que 5 de dezembro é o dia internacional do Voluntariado?">
     <div className="loader-signup">
-        <Confetti active={hasVerified} config={config} />
+        <Confetti active={hasVerified} config={confettiConfig} />
         {loading && (
           <Tag>
             Estado:

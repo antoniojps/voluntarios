@@ -221,15 +221,17 @@ const Nav = ({ skipAuth = false }) => {
             icon={navMobileOpen ? faTimes : faBars}
             onClick={() => setNavMobileOpen(!navMobileOpen)}
           />
-          {renderNavRightMobile()}
+          <AnimatePresence initial={false} exitBeforeEnter>
+            {renderNavRightMobile()}
+          </AnimatePresence>
         </div>
 
       </nav>
       {navMobileOpen && (
-        <div className='nav-mobile-content container' ref={mobileNav}>
-          <AnimatePresence initial={false} exitBeforeEnter>
+        <div className='nav-mobile-content' ref={mobileNav}>
+          <div className="container">
             {renderMobileList()}
-          </AnimatePresence>
+          </div>
         </div>
       )}
 
