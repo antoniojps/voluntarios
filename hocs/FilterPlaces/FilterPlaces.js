@@ -6,6 +6,7 @@ import "components/molecules/Filter/Filter.module.scss";
 import { fetchPlace, fetchGeolocationsById } from '../../services/places';
 import useDebounce from '../../utils/hooks/useDebounce';
 import { Spinner } from '@zeit-ui/react'
+import { useGeolocation } from 'react-use';
 
 
 const FilterPlaces = forwardRef((props, ref) => {
@@ -19,7 +20,7 @@ const FilterPlaces = forwardRef((props, ref) => {
     const [places, setPlaces] = useState([]);
     const searchRef = useRef(null);
     const nearById = 'nearBy';
-    const { geoLocation } = props;
+    const geoLocation = useGeolocation() 
     const debouncedSearchTerm = useDebounce(searchValue, 500);
 
     useImperativeHandle(ref, () => ({
@@ -31,12 +32,7 @@ const FilterPlaces = forwardRef((props, ref) => {
 
     useEffect(() => {
         if (geoLocation && !geoLocation.loading && geoLocation.latitude && geoLocation.longitude) {
-            props.handleChange({
-                lat: geoLocation.latitude,
-                long: geoLocation.longitude,
-            })
             setNearBy(true);
-            setSelected(nearById);
         } else {
             setNearBy(false);
         }
@@ -74,11 +70,13 @@ const FilterPlaces = forwardRef((props, ref) => {
         }
 
         if (value === nearById) {
-            props.handleChange({
-                lat: geoLocation.latitude,
-                long: geoLocation.longitude,
-            });
-            return setLoadingPlaces(false);
+            if (geoLocation && !geoLocation.loading && geoLocation.latitude && geoLocation.longitude) {
+                props.handleChange({
+                    lat: geoLocation.latitude,
+                    long: geoLocation.longitude,
+                });
+                return setLoadingPlaces(false);
+            }
         }
 
         const newGeolocations = await fetchGeolocationsById([value]);

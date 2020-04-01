@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useGeolocation } from 'react-use';
+// import { useGeolocation } from 'react-use';
 import { useQuery } from '@apollo/react-hooks';
 import { USERS_QUERY, CURRENT_USER_QUERY } from './../graphql'
 import { Search } from 'components/molecules'
@@ -151,7 +151,7 @@ const Index = () => {
     const filters = (
       <div className={`volunteers__sidebar ${showFilters ? '' : 'volunteers__sidebar--hidden'}`} >
         <FilterOrder handleChange={handleChangeOrder} />
-        <FilterPlaces title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearchPlaces} geoLocation={useGeolocation()} ref={filterPlacesRef} />
+        <FilterPlaces title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearchPlaces} geoLocation={null} ref={filterPlacesRef} />
         <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' ref={filterCategoriesRef} />
         <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} ref={searchRef} />
       </div>
