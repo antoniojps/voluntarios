@@ -4,12 +4,29 @@
 }
 
 .volunteers {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 950px;
   display: grid;
   grid-column-gap: 32px;
   grid-template-columns: 220px 1fr;
-  max-width: 950px;
-  margin-left: auto;
-  margin-right: auto;
+}
+
+.volunteers__feed-frame__no-filters {
+  display: flex;
+}
+
+.volunteers__feed-frame {
+  width: 100%;
+  display: grid;
+  grid-column-gap: 32px;
+  grid-template-columns: 220px 1fr;
+}
+
+.volunteers,
+.volunteers__feed-frame,
+.volunteers__feed-frame__no-filters {
+  
   @include screen(md) {
     display: flex;
     flex-direction: column;
