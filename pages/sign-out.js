@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { withApollo } from '../apollo/client';
 import Seo from 'containers/Seo'
+import { Layout } from 'components/atoms'
 
 const SignOutMutation = gql`
   mutation SignOutMutation {
@@ -25,12 +26,23 @@ function SignOut() {
   }, [signOut, router, client]);
 
   return (
-    <div className="container">
+    <Layout title="Até breve!" description="A sair...">
       <Seo title="A sair..." />
-      <div className="row">
-        <p>Logging out...</p>
+      <div className="bye">
+        <img src="/sign-out.gif" alt="Okay see you in a while - South Park" />
       </div>
-    </div>
+      <style jsx>{`
+        .bye {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          img {
+            border-radius: 20px;
+          }
+        }
+      `}</style>
+    </Layout>
   );
 }
 
