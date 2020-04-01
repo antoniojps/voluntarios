@@ -9,9 +9,13 @@ import {
   FaceOptions,
   AccessoriesOptions,
   getIndexByValueAndType,
+  defaultAvatar,
 } from './../../atoms/Avatar/utils'
 import { Spacer } from '@zeit-ui/react'
-import { faImage } from '@fortawesome/free-solid-svg-icons'
+import { faSave } from '@fortawesome/free-solid-svg-icons'
+import Confetti from 'react-dom-confetti';
+import { confettiConfig } from '../../../services/contants'
+import Link from 'next/link'
 
 const AvatarForm = ({
   src = null,
@@ -21,12 +25,35 @@ const AvatarForm = ({
     hair: null,
     facialHair: null,
   },
+  onSubmit = () => { },
+  loading = false,
+  successToggle = false,
 }) => {
   const [illustration, setIllustration] = useSetState(initialIllustration)
-  const [hairIndex, setHairIndex] = useState(initialIllustration.hair ? getIndexByValueAndType(Types.Hair, initialIllustration.hair) : 0)
-  const [facialHairIndex, setFacialHairIndex] = useState(initialIllustration.facialHair ? getIndexByValueAndType(Types.FacialHair, initialIllustration.facialHair) : 0)
-  const [faceIndex, setFaceIndex] = useState(initialIllustration.face ? getIndexByValueAndType(Types.Face, initialIllustration.face) : 0)
-  const [accessoryIndex, setAccessoryIndex] = useState(initialIllustration.accessory ? getIndexByValueAndType(Types.Accessory, initialIllustration.accessory) : 0)
+  const [hairIndex, setHairIndex] = useState(
+    getIndexByValueAndType(
+      Types.Hair,
+      initialIllustration && initialIllustration.hair ? initialIllustration.hair : defaultAvatar.hair,
+    ),
+  )
+  const [facialHairIndex, setFacialHairIndex] = useState(
+    getIndexByValueAndType(
+      Types.FacialHair,
+      initialIllustration && initialIllustration.facialHair ? initialIllustration.facialHair : defaultAvatar.facialHair,
+    ),
+  )
+  const [faceIndex, setFaceIndex] = useState(
+    getIndexByValueAndType(
+      Types.Face,
+      initialIllustration && initialIllustration.face ? initialIllustration.face : defaultAvatar.face,
+    ),
+  )
+  const [accessoryIndex, setAccessoryIndex]  = useState(
+    getIndexByValueAndType(
+      Types.Accessories,
+      initialIllustration && initialIllustration.accessory ? initialIllustration.accessory : defaultAvatar.accessory,
+    ),
+  )
 
   useEffect(() => {
     setIllustration({
@@ -38,23 +65,27 @@ const AvatarForm = ({
   }, [hairIndex, facialHairIndex, accessoryIndex, faceIndex])
 
   const handleSubmit = () => {
-    console.log('submit avatar', illustration)
+    // remove typename
+    // eslint-disable-next-line no-unused-vars
+    const { __typename, ...rest} = illustration
+    onSubmit({
+      illustration: rest,
+    })
   }
 
   return (
     <div className="avatar-form">
       <div className="avatar-form__form">
-        <div className="avatar-form__top">
-          <span className="avatar-form__title">Avatar</span>
-          <ButtonAction icon={faImage} className="btn--secondary">
+        {/* <div className="avatar-form__top">
+          <ButtonAction icon={faUpload} className="btn--secondary btn--stretch">
             Carregar
           </ButtonAction>
-        </div>
+        </div> */}
         <Spacer y={1} />
         <div className="avatar-form__sliders">
           <div className="avatar-form__option">
             <div className="avatar-form__label">
-              <span>Cara:</span>
+              <span>Cabelo:</span>
               {HairOptions[hairIndex].label}
             </div>
             <Range
@@ -82,7 +113,7 @@ const AvatarForm = ({
           </div>
           <div className="avatar-form__option">
             <div className="avatar-form__label">
-              <span>Acessórios:</span>
+              <span>Óculos:</span>
               {AccessoriesOptions[accessoryIndex].label}
             </div>
             <Range
@@ -114,9 +145,26 @@ const AvatarForm = ({
       <div className="avatar-form__avatar">
         <Avatar size="xl" src={src} {...illustration} />
         <Spacer y={1} />
-        <ButtonAction className="btn--stretch" onClick={handleSubmit}>
-            Criar avatar
+        <Confetti active={successToggle} config={confettiConfig} />
+        <ButtonAction
+          className={`btn--stretch ${loading && 'btn--disabled'}`}
+          onClick={handleSubmit}
+          icon={faSave}
+        >
+          {successToggle ? 'Editar' : 'Gravar'}
         </ButtonAction>
+        {successToggle && (
+          <>
+            <Spacer y={1} />
+            <Link href="/profile">
+              <a>
+                <ButtonAction className="btn--stretch btn--secondary btn--small">
+                  Editar perfil
+                </ButtonAction>
+              </a>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   )

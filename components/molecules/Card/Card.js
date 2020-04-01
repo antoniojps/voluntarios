@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { PersonHeader, Label, Icon } from 'components/atoms';
 import './Card.module.scss';
@@ -8,10 +8,10 @@ import { Avatar, Spacer } from '@zeit-ui/react'
 const Card = memo(({
     name,
     job,
-    src = null,
     categories,
     locations,
     loading,
+    avatar,
     onContact = () => { },
     hasShadow = true,
     hasContact = true,
@@ -19,6 +19,17 @@ const Card = memo(({
     hasCategories = true,
     heightStretch = false,
 }) => {
+
+    const avatarProps = useMemo(() => {
+        if (!avatar) return {}
+        const src = avatar.image && avatar.image.small ? avatar.image.small : null
+        const illustration = avatar.illustration
+        return {
+          src,
+          illustration,
+        }
+      }, [avatar])
+
     const renderLoading = () => (
         <div className='card--loading' style={{ height: '216px' }}>
             <div className="card__top">
@@ -40,7 +51,7 @@ const Card = memo(({
         <>
             <div className="card__top">
                 <div className='card__header'>
-                    <PersonHeader name={name} desc={job} src={src} />
+                    <PersonHeader name={name} desc={job} {...avatarProps} />
                 </div>
                 {(hasCategories && categories.length > 0) && (
                     <div className='card__body'>

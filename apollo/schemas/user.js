@@ -2,14 +2,14 @@ import gql from 'graphql-tag';
 import { AuthenticationError, ApolloError } from 'apollo-server-micro';
 import User from './../../models/user';
 import Category from './../../models/category';
-import { secure, StatusError } from './../utils/filters';
+import { secure, secureUserOnly, StatusError } from './../utils/filters';
 import { createUser, login, logout, isValidPassword, generateLocation } from './../utils/user';
 import { sendVerificationEmail } from 'services/email'
 
 export const typeDef = gql`
   type User {
     _id: ID!
-    email: EmailAddress!
+    email: EmailAddress! @auth(requires: owner)
     firstName: String!
     lastName: String!
     name: String!
@@ -22,11 +22,7 @@ export const typeDef = gql`
     verifiedAt: DateTime
     verificationTokenSentAt: DateTime
     createdAt: DateTime
-  }
-
-  type UserPage {
-    list: [User]
-    pageInfo: PaginationInfo!
+    avatar: Avatar
   }
 
   enum OrderFields {
@@ -36,6 +32,86 @@ export const typeDef = gql`
   enum Sort {
     asc
     desc
+  }
+
+  enum Face {
+    Calm
+	  Cute
+	  Smile
+  }
+
+  enum FacialHair {
+    None
+    Full
+    FullMajestic
+    GoateeCircle
+    Handlebars
+    MajesticHandlebars
+  }
+
+  enum Hair {
+    Afro
+    Bald
+    Bangs
+    BangsFilled
+    Bun
+    FlatTop
+    Long
+    Medium
+    Mohawk
+    Pomp
+    ShavedSides
+    ShortVolumed
+    ShortWavy
+    BunFancy
+  }
+
+  enum Accessories {
+    None
+    SunglassClubmaster
+    GlassButterfly
+    GlassRound
+  }
+
+  type Avatar {
+    illustration: Illustration
+    image: Image
+  }
+
+  input AvatarInput {
+    illustration: IllustrationInput
+    image: ImageInput
+  }
+
+  type Illustration {
+    accessory: Accessories!
+    face: Face!
+    hair: Hair!
+    facialHair: FacialHair!
+  }
+
+  input IllustrationInput {
+    accessory: Accessories!
+    face: Face!
+    hair: Hair!
+    facialHair: FacialHair!
+  }
+
+  type Image {
+    small: URL!
+    medium: URL!
+    large: URL!
+  }
+
+  input ImageInput {
+    small: String!
+    medium: String!
+    large: String!
+  }
+
+  type UserPage {
+    list: [User]
+    pageInfo: PaginationInfo!
   }
 
   input OrderByInput {
@@ -120,6 +196,8 @@ export const typeDef = gql`
     verifyEmail(input: VerifyEmailInput!): User!
     # (Owner) Update user
     updateUser(userId: ID!, input: UserUpdateInput!): User!
+    # (Owner) Update user avatar
+    updateAvatar(userId: ID!, input: AvatarInput!): User!
   }
 `;
 
@@ -175,7 +253,24 @@ export const resolvers = {
       }
       throw new StatusError(401, 'Invalid email and password combination');
     },
-    updateUser: secure(async (root, { userId, input: dirtyInput }) => {
+    signOut: async (_parent, _args, context) => {
+      logout(context);
+      return true;
+    },
+    verifyEmail: async (_parent, args) => {
+      const { verificationToken } = args.input;
+      const user = await User.findOne({ verificationToken });
+      if (!user) throw new StatusError(422, 'Invalid activation token.');
+      try {
+        user.verify();
+        await user.save();
+        return user;
+      } catch (e) {
+        if (process.env !== 'production') throw new Error(e.message);
+        throw Error('Error verifying email');
+      }
+    },
+    updateUser: secureUserOnly(async (root, { userId, input: dirtyInput }) => {
       let input = dirtyInput
       if (input.locations && input.locations.length > 0) {
         input.locations = generateLocation(input.locations)
@@ -194,22 +289,20 @@ export const resolvers = {
         throw Error('Error updating user');
       }
     }),
-    signOut: async (_parent, _args, context) => {
-      logout(context);
-      return true;
-    },
-    verifyEmail: async (_parent, args) => {
-      const { verificationToken } = args.input;
-      const user = await User.findOne({ verificationToken });
-      if (!user) throw new StatusError(422, 'Invalid activation token.');
+    updateAvatar: secureUserOnly(async (root, { userId, input }) => {
       try {
-        user.verify();
-        await user.save();
-        return user;
+        const updatedUser = await User.findOneAndUpdate(
+          {
+            _id: userId,
+          },
+          { avatar: input },
+          { new: true },
+        );
+        return updatedUser
       } catch (e) {
         if (process.env !== 'production') throw new Error(e.message);
-        throw Error('Error verifying email');
+        throw Error('Error updating user');
       }
-    },
+    }),
   },
 };

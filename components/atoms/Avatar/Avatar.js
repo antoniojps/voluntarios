@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react';
 import Peep from 'react-peeps';
 import './Avatar.module.scss';
-import { getStyles } from './utils'
+import { getStyles, defaultAvatar } from './utils'
 
 const Avatar = ({
     src = null,
     size = 'md',
     alt = 'avatar',
-    accessory = "None",
-    face = "Smile",
-    hair = "ShortVolumed",
-    facialHair = "None",
+    accessory = defaultAvatar.accessory,
+    face = defaultAvatar.face,
+    hair = defaultAvatar.hair,
+    facialHair = defaultAvatar.facialHair,
     className = "",
     ...props
 }) => {

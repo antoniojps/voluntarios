@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
@@ -15,15 +15,21 @@ const SignOutMutation = gql`
 function SignOut() {
   const client = useApolloClient();
   const router = useRouter();
-  const [signOut] = useMutation(SignOutMutation);
+  const [signOut, { data }] = useMutation(SignOutMutation);
 
-  React.useEffect(() => {
-    signOut().then(() => {
-      client.resetStore().then(() => {
-        router.push('/sign-in');
-      });
-    });
-  }, [signOut, router, client]);
+  useEffect(() => {
+    signOut()
+  }, []);
+
+  useEffect(() => {
+    async function resetAndRedirect() {
+      await client.resetStore()
+      router.push('/sign-in')
+    }
+    if (data && data.signOut) {
+      resetAndRedirect()
+    }
+  }, [data])
 
   return (
     <Layout title="Até breve!" description="A sair...">

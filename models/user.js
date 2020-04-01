@@ -5,6 +5,7 @@ const { ObjectId } = mongoose.Schema
 import { UserInputError } from 'apollo-server-micro';
 import { paginate } from '../apollo/utils/filters'
 import { paginate as mongoosePaginate } from 'mongoose-paginate'
+import { Face, FacialHair, Hair, Accessories, getRandomHead} from '../components/atoms/Avatar/utils'
 
 // USER
 // schema
@@ -100,6 +101,46 @@ const UserSchema = mongoose.Schema({
     trim: true,
     sparce: true,
   },
+  avatar: {
+    type: {
+      image: {
+        type: {
+          small: {
+            type: String,
+          },
+          medium: {
+            type: String,
+          },
+          large: {
+            type: String,
+          },
+        },
+        sparce: true,
+      },
+      illustration: {
+        type: {
+          face: {
+            type: String,
+            enum: Face,
+          },
+          facialHair: {
+            type: String,
+            enum: FacialHair,
+          },
+          hair: {
+            type: String,
+            enum: Hair,
+          },
+          accessory: {
+            type: String,
+            enum: Accessories,
+          },
+        },
+        sparce: true,
+      },
+    },
+    sparce: true,
+  },
 });
 
 UserSchema.set('timestamps', true)
@@ -118,7 +159,14 @@ UserSchema.statics = {
       const isValid = categoriesInDB.length === categoriesIds.length
       if (!isValid) throw new UserInputError(`Invalid categories`)
     }
-    const user = new User(newUser);
+    const avatar = {
+      illustration: getRandomHead(),
+    }
+    const newUserWithAvatar = {
+      ...newUser,
+      avatar,
+    }
+    const user = new User(newUserWithAvatar);
     return user.save();
   },
   pagination: mongoosePaginate,

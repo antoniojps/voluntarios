@@ -20,7 +20,11 @@ const LoaderSignUp = ({ successToggle = false, user = null }) => {
             </>
           )}
           <div className="actions">
-            <ButtonZeit type="secondary" onClick={() => router.push('/profile')}>
+            <ButtonZeit type="secondary" onClick={() => router.push('/avatar')}>
+              Editar avatar
+            </ButtonZeit>
+            <Spacer y={1} />
+            <ButtonZeit onClick={() => router.push('/profile')}>
               Editar perfil
             </ButtonZeit>
             <Spacer y={1} />
