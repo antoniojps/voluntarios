@@ -126,6 +126,8 @@ const Index = () => {
         geolocation,
       }),
     })
+    // reset page when filters are changed
+    setPage(1)
   }, [orderBy, categories, search, geolocation])
 
 
