@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { withApollo } from '../apollo/client';
 import Seo from 'containers/Seo'
 import { Layout } from 'components/atoms'
+import { destroyCookie } from 'nookies'
 
 const SignOutMutation = gql`
   mutation SignOutMutation {
@@ -15,24 +16,18 @@ const SignOutMutation = gql`
 function SignOut() {
   const client = useApolloClient();
   const router = useRouter();
-  const [signOut, { data }] = useMutation(SignOutMutation);
+  const [signOut] = useMutation(SignOutMutation);
 
   useEffect(() => {
-    signOut()
-  }, []);
-
-  useEffect(() => {
-    async function resetAndRedirect() {
-      await client.resetStore()
-      router.push('/sign-in')
-    }
-    if (data && data.signOut) {
-      resetAndRedirect()
-    }
-  }, [data])
+    signOut().then(() => {
+      client.resetStore().then(() => {
+        router.push('/sign-in');
+      });
+    });
+  }, [signOut, router, client]);
 
   return (
-    <Layout title="Até breve!" description="A sair...">
+    <Layout title="Até breve!" description="A sair..." showPublicNav>
       <Seo title="A sair..." />
       <div className="bye">
         <img src="/sign-out.gif" alt="Okay see you in a while - South Park" />
@@ -52,4 +47,9 @@ function SignOut() {
   );
 }
 
-export default withApollo({ ssr: false })(SignOut);
+SignOut.getInitialProps = (ctx) => {
+  destroyCookie(ctx, 'token')
+  return {}
+}
+
+export default withApollo({ ssr: true })(SignOut);
