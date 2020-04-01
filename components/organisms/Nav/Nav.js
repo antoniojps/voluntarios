@@ -63,8 +63,8 @@ const Nav = ({ skipAuth = false }) => {
         {isAuth && (
           <li>
             <Link href="/sign-out" >
-              <a className={`nav__auth btn--small`} disabled>
-                log out
+              <a className="nav__auth btn--small" disabled>
+                sair
               </a>
             </Link>
           </li>
@@ -91,9 +91,9 @@ const Nav = ({ skipAuth = false }) => {
         </li>
         {isAuth && (
           <li onClick={toggleMobileNav}>
-            <LinkActive href="/sign-out" activeClassName='nav--active'>
-              <a>Log out</a>
-            </LinkActive>
+            <Link href="/sign-out">
+              <a>sair</a>
+            </Link>
           </li>
         )}
         {!isAuth && (

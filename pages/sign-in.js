@@ -9,6 +9,7 @@ import { Input, Spacer, Note } from '@zeit-ui/react'
 import { withApollo } from '../apollo/client';
 import { withAuth } from 'utils/auth'
 import Seo from 'containers/Seo'
+import Link from 'next/link'
 
 const SignInMutation = gql`
   mutation SignInMutation($email: EmailAddress!, $password: String!) {
@@ -63,8 +64,8 @@ function SignIn() {
 
   return (
       <Layout
-        title="Entrar no Voluntarios"
-        description="Insira o seu email e palavra-chave"
+        title="Entrar no Voluntários"
+        description="Insere o teu email e palavra-chave"
         showPublicNav={true}
       >
         <Seo title="Entrar" description="Entre na sua conta de voluntário para gerir as definições." />
@@ -75,7 +76,7 @@ function SignIn() {
               value={formState.email}
               icon={<Icon icon={faEnvelope} />}
               type="email"
-              placeholder="nome@dominio.com"
+              placeholder="endereço de email"
               size="large"
               name="email"
               autoComplete="on"
@@ -93,12 +94,20 @@ function SignIn() {
               autoComplete="on"
               required
             />
-            <Spacer y={0.5} />
-            <Spacer y={0.5} />
+            <Spacer y={1} />
             <ButtonZeit type="secondary" loading={loading}>
-              Continuar
+            Continuar
             </ButtonZeit>
+            <Spacer y={1} />
+            <Link href="/sign-up">
+              <a>
+                <ButtonZeit stretch>
+                  Inscrever
+                </ButtonZeit>
+              </a>
+            </Link>
           </form>
+
       </div>
       <Spacer y={1} />
       <div className="row justify-content-center">

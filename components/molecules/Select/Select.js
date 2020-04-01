@@ -27,7 +27,7 @@ const FieldSelect = ({
   onBlur,
   onChange,
   value,
-  placeholder = 'Seleccione',
+  placeholder = 'Selecione',
   ...props
 }) => {
   const handleChange = option => {
