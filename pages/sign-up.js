@@ -170,7 +170,7 @@ function SignUp() {
         title={title}
         description={
           hasRegistered
-            ? <p>Agora pode ser contactado a qualquer momento no seu email por quem mais precisa.</p>
+            ? <p>Obrigado! Agora podes contactado a qualquer momento no teu email.</p>
             : (
               <Steps
                 steps={form.length - 1}
