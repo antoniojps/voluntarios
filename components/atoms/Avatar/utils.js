@@ -1,3 +1,10 @@
+export const defaultAvatar = {
+	accessory: "None",
+	face: "Smile",
+	hair: "ShortVolumed",
+	facialHair: "None",
+}
+
 export const Types = {
 	Face: 'Face',
 	FacialHair: 'FacialHair',
@@ -152,15 +159,15 @@ export const AccessoriesOptions = [
 	},
 	{
 		value: "SunglassClubmaster",
-		label: "Óculos Clubmaster",
+		label: "Clubmaster",
 	},
 	{
 		value: "GlassButterfly",
-		label: "Óculos borboleta",
+		label: "Borboleta",
 	},
 	{
 		value: "GlassRound",
-		label: "Óculos redondos",
+		label: "Redondos",
 	},
 ]
 
@@ -203,7 +210,7 @@ export const getStyles = (size) => {
 
 	if (size === 'sm') {
 			width = 70
-			transform = `translate(-8px, 5px)`
+			transform = `translate(-10px, 5px)`
 	}
 	if (size === 'lg') {
 			width = 180

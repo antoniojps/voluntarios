@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import { Logo, LinkActive, Avatar } from 'components/atoms'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -175,7 +175,7 @@ const Nav = ({ skipAuth = false }) => {
       <Spacer x={1} />
       <Link href="/profile">
         <a className="nav__profile">
-          <Avatar size='sm' />
+          <Avatar size='sm' {...avatarProps} />
         </a>
       </Link>
     </motion.div>
@@ -213,6 +213,19 @@ const Nav = ({ skipAuth = false }) => {
   }
 
   const showAuth = data && data.currentUser && !error
+  const avatarProps = useMemo(() => {
+    const avatar = data && data.currentUser && data.currentUser.avatar
+
+    if (!avatar) return {}
+
+    const src = avatar.image && avatar.image.small ? avatar.image.small : null
+    const illustration = avatar.illustration
+    return {
+      src,
+      ...illustration,
+    }
+  }, [data])
+
   const renderNavRight = () => {
     const cachedUser = cachedData && cachedData.currentUser
     if (skipAuth) return renderPublic()

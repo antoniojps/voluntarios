@@ -20,6 +20,19 @@ export const volunteerFragment = gql`
       }
       _id
     }
+    avatar {
+      image {
+        small
+        medium
+        large
+      }
+      illustration {
+        hair
+        face
+        accessory
+        facialHair
+      }
+    }
   }
 `
 
@@ -53,6 +66,7 @@ export const CURRENT_USER_QUERY = gql`
       name
       admin
       moderator
+      email
       ...VolunteerDetail
     }
   }
@@ -66,6 +80,21 @@ export const UPDATE_USER_MUTATION = gql`
       name
       admin
       moderator
+      email
+      ...VolunteerDetail
+    }
+  }
+  ${volunteerFragment}
+`;
+
+export const UPDATE_USER_AVATAR_MUTATION= gql`
+  mutation updateAvatar($userId: ID!, $input: AvatarInput!) {
+    updateAvatar(userId: $userId, input: $input) {
+      _id
+      name
+      admin
+      moderator
+      email
       ...VolunteerDetail
     }
   }

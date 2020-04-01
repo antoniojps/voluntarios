@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useMemo  } from 'react'
 import { useMutation, useApolloClient, useQuery } from '@apollo/react-hooks';
 import { UPDATE_USER_MUTATION, CURRENT_USER_QUERY } from '../graphql'
-import { Layout, Avatar } from 'components/atoms'
+import { Layout, Avatar, ButtonAction } from 'components/atoms'
 import { ProfileForm } from 'components/organisms'
 import { withAuth } from 'utils/auth';
 import { Spacer, Note, useToasts } from '@zeit-ui/react'
@@ -9,6 +9,8 @@ import { withApollo } from '../apollo/client';
 import { fetchGeolocationsById } from '../services/places';
 import { mergeLocations, computeNewLocationsIDs, parseCategories } from '../utils/form'
 import Seo from 'containers/Seo'
+import Link from 'next/link'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
 
 const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [] } }) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -17,7 +19,6 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
     const client = useApolloClient();
     const [, setToast] = useToasts()
     const { data: { currentUser } } = useQuery(CURRENT_USER_QUERY, { fetchPolicy: 'cache-only'})
-
     async function handleSave(data) {
         setSubmitError(false);
         setLoadingSubmit(true);
@@ -69,8 +70,20 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         }
     }
 
+    const avatarProps = useMemo(() => {
+        const avatar = currentUser && currentUser.avatar
+
+        if (!avatar) return {}
+        const src = avatar.image && avatar.image.small ? avatar.image.small : null
+        const illustration = avatar.illustration
+        return {
+          src,
+          illustration,
+        }
+      }, [currentUser])
+
     return (
-        <Layout title={`${currentUser.firstName} ${currentUser.lastName}`} description={<Description />}>
+        <Layout title={`${currentUser.firstName} ${currentUser.lastName}`} description={<Description {...avatarProps} />}>
             <Seo title="Dashboard" />
             <div className="container">
                 <div className="row flex-column justify-content-md-center">
@@ -98,11 +111,19 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
     );
 };
 
-const Description = () => (
-    <div className="hero__description--profile">
-        <Avatar size='lg' />
-    </div>
-)
+const Description = ({ src = null, illustration = {} }) => (
+        <div className="hero__description--profile">
+            <Avatar size='lg' src={src} {...illustration} />
+            <Spacer y={0.5} />
+            <Link href="/avatar">
+                <a>
+                    <ButtonAction icon={faPen} className="btn--stretch btn--secondary btn--small">
+                    Editar avatar
+                    </ButtonAction>
+                </a>
+            </Link>
+        </div>
+    )
 
 Profile.getInitialProps = (ctx) => withAuth(ctx, { redirectPublic: true, to: '/sign-in' })
 
