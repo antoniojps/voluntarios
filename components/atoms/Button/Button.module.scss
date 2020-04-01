@@ -12,6 +12,10 @@
   &__icon {
     transition: all 0.2s ease;
     padding-left: var(--spacing-xs5);
+    svg {
+      height: 14px;
+      width: 14px;
+    }
   }
   &--stretch {
     width: 100%;
