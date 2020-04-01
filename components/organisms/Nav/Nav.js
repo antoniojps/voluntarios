@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { Spacer } from '@zeit-ui/react'
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
+import '../../atoms/Badge/Badge.module.scss'
 
 const Nav = ({ skipAuth = false }) => {
   const [navMobileOpen, setNavMobileOpen] = useState(false);
@@ -61,11 +62,11 @@ const Nav = ({ skipAuth = false }) => {
 
         {isAuth && (
           <li>
-            <LinkActive href="/sign-out" activeClassName='nav--active' >
+            <Link href="/sign-out" >
               <a className={`nav__auth btn--small`} disabled>
                 log out
               </a>
-            </LinkActive>
+            </Link>
           </li>
         )}
       </ul>
@@ -109,6 +110,10 @@ const Nav = ({ skipAuth = false }) => {
             </li>
           </>
         )}
+        <Spacer y={1} />
+        <div className="badge badge--mini badge--inverse">
+            #fightcovid19
+        </div>
       </ul>
     )
   }
@@ -231,8 +236,9 @@ const Nav = ({ skipAuth = false }) => {
               <Logo />
             </a>
           </Link>
-          <Spacer x={0.5} />
-          <div className="badge badge--mini badge--inverse">
+
+          <Spacer x={0.25} />
+          <div className="badge-desktop badge badge--mini badge--inverse">
             #fightcovid19
           </div>
         </div>
@@ -371,6 +377,11 @@ const Nav = ({ skipAuth = false }) => {
               content: '';
             }
           }
+        }
+      }
+      @include screen(md) {
+        .badge-desktop {
+          display: none;
         }
       }
       `}</style>
