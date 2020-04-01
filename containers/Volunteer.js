@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'components/molecules'
 import { ContactForm } from 'components/organisms'
-import { Modal, Spacer, Note, useToasts } from '@zeit-ui/react'
+import { Spacer, Note, useToasts } from '@zeit-ui/react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useMutation } from '@apollo/react-hooks'
 import { SEND_MESSAGE_MUTATION } from '../graphql'
 import Confetti from 'react-dom-confetti';
 import { confettiConfig } from '../services/contants'
-import { Icon } from 'components/atoms'
+import { Icon, Modal } from 'components/atoms'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const Volunteer = ({ name, _id, ...props }) => {
   const [hasVerified, setHasVerified] = useState(false)
   const [isOpen, setOpen] = useState(false)
   const [, setToast] = useToasts()
-
-  const handler = () => setOpen(true)
-  const closeHandler = () => setOpen(false)
+  const toggle = () => {
+    setOpen(!isOpen)
+  }
 
   const [sendMessageToUser, { data, loading, error }] = useMutation(SEND_MESSAGE_MUTATION);
 
@@ -43,20 +43,16 @@ const Volunteer = ({ name, _id, ...props }) => {
 
   return (
     <div>
-      <Card name={name} {...props} onContact={handler} heightStretch />
+      <Card name={name} {...props} onContact={toggle} heightStretch />
       <div className="confetti-wrapper">
         <Confetti active={!loading && data} config={confettiConfig} />
       </div>
       {isOpen && (
-        <button className='close-modal-btn' onClick={closeHandler}>
+        <button className='close-modal-btn' onClick={toggle}>
           <Icon icon={faTimes} />
         </button>
       )}
-      <Modal open={isOpen} onClose={closeHandler}>
-        <Modal.Title>
-          Contactar
-        </Modal.Title>
-        <Modal.Content>
+      <Modal isOpen={isOpen} toggle={toggle} title="Contactar">
           <Card
             name={name}
             {...props}
@@ -89,7 +85,6 @@ const Volunteer = ({ name, _id, ...props }) => {
               />
             </section>
           )}
-        </Modal.Content>
       </Modal>
       <style jsx>{`
           .confetti-wrapper {
