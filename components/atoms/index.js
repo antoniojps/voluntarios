@@ -9,3 +9,4 @@ export { default as Label } from './Label/Label';
 export { default as Layout } from './Layout/Layout';
 export { default as Avatar } from './Avatar/Avatar';
 export { default as InputLabel } from './Label/InputLabel';
+export { default as Modal } from './Modal/Modal';
