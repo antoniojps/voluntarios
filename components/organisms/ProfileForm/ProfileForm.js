@@ -106,9 +106,7 @@ const ProfileForm = ({
         {renderError(errors.lastName)}
 
         <Fieldset.Footer>
-          <Fieldset.Footer.Status>
-            Por favor utilize 32 caracteres no máximo para cada um dos campos.
-          </Fieldset.Footer.Status>
+          <Fieldset.Footer.Status />
           <Fieldset.Footer.Actions>
             <ButtonZeit
               type="secondary"
@@ -169,9 +167,7 @@ const ProfileForm = ({
         <Spacer y={.5} />
 
         <Fieldset.Footer>
-          <Fieldset.Footer.Status>
-            Estas informações apenas serão utilizadas para criar o seu perfil de voluntário.
-          </Fieldset.Footer.Status>
+          <Fieldset.Footer.Status />
           <Fieldset.Footer.Actions>
             <ButtonZeit
               type="secondary"
@@ -209,14 +205,16 @@ const ProfileForm = ({
 
         <Fieldset.Footer>
           <Fieldset.Footer.Status>
-            Por favor insira um e-mail válido. Caso contrário poderá não receber oportunidades de voluntariado.
-                            </Fieldset.Footer.Status>
+            <span role="img" aria-label="work in progress emoji">🚧</span>
+            <Spacer x={0.5} />
+            Em desenvolvimento.
+          </Fieldset.Footer.Status>
           <Fieldset.Footer.Actions>
             <ButtonZeit
               type="secondary"
               size="small"
               auto
-              loading={loading}
+              disabled
             >
               Guardar
             </ButtonZeit>
