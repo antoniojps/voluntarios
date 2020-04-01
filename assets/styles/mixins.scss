@@ -92,7 +92,6 @@
 @mixin button--secondary {
   @include button;
   color: var(--base40);
-  width: 100%;
 }
 
 @mixin radio-button {

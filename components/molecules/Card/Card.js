@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
-import { PersonHeader, Button, Label, Icon } from 'components/atoms';
+import { PersonHeader, Label, Icon } from 'components/atoms';
 import './Card.module.scss';
 import Placeholder from '../../atoms/Placeholder/Placeholder'
 import { Avatar, Spacer } from '@zeit-ui/react'
@@ -70,9 +70,9 @@ const Card = memo(({
                         }
                     </div>
                     {hasContact && (
-                        <Button onClick={onContact} type='secondary'>
+                        <button onClick={onContact} className="btn btn--secondary btn--stretch" type='secondary'>
                             contactar
-                        </Button>
+                        </button>
                     )}
                 </div>
             )}
