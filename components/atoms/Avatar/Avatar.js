@@ -11,11 +11,12 @@ const Avatar = ({
     face = "Smile",
     hair = "ShortVolumed",
     facialHair = "None",
+    className = "",
     ...props
 }) => {
     const style = useMemo(() => getStyles(size), [size])
     return (
-        <div className={`avatar avatar--${size}`}>
+        <div className={`avatar avatar--${size} ${className}`}>
             {src && <img className="avatar-img" src={src} alt={alt} {...props} />}
             {!src && <Peep
                         style={style}
