@@ -4,7 +4,7 @@ import { withApollo } from 'apollo/client'
 import Seo from 'containers/Seo'
 
 const About = () => (
-  <Layout title="Sobre" description="voluntários.io">
+  <Layout title="Sobre" description="voluntarios.app">
     <Seo title="Sobre" />
     <p>
       Página em construção,{' '}
