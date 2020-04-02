@@ -9,8 +9,8 @@ import * as Yup from 'yup'
 Yup.setLocale(messages)
 
 const ContactSchema = Yup.object({
-    name: Yup.string().required().max(32).min(2),
-    email: Yup.string().required().max(32).min(2).email(),
+    name: Yup.string().required().max(100).min(2),
+    email: Yup.string().required().email(),
     message: Yup.string().required().min(2),
 })
 
