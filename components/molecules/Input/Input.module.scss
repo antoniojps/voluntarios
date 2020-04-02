@@ -15,6 +15,11 @@
       margin: 0 var(--spacing-xs4);
       color: var(--base40);
       font-size: var(--size-xs2);
+      padding-top: 6px;
+      svg {
+        height: var(--size-xs2);
+        width: var(--size-xs2);
+      }
     }
 
     [title='title'] {
