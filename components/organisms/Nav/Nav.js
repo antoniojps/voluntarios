@@ -369,7 +369,10 @@ const Nav = ({ skipAuth = false }) => {
             }
 
             a {
-              color: var(--base)
+              height: 100%;
+              width: 100%;
+              display: block;
+              color: var(--base);
             }
 
             &:before {
