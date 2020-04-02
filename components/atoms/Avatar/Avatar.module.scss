@@ -36,6 +36,10 @@
     min-width: 15rem;
   }
 
+  &--hoverable {
+    cursor: pointer;
+  }
+
   .avatar:first-child {
     margin: 0;
   }

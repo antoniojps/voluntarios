@@ -12,11 +12,12 @@ const Avatar = ({
     hair = defaultAvatar.hair,
     facialHair = defaultAvatar.facialHair,
     className = "",
+    hoverable = false,
     ...props
 }) => {
     const style = useMemo(() => getStyles(size), [size])
     return (
-        <div className={`avatar avatar--${size} ${className}`}>
+        <div className={`avatar avatar--${size} ${hoverable && 'avatar--hoverable'} ${className}`}>
             {src && <img className="avatar-img" src={src} alt={alt} {...props} />}
             {!src && <Peep
                         style={style}
