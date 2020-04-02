@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
-import { Logo, LinkActive, Avatar } from 'components/atoms'
+import { Logo, LinkActive } from 'components/atoms'
 import { AnimatePresence, motion } from 'framer-motion'
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { useLazyQuery, useApolloClient } from '@apollo/react-hooks';
@@ -9,6 +9,8 @@ import { useRouter } from 'next/router'
 import { Spacer } from '@zeit-ui/react'
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
+import NavMore from '../../../containers/NavMore'
+import NavAuth from '../../../containers/NavAuth'
 import '../../atoms/Badge/Badge.module.scss'
 
 const Nav = ({ skipAuth = false }) => {
@@ -44,9 +46,6 @@ const Nav = ({ skipAuth = false }) => {
   }
 
   const renderList = () => {
-    const cachedUser = cachedData && cachedData.currentUser
-    const isAuth = cachedUser || showAuth;
-
     return (
       <ul>
         <li>
@@ -55,20 +54,8 @@ const Nav = ({ skipAuth = false }) => {
           </LinkActive>
         </li>
         <li>
-          <LinkActive href="/sobre" activeClassName='nav--active'>
-            <a>Sobre</a>
-          </LinkActive>
+          <NavMore />
         </li>
-
-        {isAuth && (
-          <li>
-            <Link href="/sign-out" >
-              <a className="nav__auth btn--small" disabled>
-                sair
-              </a>
-            </Link>
-          </li>
-        )}
       </ul>
     )
   }
@@ -85,17 +72,20 @@ const Nav = ({ skipAuth = false }) => {
           </LinkActive>
         </li>
         <li onClick={toggleMobileNav}>
-          <LinkActive href="/sobre" activeClassName='nav--active'>
+          <LinkActive href="/blog/sobre" activeClassName='nav--active'>
             <a>Sobre</a>
           </LinkActive>
         </li>
-        {isAuth && (
-          <li onClick={toggleMobileNav}>
-            <Link href="/sign-out">
-              <a>sair</a>
-            </Link>
-          </li>
-        )}
+        <li onClick={toggleMobileNav}>
+          <LinkActive href="/blog/contacto" activeClassName='nav--active'>
+            <a>Contacto</a>
+          </LinkActive>
+        </li>
+        <li onClick={toggleMobileNav}>
+          <LinkActive href="/blog/politica-de-privacidade" activeClassName='nav--active'>
+            <a>Privacidade</a>
+          </LinkActive>
+        </li>
         {!isAuth && (
           <>
             <li onClick={toggleMobileNav}>
@@ -130,7 +120,7 @@ const Nav = ({ skipAuth = false }) => {
       >
         {renderList()}
         <Link href="/sign-in">
-          <a className={`nav__auth ${asPath === '/sign-in' && 'btn--disabled'} btn--small`} disabled>
+          <a className={`nav__auth nav__auth--xs ${asPath === '/sign-in' && 'btn--disabled'} btn--small`} disabled>
             log in
           </a>
         </Link>
@@ -173,11 +163,7 @@ const Nav = ({ skipAuth = false }) => {
     >
       {renderList()}
       <Spacer x={1} />
-      <Link href="/profile">
-        <a className="nav__profile">
-          <Avatar size='sm' {...avatarProps} />
-        </a>
-      </Link>
+      <NavAuth avatar={avatarProps} />
     </motion.div>
   )
 
@@ -191,12 +177,8 @@ const Nav = ({ skipAuth = false }) => {
         transition={{ duration: 0.1 }}
         key="authenticated"
       >
-        <Spacer x={1} />
-        <Link href="/profile">
-          <a className="nav__profile">
-            <Avatar size='sm' />
-          </a>
-        </Link>
+      <Spacer x={1} />
+      <NavAuth avatar={avatarProps} />
       </motion.div>
     )
   }
@@ -318,17 +300,21 @@ const Nav = ({ skipAuth = false }) => {
             color: var(--base);
           }
           &.nav__auth {
-            margin-left: var(--spacing-xs);
+            margin-left: var(--spacing-xs2);
             @include button;
           }
           &.nav__auth--primary {
-            margin-left: var(--spacing-xs);
+            margin-left: var(--spacing-xs2);
             @include button--primary;
+          }
+          &.nav__auth--xs {
+            margin-left: var(--spacing-xs4);
           }
         }
         ul {
           list-style: none;
           display: flex;
+          align-items: center;
           li {
             margin-left: var(--spacing-xs);
             font-size: var(--size-s);
