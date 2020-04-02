@@ -1,4 +1,5 @@
 const path = require('path');
+const withPlugins = require('next-compose-plugins');
 const withSass = require('@zeit/next-sass')
 const withCSS = require('@zeit/next-css')
 
@@ -6,6 +7,10 @@ require('dotenv').config();
 
 const config = {
   webpack: config => {
+    config.module.rules.push({
+      test: /\.md$/,
+      use: 'raw-loader',
+    })
     config.resolve.alias['components'] = path.join(__dirname, 'components');
     config.resolve.alias['containers'] = path.join(__dirname, 'containers');
     config.resolve.alias['services'] = path.join(__dirname, 'services');
@@ -20,4 +25,7 @@ const config = {
   },
 }
 
-module.exports = withSass(withCSS(config))
+module.exports = withPlugins([
+  withCSS(config),
+  withSass,
+])
