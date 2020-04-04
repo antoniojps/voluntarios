@@ -7,6 +7,7 @@ export const volunteerFragment = gql`
     firstName
     lastName
     job
+    slug
     categories {
       name
       color
@@ -86,6 +87,18 @@ export const UPDATE_USER_MUTATION = gql`
 export const UPDATE_USER_AVATAR_MUTATION= gql`
   mutation updateAvatar($userId: ID!, $input: AvatarInput!) {
     updateAvatar(userId: $userId, input: $input) {
+      admin
+      moderator
+      email
+      ...VolunteerDetail
+    }
+  }
+  ${volunteerFragment}
+`;
+
+export const UPDATE_USER_SLUG_MUTATION= gql`
+  mutation updateSlug($userId: ID!, $input: SlugInput!) {
+    updateSlug(userId: $userId, input: $input) {
       admin
       moderator
       email

@@ -9,8 +9,9 @@ import { withApollo } from '../apollo/client';
 import { fetchGeolocationsById } from '../services/places';
 import { mergeLocations, computeNewLocationsIDs, parseCategories } from '../utils/form'
 import Seo from 'containers/Seo'
+import UserUpdateSlug from 'containers/UserUpdateSlug'
 import Link from 'next/link'
-import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Profile = ({ user = { firstName: null, lastName: null, email: null, job: null, categories: [], locations: [] } }) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -80,10 +81,10 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
           src,
           illustration,
         }
-      }, [currentUser])
+    }, [currentUser])
 
     return (
-        <Layout title={`${currentUser.firstName} ${currentUser.lastName}`} description={<Description {...avatarProps} />}>
+        <Layout title={`${currentUser.firstName} ${currentUser.lastName}`} description={<Description {...avatarProps} slug={user.slug || user._id} />}>
             <Seo title="Dashboard" />
             <div className="container">
                 <div className="row flex-column justify-content-md-center">
@@ -93,6 +94,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                             <Spacer y={1} />
                         </>
                     )}
+                    <UserUpdateSlug userId={user._id} initialSlug={user.slug || user._id} />
                     <ProfileForm
                         firstName={user.firstName}
                         lastName={user.lastName}
@@ -103,7 +105,6 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         loading={loadingSubmit}
                         onSubmit={handleSave}
                     />
-
                     <Spacer y={5} />
                 </div>
             </div>
@@ -111,10 +112,11 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
     );
 };
 
-const Description = ({ src = null, illustration = {} }) => (
+const Description = ({ src = null, illustration = {}, slug = null }) => (
         <div className="hero__description--profile">
             <Avatar size='lg' src={src} {...illustration} />
-            <Spacer y={0.5} />
+        <Spacer y={0.5} />
+            <div className="hero__description-actions">
             <Link href="/avatar">
                 <a>
                     <ButtonAction icon={faPen} className="btn--stretch btn--secondary btn--small">
@@ -122,6 +124,16 @@ const Description = ({ src = null, illustration = {} }) => (
                     </ButtonAction>
                 </a>
             </Link>
+            {slug && (
+                <Link href="/[user]" as={`/${slug}`}>
+                    <a>
+                    <ButtonAction icon={faUser} className="btn--stretch btn--secondary btn--small">
+                        Ver perfil
+                    </ButtonAction>
+                    </a>
+                </Link>
+            )}
+            </div>
         </div>
     )
 

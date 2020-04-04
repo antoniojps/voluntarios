@@ -46,6 +46,16 @@
       flex-direction: column;
       text-align: center;
     }
+    &-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      a {
+        margin-right: var(--spacing-xs4);
+        margin-bottom: var(--spacing-xs4);
+      }
+    }
   }
 }
 

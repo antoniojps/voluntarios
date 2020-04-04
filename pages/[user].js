@@ -28,7 +28,11 @@ const DescriptionNotFound = () => (
 function Profile({ user }) {
   if (user) return (
     <Layout title={user.name} description={<Description job={user.job} />}>
-      <Seo title={user.name} shouldAppend={false} />
+      <Seo
+        title={user.name}
+        description={`${user.firstName} está interessado em voluntariar nas áreas de ${user.categories.map(opt => opt.name).join(', ')}.`}
+        shouldAppend={false}
+      />
       <Volunteer {...user} hasPerson={false} />
       <Spacer y={5} />
     </Layout>

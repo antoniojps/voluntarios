@@ -10,3 +10,5 @@ export const confettiConfig = {
   height: "5px",
   colors: ["#FF7FA8", "#89C5B3", "#8E80C5", "#fdff6a"],
 };
+
+export const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
