@@ -112,7 +112,7 @@ const ProfileForm = ({
               type="secondary"
               size="small"
               auto
-              loading={loading}
+              disabled={loading}
             >
               Guardar
             </ButtonZeit>
@@ -173,7 +173,7 @@ const ProfileForm = ({
               type="secondary"
               size="small"
               auto
-              loading={loading}
+              disabled={loading}
             >
               Guardar
             </ButtonZeit>

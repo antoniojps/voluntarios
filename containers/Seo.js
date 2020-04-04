@@ -10,7 +10,6 @@ const Seo = ({ title = null, description = null, shouldAppend = true }) => {
   },
   [title, shouldAppend]);
 
-
   const computedImg = useMemo(() => {
     return SEO_DATA.url + SEO_DATA.image.src;
   }, []);

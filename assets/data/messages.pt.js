@@ -15,8 +15,8 @@ const translation = {
     email: 'Formato de e-mail inválido',
     url: 'Deve ter um formato de URL válida',
     trim: 'Não deve conter espaços no início ou no fim.',
-    lowercase: 'Deve estar em maiúsculo',
-    uppercase: 'Deve estar em minúsculo',
+    lowercase: 'Deve estar em minúsculo',
+    uppercase: 'Deve estar em maiúsculo',
   },
   number: {
     min: 'Deve ser no mínimo ${min}',
