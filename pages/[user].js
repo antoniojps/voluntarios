@@ -3,15 +3,33 @@ import { withApollo } from '../apollo/client';
 import Seo from 'containers/Seo'
 import { Layout } from 'components/atoms'
 import { Spacer } from '@zeit-ui/react'
-import {USER_SLUG_QUERY } from '../graphql'
+import { USER_SLUG_QUERY } from '../graphql'
 import Volunteer from '../containers/Volunteer'
 import Link from 'next/link'
+import { Share } from 'components/molecules'
+import { useRouter } from 'next/router'
+import { useToasts } from '@zeit-ui/react'
 
-const Description = () => (
-  <div>
-    Voluntário
-  </div>
-)
+const { DOMAIN } = process.env
+
+const Description = ({ path }) => {
+  const profileUrl = `${DOMAIN}${path}`
+  const [, setToast] = useToasts()
+
+  return (
+    <div>
+      <Share
+        facebookUrl={profileUrl}
+        twitterUrl={profileUrl}
+        linkedinUrl={profileUrl}
+        url={profileUrl}
+        onCopy={() => setToast({
+          text: 'Endereço copiado',
+        })}
+      />
+    </div>
+  )
+}
 
 const DescriptionNotFound = () => (
   <p>
@@ -26,8 +44,10 @@ const DescriptionNotFound = () => (
 )
 
 function Profile({ user }) {
+  const { asPath } = useRouter()
+
   if (user) return (
-    <Layout title={user.name} description={<Description job={user.job} />}>
+    <Layout title={user.name} description={<Description path={asPath} />}>
       <Seo
         title={user.name}
         description={`${user.firstName} está interessado em voluntariar nas áreas de ${user.categories.map(opt => opt.name).join(', ')}.`}
