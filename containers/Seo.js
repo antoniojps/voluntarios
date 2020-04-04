@@ -2,7 +2,13 @@ import React, { useMemo } from 'react';
 import Head from 'next/head';
 import SEO_DATA from '../assets/data/seo.json';
 
-const Seo = ({ title = null, description = null, shouldAppend = true }) => {
+const Seo = ({
+  title = null,
+  description = null,
+  shouldAppend = true,
+  ogImageText = null,
+  shouldGenerateImage = true,
+}) => {
   const computedTitle = useMemo(() => {
     if (title && shouldAppend) return `${title} - ${SEO_DATA.title}`;
     if (title) return `${title}`
@@ -10,9 +16,14 @@ const Seo = ({ title = null, description = null, shouldAppend = true }) => {
   },
   [title, shouldAppend]);
 
+  // generates image from title, or ogImageText or default
   const computedImg = useMemo(() => {
-    return SEO_DATA.url + SEO_DATA.image.src;
-  }, []);
+    const text = ogImageText || `**${title}**` || SEO_DATA.ogImageText
+    const textEncoded = encodeURI(text);
+    const generatedImg = `https://voluntarios-og-image.now.sh/${textEncoded}.png?theme=light&md=1&fontSize=80px&images=https://voluntarios.app/voluntarios-dark.svg`;
+    const defaultImg = SEO_DATA.url + SEO_DATA.image.src;
+    return shouldGenerateImage ? generatedImg : defaultImg;
+  }, [title, ogImageText, shouldGenerateImage]);
 
   return (
     <Head>

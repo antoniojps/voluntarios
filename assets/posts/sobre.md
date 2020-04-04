@@ -3,7 +3,6 @@ title: "Sobre"
 description: "Qual é a missão do Voluntários?"
 author: António & Sónia
 date: "2020-04-02"
-hero_image: ../../public/seo.jpg
 ---
 Estás disposto a utilizar as tuas competências para **melhorar a sociedade**?
 **Queres ajudar** mas não sabes por onde começar?
