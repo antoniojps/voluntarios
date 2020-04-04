@@ -16,7 +16,7 @@ A nossa missão é **facilitar a comunicação entre voluntários dispostos a aj
 
 Em tempos de angústia, percebemos que a solidariedade é essencial para uma sociedade próspera e que pequenos atos fazem toda a diferença.
 
-## Como?
+## Objetivos
 
 Através de uma listagem de pessoas, com diferentes competências e com interesse em participar em serviços ou projetos de voluntariado, a plataforma voluntários procura disponibilizar apoio a pessoas ou empresas que procuram ajuda em projetos ou serviços sem fins lucrativos, que visam a melhoria da sociedade.
 
