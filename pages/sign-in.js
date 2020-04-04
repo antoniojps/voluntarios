@@ -74,7 +74,7 @@ function SignIn() {
             <Input
               onChange={(event) => setFormState({ ...formState, email: event.target.value })}
               value={formState.email}
-              icon={<Icon icon={faEnvelope} />}
+              icon={<Icon icon={faEnvelope} height={16}/>}
               type="email"
               placeholder="endereço de email"
               size="large"
@@ -86,7 +86,7 @@ function SignIn() {
             <Input
               onChange={(event) => setFormState({ ...formState, password: event.target.value })}
               value={formState.password}
-              icon={<Icon icon={faKey} />}
+              icon={<Icon icon={faKey} height={16} />}
               placeholder="palavra-chave"
               type="password"
               size="large"

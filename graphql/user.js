@@ -62,8 +62,6 @@ export const USER_EMAIL_QUERY = gql`
 export const CURRENT_USER_QUERY = gql`
   query currentUser {
     currentUser {
-      _id
-      name
       admin
       moderator
       email
@@ -76,8 +74,6 @@ export const CURRENT_USER_QUERY = gql`
 export const UPDATE_USER_MUTATION = gql`
   mutation updateUser($userId: ID!, $input: UserUpdateInput!) {
     updateUser(userId: $userId, input: $input) {
-      _id
-      name
       admin
       moderator
       email
@@ -90,8 +86,6 @@ export const UPDATE_USER_MUTATION = gql`
 export const UPDATE_USER_AVATAR_MUTATION= gql`
   mutation updateAvatar($userId: ID!, $input: AvatarInput!) {
     updateAvatar(userId: $userId, input: $input) {
-      _id
-      name
       admin
       moderator
       email
@@ -105,7 +99,6 @@ export const SIGNUP_USER_MUTATION = gql`
   mutation SignUpMutation($input: SignUpInput!) {
     signUp(input: $input) {
       _id
-      name
       admin
       moderator
       ...VolunteerDetail
@@ -121,4 +114,13 @@ export const VERIFY_EMAIL_MUTATION = gql`
       verified
     }
   }
+`
+
+export const USER_SLUG_QUERY = gql`
+query userBySlug($slug: String!) {
+  userBySlug(slug: $slug) {
+      ...VolunteerDetail
+    }
+  }
+  ${volunteerFragment}
 `

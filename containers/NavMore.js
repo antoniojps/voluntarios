@@ -3,9 +3,9 @@ import Popover from './../components/molecules/Popover/Popover'
 import { LinkActive } from 'components/atoms'
 
 const links = [
-  { label: 'Sobre', to: '/blog/sobre' },
-  { label: 'Contactar', to: '/blog/contacto' },
-  { label: 'Privacidade', to: '/blog/politica-de-privacidade' },
+  { label: 'Sobre', to: '/p/sobre' },
+  { label: 'Contactar', to: '/p/contacto' },
+  { label: 'Privacidade', to: '/p/politica-de-privacidade' },
   { label: 'Projeto covindex.pt', to: 'https://www.covindex.pt/', target: '_blank' },
 ]
 
