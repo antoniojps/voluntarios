@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Icon } from "components/atoms";
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faTimes } from '@fortawesome/free-solid-svg-icons'
 import "components/molecules/Filter/Filter.module.scss";
 import { fetchPlace, fetchGeolocationsById } from '../../services/places';
 import useDebounce from '../../utils/hooks/useDebounce';
@@ -20,7 +20,7 @@ const FilterPlaces = forwardRef((props, ref) => {
     const [places, setPlaces] = useState([]);
     const searchRef = useRef(null);
     const nearById = 'nearBy';
-    const geoLocation = useGeolocation() 
+    const geoLocation = useGeolocation()
     const debouncedSearchTerm = useDebounce(searchValue, 500);
 
     useImperativeHandle(ref, () => ({
@@ -170,6 +170,15 @@ const FilterPlaces = forwardRef((props, ref) => {
                                         <input type="radio" checked={item.id === selected} id={`radio${item.id}`} />
                                         <label htmlFor={`radio${item.id}`}>{item.name} {item.secondaryName ? ` - ${item.secondaryName}` : ''}</label>
                                     </div>
+                                    {item._id === selected && (
+                                        <div className='filter__list__item__remove'>
+                                            <Icon icon={faTimes} onClick={() => {
+                                                setSelected('')
+                                                handleSelect('')
+                                                setOpen(false);
+                                            }} />
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>

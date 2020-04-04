@@ -6,7 +6,7 @@ const links = [
   { label: 'Sobre', to: '/p/sobre' },
   { label: 'Contactar', to: '/p/contacto' },
   { label: 'Privacidade', to: '/p/politica-de-privacidade' },
-  { label: 'Projeto covindex.pt', to: 'https://www.covindex.pt/', target: '_blank' },
+  // { label: 'Projeto covindex.pt', to: 'https://www.covindex.pt/', target: '_blank' },
 ]
 
 const Icon = () => (
