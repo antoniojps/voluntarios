@@ -1,17 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { USERS_QUERY } from './../graphql'
+import { USERS_QUERY } from './../../graphql'
 import { Search } from 'components/molecules'
 import { VolunteersList } from 'components/organisms'
-import FilterCategories from '../hocs/FilterCategories/FilterCategories';
-import FilterOrder from '../hocs/FilterOrder/FilterOrder';
-import FilterPlaces from '../hocs/FilterPlaces/FilterPlaces';
+import FilterCategories from '../../hocs/FilterCategories/FilterCategories';
+import FilterOrder from '../../hocs/FilterOrder/FilterOrder';
+import FilterPlaces from '../../hocs/FilterPlaces/FilterPlaces';
 import cleanDeep from 'clean-deep'
-import { withApollo } from '../apollo/client';
+import { withApollo } from '../../apollo/client';
 import { Spacer } from '@zeit-ui/react'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
-import IframeContainer from '../containers/IframeContainer';
+import IframeContainer from '../../containers/IframeContainer';
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
 
@@ -185,6 +185,7 @@ const Index = () => {
                     hasMore={data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage}
                     hasFilters={hasFilters()}
                     removeFilters={removeFilters}
+                    iframe={true}
                 />
             </div>
         </IframeContainer>

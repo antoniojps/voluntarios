@@ -53,6 +53,7 @@ const Index = () => {
       notifyOnNetworkStatusChange: true,
     },
   );
+
   const { data: user } = useQuery(CURRENT_USER_QUERY, {
     fetchPolicy: 'cache-only',
   })

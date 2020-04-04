@@ -3,7 +3,7 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
-const LinkActive = ({ href, activeClassName, children }) => {
+const LinkActive = ({ href, activeClassName, children, target }) => {
   const router = useRouter();
 
   const child = React.Children.only(children);
@@ -13,6 +13,9 @@ const LinkActive = ({ href, activeClassName, children }) => {
     className = `${className} ${activeClassName}`.trim();
   }
 
+  if (target) {
+    return <Link href={href}><a target={target}>{React.cloneElement(child, { className })}</a></Link>;
+  }
   return <Link href={href}>{React.cloneElement(child, { className })}</Link>;
 };
 

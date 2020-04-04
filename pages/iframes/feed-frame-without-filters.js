@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { USERS_QUERY } from './../graphql'
+import { USERS_QUERY } from './../../graphql'
 import { VolunteersList } from 'components/organisms'
-import { withApollo } from '../apollo/client';
-import IframeContainer from '../containers/IframeContainer';
+import { withApollo } from '../../apollo/client';
+import IframeContainer from '../../containers/IframeContainer';
 
 const Index = () => {
     const limit = 8;
@@ -71,6 +71,7 @@ const Index = () => {
                     hasMore={data && data.users && data.users.pageInfo && data.users.pageInfo.hasNextPage}
                     hasFilters={false}
                     removeFilters={undefined}
+                    iframe={true}
                 />
             </div>
         </IframeContainer>
