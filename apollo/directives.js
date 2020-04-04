@@ -10,12 +10,12 @@ class AuthDirective extends SchemaDirectiveVisitor {
     const { resolver = defaultFieldResolver, name } = field
     const { requires } = this.args
     const whitelistOperations = [
-      'currentUser', 'signIn', 'signUp','updateAvatar','updateUser', 'verifyEmail',
+      'currentUser', 'signIn', 'signUp', 'verifyEmail',
     ]
 
     field.resolve = async function (source, args, context, info) {
       const {
-        variableValues: { id },
+        variableValues: { userId },
       } = info
       const operation = info.operation.selectionSet.selections[0].name.value
       if (!whitelistOperations.includes(operation)) {
@@ -36,7 +36,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
           requires === 'owner' &&
           !context.req.user.admin &&
           !context.req.user.moderator &&
-          id !== context.req.user.id
+          userId !== context.req.user.id
         ) {
           throw new ForbiddenError(`Unauthorized field ${name}`)
         }
