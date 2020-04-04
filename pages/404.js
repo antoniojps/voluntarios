@@ -16,7 +16,7 @@ const Description = () => (
   </p>
 )
 
-function SignOut() {
+function NotFound() {
   return (
     <Layout title="Mhm..." description={<Description />}>
       <Seo title="404" />
@@ -38,4 +38,4 @@ function SignOut() {
   );
 }
 
-export default withApollo({ ssr: false })(SignOut);
+export default withApollo({ ssr: false })(NotFound);
