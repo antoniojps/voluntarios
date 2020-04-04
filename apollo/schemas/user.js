@@ -179,6 +179,8 @@ export const typeDef = gql`
   extend type Query {
     # (User) User by id
     user(id: ID!): User
+    # (User) User by slug (id or username)
+    userBySlug(slug: String!): User
     # (User) Authenticated user
     currentUser: User
     # All users paginated with filters
@@ -225,6 +227,7 @@ export const resolvers = {
       return user;
     }),
     user: (root, { id }) => User.findById(id),
+    userBySlug: (root, { slug }) => User.findBySlug(slug),
     users: async (root, { input, pagination = {} }) =>
       User.searchByFilters({ input, pagination }),
   },

@@ -6,6 +6,7 @@ import { UserInputError } from 'apollo-server-micro';
 import { paginate } from '../apollo/utils/filters'
 import { paginate as mongoosePaginate } from 'mongoose-paginate'
 import { Face, FacialHair, Hair, Accessories, getRandomHead} from '../components/atoms/Avatar/utils'
+import { ObjectID as ObjectIdMongo } from 'mongodb'
 
 // USER
 // schema
@@ -141,6 +142,12 @@ const UserSchema = mongoose.Schema({
     },
     sparce: true,
   },
+  slug: {
+    type: String,
+    trim: true,
+    sparce: true,
+    unique: true,
+  },
 });
 
 UserSchema.set('timestamps', true)
@@ -151,6 +158,13 @@ UserSchema.statics = {
     return User.findOne({
       email,
     });
+  },
+  async findBySlug(slug) {
+    const isObjectId = ObjectIdMongo.isValid(slug)
+    if (isObjectId) return User.findById(slug)
+    return User.findOne({
+      slug,
+    })
   },
   async createUser(newUser) {
     const categoriesIds = newUser.categories
