@@ -117,22 +117,22 @@ const Description = ({ src = null, illustration = {}, slug = null }) => (
             <Avatar size='lg' src={src} {...illustration} />
         <Spacer y={0.5} />
             <div className="hero__description-actions">
-            <Link href="/avatar">
-                <a>
-                    <ButtonAction icon={faPen} className="btn--stretch btn--secondary btn--small">
-                    Editar avatar
-                    </ButtonAction>
-                </a>
-            </Link>
-            {slug && (
-                <Link href="/[user]" as={`/${slug}`}>
+                {slug && (
+                    <Link href="/[user]" as={`/${slug}`}>
+                        <a>
+                        <ButtonAction icon={faUser} className="btn--stretch btn--secondary btn--small">
+                            Ver perfil
+                        </ButtonAction>
+                        </a>
+                    </Link>
+                )}
+                <Link href="/avatar">
                     <a>
-                    <ButtonAction icon={faUser} className="btn--stretch btn--secondary btn--small">
-                        Ver perfil
-                    </ButtonAction>
+                        <ButtonAction icon={faPen} className="btn--stretch btn--secondary btn--small">
+                        Editar avatar
+                        </ButtonAction>
                     </a>
                 </Link>
-            )}
             </div>
         </div>
     )
