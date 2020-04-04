@@ -86,6 +86,11 @@ const Nav = ({ skipAuth = false }) => {
             <a>Privacidade</a>
           </LinkActive>
         </li>
+        {/* <li onClick={toggleMobileNav}>
+          <LinkActive target='_blank' href="https://www.covindex.pt/" activeClassName='nav--active'>
+            <a>Projeto covindex.pt</a>
+          </LinkActive>
+        </li> */}
         {!isAuth && (
           <>
             <li onClick={toggleMobileNav}>

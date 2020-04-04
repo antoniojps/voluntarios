@@ -6,6 +6,7 @@ const links = [
   { label: 'Sobre', to: '/p/sobre' },
   { label: 'Contactar', to: '/p/contacto' },
   { label: 'Privacidade', to: '/p/politica-de-privacidade' },
+  // { label: 'Projeto covindex.pt', to: 'https://www.covindex.pt/', target: '_blank' },
 ]
 
 const Icon = () => (
@@ -18,8 +19,8 @@ const Icon = () => (
 
 const List = () => (
   <div className="list">
-    {links.map(({ label, to }) => (
-      <LinkActive key={label} href={to} activeClassName='active'>
+    {links.map(({ label, to, target }) => (
+      <LinkActive key={label} target={target ? target : undefined} href={to} activeClassName='active'>
         <a>{label}</a>
       </LinkActive>
     ))}

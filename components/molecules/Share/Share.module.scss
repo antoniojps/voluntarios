@@ -1,0 +1,57 @@
+@import 'assets/styles/mixins.scss';
+
+.share {
+  * {
+    font-family: var(--font);
+  }
+  background: var(--baseInverse);
+  @include box-shadow;
+  padding: var(--spacing-xs3) var(--spacing-xs2);
+  display: flex;
+  align-items: center;
+  width: fit-content;
+
+  &__social {
+    cursor: pointer;
+    padding: var(--spacing-xs5) var(--spacing-xs4);
+    margin-right: var(--spacing-xs4);
+    border-radius: 3px;
+
+    &:hover {
+      background: var(--bgLoading);
+    }
+  }
+
+  &__url {
+    svg {
+      &:hover {
+        background: var(--bgLoading);
+      }
+      padding: var(--spacing-xs4) var(--spacing-xs4);
+      cursor: pointer;
+      border-radius: 3px;
+      height: 14px;
+      width: 14px;
+      position: relative;
+      top: 3px;
+    }
+
+    input {
+      margin-left: var(--spacing-xs3);
+      background: var(--baseInverse);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--base);
+      padding: var(--spacing-xs5) var(--spacing-xs4);
+    }
+  }
+
+  &__social,
+  &__url {
+    svg {
+      path {
+        fill: var(--base);
+      }
+    }
+  }
+}

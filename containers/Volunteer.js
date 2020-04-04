@@ -10,7 +10,7 @@ import { confettiConfig } from '../services/contants'
 import { Icon, Modal } from 'components/atoms'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
-const Volunteer = ({ name, _id, ...props }) => {
+const Volunteer = ({ name, _id, iframe = false, ...props }) => {
   const [hasVerified, setHasVerified] = useState(false)
   const [isOpen, setOpen] = useState(false)
   const [, setToast] = useToasts()
@@ -43,7 +43,7 @@ const Volunteer = ({ name, _id, ...props }) => {
 
   return (
     <div>
-      <Card name={name} {...props} onContact={toggle} heightStretch />
+      <Card name={name} {...props} onContact={toggle} heightStretch iframe={iframe} />
       <div className="confetti-wrapper">
         <Confetti active={!loading && data} config={confettiConfig} />
       </div>
@@ -53,38 +53,38 @@ const Volunteer = ({ name, _id, ...props }) => {
         </button>
       )}
       <Modal isOpen={isOpen} toggle={toggle} title="Contactar">
-          <Card
-            name={name}
-            {...props}
-            hasShadow={false}
-            hasContact={false}
-            hasLocations={false}
-            hasCategories={false}
-          />
-          {hasVerified && <ContactForm volunteer={name} onSubmit={handleContact} loading={loading} />}
-          {error && (
-            <>
-              <Spacer y={0.5} />
-              <Note label={false} type="error" style={{ height: 'fit-content' }}>
-                Lamentamos, ocorreu um erro a obter o contacto.
+        <Card
+          name={name}
+          {...props}
+          hasShadow={false}
+          hasContact={false}
+          hasLocations={false}
+          hasCategories={false}
+        />
+        {hasVerified && <ContactForm volunteer={name} onSubmit={handleContact} loading={loading} />}
+        {error && (
+          <>
+            <Spacer y={0.5} />
+            <Note label={false} type="error" style={{ height: 'fit-content' }}>
+              Lamentamos, ocorreu um erro a obter o contacto.
                 </Note>
-            </>
-          )}
-          {!hasVerified && (
-            <section>
-              <Note label={false} style={{ height: 'fit-content' }}>
-                Verifique que não é um robô para contactar {name}.
+          </>
+        )}
+        {!hasVerified && (
+          <section>
+            <Note label={false} style={{ height: 'fit-content' }}>
+              Verifique que não é um robô para contactar {name}.
                 </Note>
-              <Spacer y={0.5} />
-              <ReCAPTCHA
-                sitekey="6LdcC-UUAAAAAM7qJxeyLarefJOmD_rcN66sNOB2"
-                onChange={() => setHasVerified(true)}
-                onExpired={() => setHasVerified(false)}
-                onErrored={() => setHasVerified(false)}
-                style={{ display: "flex", justifyContent: 'center' }}
-              />
-            </section>
-          )}
+            <Spacer y={0.5} />
+            <ReCAPTCHA
+              sitekey="6LdcC-UUAAAAAM7qJxeyLarefJOmD_rcN66sNOB2"
+              onChange={() => setHasVerified(true)}
+              onExpired={() => setHasVerified(false)}
+              onErrored={() => setHasVerified(false)}
+              style={{ display: "flex", justifyContent: 'center' }}
+            />
+          </section>
+        )}
       </Modal>
       <style jsx>{`
           .confetti-wrapper {

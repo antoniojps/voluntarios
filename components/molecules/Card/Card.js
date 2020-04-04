@@ -18,7 +18,12 @@ const Card = memo(({
     hasLocations = true,
     hasCategories = true,
     heightStretch = false,
+    iframe = false,
 }) => {
+
+    function onIframeContact() {
+        window.parent.postMessage(JSON.stringify({'action': 'OPEN_URL', 'url': "https://voluntarios.app"}), "https://www.covindex.pt")
+    }
 
     const avatarProps = useMemo(() => {
         if (!avatar) return {}
@@ -81,7 +86,7 @@ const Card = memo(({
                         }
                     </div>
                     {hasContact && (
-                        <button onClick={onContact} className="btn btn--secondary btn--stretch" type='secondary'>
+                        <button onClick={iframe ? onIframeContact : onContact} className="btn btn--secondary btn--stretch" type='secondary'>
                             contactar
                         </button>
                     )}

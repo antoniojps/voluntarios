@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from "react";
 import { Icon } from "components/atoms";
-import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faChevronLeft, faTimes } from '@fortawesome/free-solid-svg-icons'
 import "./Filter.module.scss";
 
 const Filter = forwardRef(({
@@ -97,8 +97,20 @@ const Filter = forwardRef(({
                     handleChange(newValue)
                   }}
                 >
-                  <input type="radio" checked={item._id === selected} id={`radio${item._id}`} />
-                  <label htmlFor={`radio${item._id}`}>{item.name}</label>
+                  <div>
+                    <input type="radio" checked={item._id === selected} id={`radio${item._id}`} />
+                    <label htmlFor={`radio${item._id}`}>{item.name}</label>
+                  </div>
+                  {item._id === selected && (
+                    <div className='filter__list__item__remove'>
+                      <Icon icon={faTimes} onClick={() => {
+
+                        setSelected('')
+                        setOpen(false);
+                        handleChange('')
+                      }} />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

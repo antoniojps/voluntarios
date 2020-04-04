@@ -18,6 +18,7 @@ const VolunteersList = ({
   hasNextPage = false,
   hasFilters,
   removeFilters,
+  iframe = false,
 }) => {
   if (error) return <Note label={false} type="error" style={{ height: 'fit-content' }}>Ocorreu um erro.</Note>
   const volunteers = data && data.users && data.users.list ? data.users.list : defaultData;
@@ -38,6 +39,7 @@ const VolunteersList = ({
             key={volunteer._id}
             {...volunteer}
             loading={(loading && (!data || !data.users || !data.users.list))}
+            iframe={iframe}
           />
         ))
       }
