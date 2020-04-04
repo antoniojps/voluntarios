@@ -5,6 +5,8 @@ import Category from './../../models/category';
 import { secure, secureUserOnly, StatusError } from './../utils/filters';
 import { createUser, login, logout, isValidPassword, generateLocation } from './../utils/user';
 import { sendVerificationEmail } from 'services/email'
+import { ObjectID } from 'mongodb'
+import { slugRegex } from 'services/contants'
 
 export const typeDef = gql`
   type User {
@@ -23,6 +25,7 @@ export const typeDef = gql`
     verificationTokenSentAt: DateTime
     createdAt: DateTime
     avatar: Avatar
+    slug: String
   }
 
   enum OrderFields {
@@ -176,6 +179,10 @@ export const typeDef = gql`
     verificationToken: String!
   }
 
+  input SlugInput {
+    slug: String!
+  }
+
   extend type Query {
     # (User) User by id
     user(id: ID!): User
@@ -200,6 +207,8 @@ export const typeDef = gql`
     updateUser(userId: ID!, input: UserUpdateInput!): User!
     # (Owner) Update user avatar
     updateAvatar(userId: ID!, input: AvatarInput!): User!
+    # (Owner) Update user slug
+    updateSlug(userId: ID!, input: SlugInput!): User!
   }
 `;
 
@@ -290,6 +299,32 @@ export const resolvers = {
       } catch (e) {
         if (process.env !== 'production') throw new Error(e.message);
         throw Error('Error updating user');
+      }
+    }),
+    updateSlug: secureUserOnly(async (root, { userId, input }) => {
+      try {
+        const slug = input.slug.toLowerCase()
+        const slugValid = slugRegex.test(slug)
+        if (!slugValid) throw new Error('400');
+        const userWithSlug = await User.findOne({ slug })
+        if (
+          userWithSlug
+          && ObjectID(userWithSlug._id).toString() !== ObjectID(userId).toString()
+        ) throw new Error('409');
+        const updatedUser = await User.findOneAndUpdate(
+          {
+            _id: userId,
+          },
+          {
+            slug,
+          },
+          { new: true },
+        );
+        return updatedUser
+      } catch (err) {
+        if (err.message === '400') throw new StatusError(400, 'Slug invalid');
+        if (err.message === '409') throw new StatusError(409, 'Slug already in use');
+        else throw new ApolloError(err)
       }
     }),
     updateAvatar: secureUserOnly(async (root, { userId, input }) => {
