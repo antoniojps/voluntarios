@@ -72,17 +72,17 @@ const Nav = ({ skipAuth = false }) => {
           </LinkActive>
         </li>
         <li onClick={toggleMobileNav}>
-          <LinkActive href="/blog/sobre" activeClassName='nav--active'>
+          <LinkActive href="/p/sobre" activeClassName='nav--active'>
             <a>Sobre</a>
           </LinkActive>
         </li>
         <li onClick={toggleMobileNav}>
-          <LinkActive href="/blog/contacto" activeClassName='nav--active'>
+          <LinkActive href="/p/contacto" activeClassName='nav--active'>
             <a>Contacto</a>
           </LinkActive>
         </li>
         <li onClick={toggleMobileNav}>
-          <LinkActive href="/blog/politica-de-privacidade" activeClassName='nav--active'>
+          <LinkActive href="/p/politica-de-privacidade" activeClassName='nav--active'>
             <a>Privacidade</a>
           </LinkActive>
         </li>
