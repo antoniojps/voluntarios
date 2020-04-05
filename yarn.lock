@@ -3255,9 +3255,9 @@
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
 "@zeit-ui/react@^0.0.1-beta.1":
-  version "0.0.1-beta.1"
-  resolved "https://registry.yarnpkg.com/@zeit-ui/react/-/react-0.0.1-beta.1.tgz#ab96d3cd03d3c88a7d7ea276f641ea0159b6c221"
-  integrity sha512-MdR6gQCLBxEQZOsGw2BfIczo3OZipDZn3vyC5tqvmOKjH5WFdZBE1HP3jxOKI99n9tLNqftf9fYiukTHGm5P9g==
+  version "0.0.1-beta.9"
+  resolved "https://registry.yarnpkg.com/@zeit-ui/react/-/react-0.0.1-beta.9.tgz#3f6e711ea8caec74077da291126cb8d8486505c3"
+  integrity sha512-Ef7OJtA5vI3drydHvBpNiYDvdZhDLrqmAkQN8Gw/ToAoVjRWFIwx3PH07s3cvdglHBZF34bu3zdT2gFWBZsL4A==
 
 "@zeit/next-css@1.0.1", "@zeit/next-css@^1.0.1":
   version "1.0.1"
