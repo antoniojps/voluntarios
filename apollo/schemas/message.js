@@ -40,7 +40,7 @@ export const resolvers = {
         await sendMessageEmail({ to: message.to.email, email, name, message: body })
         return message
       } catch (err) {
-        if (process.env !== 'production') console.error(err.message)
+        if (process.env.NODE_ENV !== 'production') console.error(err.message)
         throw new ApolloError(err.message)
       }
       },

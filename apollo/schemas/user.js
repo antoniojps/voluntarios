@@ -278,7 +278,7 @@ export const resolvers = {
         await user.save();
         return user;
       } catch (e) {
-        if (process.env !== 'production') throw new Error(e.message);
+        if (process.env.NODE_ENV !== 'production') throw new Error(e.message);
         throw Error('Error verifying email');
       }
     },
@@ -297,7 +297,7 @@ export const resolvers = {
         );
         return updatedUser
       } catch (e) {
-        if (process.env !== 'production') throw new Error(e.message);
+        if (process.env.NODE_ENV !== 'production') throw new Error(e.message);
         throw Error('Error updating user');
       }
     }),
@@ -345,7 +345,7 @@ export const resolvers = {
         );
         return updatedUser
       } catch (e) {
-        if (process.env !== 'production') throw new Error(e.message);
+        if (process.env.NODE_ENV !== 'production') throw new Error(e.message);
         throw Error('Error updating user');
       }
     }),

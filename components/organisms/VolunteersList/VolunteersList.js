@@ -61,7 +61,7 @@ const VolunteersList = ({
         </div>
       )}
       {hasNextPage && <ButtonZeit onClick={handleFetchMore} disabled={loading}>Carregar mais</ButtonZeit>}
-      {!hasNextPage && volunteers.length !== 0&& (<p>Final dos resultados</p>)}
+      {!hasNextPage && volunteers.length !== 0 && (<p>Final dos resultados</p>)}
     </InfiniteScroll>
   )
 }
