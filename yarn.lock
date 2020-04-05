@@ -13203,6 +13203,11 @@ react-hotkeys@2.0.0:
   dependencies:
     prop-types "^15.6.1"
 
+react-image-file-resizer@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-image-file-resizer/-/react-image-file-resizer-0.2.1.tgz#ee081bd41798ff960eea1a56b1a86ba317fecf11"
+  integrity sha512-uvhNj2NKMUraVKIrsmPNZgWn34b7fjEcuWAyMXUrVb06gedNtOalOBxVwXYocd4KnZRFv2/ilmAE4KEzIkj4aA==
+
 react-infinite-scroller@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/react-infinite-scroller/-/react-infinite-scroller-1.2.4.tgz#f67eaec4940a4ce6417bebdd6e3433bfc38826e9"

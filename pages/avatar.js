@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 const Avatar = ({ user }) => {
   const client = useApolloClient();
   const [, setToast] = useToasts()
-  const [updateAvatar, { loading }] = useMutation(UPDATE_USER_AVATAR_MUTATION);
+  const [updateAvatar, { data, loading }] = useMutation(UPDATE_USER_AVATAR_MUTATION);
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
   async function handleSave(input) {
@@ -44,7 +44,7 @@ const Avatar = ({ user }) => {
     }
 }
 
-  const src = user.avatar && user.avatar.image && user.avatar.image.large
+  const image = (data && data.updateAvatar && data.updateAvatar.avatar && data.updateAvatar.avatar.image) || (user.avatar && user.avatar.image)
   const initialIllustration = user.avatar && user.avatar.illustration
 
   return (
@@ -53,7 +53,7 @@ const Avatar = ({ user }) => {
       <AvatarForm
         onSubmit={handleSave}
         loading={loading}
-        src={src}
+        initialImage={image}
         initialIllustration={initialIllustration}
         successToggle={hasSubmitted}
       />

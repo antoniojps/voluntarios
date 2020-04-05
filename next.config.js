@@ -22,6 +22,7 @@ const config = {
   env: {
     DOMAIN: process.env.DOMAIN,
     GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,
+    CLOUDINARY_PRESET: process.env.CLOUDINARY_PRESET,
   },
 }
 

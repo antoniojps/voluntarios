@@ -75,7 +75,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
         const avatar = currentUser && currentUser.avatar
 
         if (!avatar) return {}
-        const src = avatar.image && avatar.image.small ? avatar.image.small : null
+        const src = avatar.image && avatar.image.large ? avatar.image.large : null
         const illustration = avatar.illustration
         return {
           src,

@@ -9,12 +9,14 @@
     "EMAIL_SENDER": "@voluntarios_email_sender",
     "GOOGLE_PLACES_API_KEY": "@voluntarios_google_places_api_key",
     "DOMAIN": "@voluntarios_domain",
-    "GRAPHQL_ENDPOINT": "@voluntarios_graphql_endpoint"
+    "GRAPHQL_ENDPOINT": "@voluntarios_graphql_endpoint",
+    "CLOUDINARY_PRESET": "@voluntarios_cloudinary_preset"
   },
   "build": {
     "env": {
       "DOMAIN": "@voluntarios_domain",
-      "GRAPHQL_ENDPOINT": "@voluntarios_graphql_endpoint"
+      "GRAPHQL_ENDPOINT": "@voluntarios_graphql_endpoint",
+      "CLOUDINARY_PRESET": "@voluntarios_cloudinary_preset"
     }
   }
 }

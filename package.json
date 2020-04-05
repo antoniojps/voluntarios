@@ -67,6 +67,7 @@
     "react-dom-confetti": "^0.1.3",
     "react-google-recaptcha": "^2.0.1",
     "react-hook-form": "^5.1.3",
+    "react-image-file-resizer": "^0.2.1",
     "react-infinite-scroller": "^1.2.4",
     "react-markdown": "^4.3.1",
     "react-peeps": "^0.1.1",
