@@ -54,6 +54,7 @@ const UserUpdateSlug = ({ userId = null, initialSlug = 'hey' }) => {
           text: 'Nome de utilizador gravado.',
           actions: [{
             name: 'ver perfil',
+            passive: true,
             handler: () => router.push('/[user]',`/${newSlug}`),
           }],
         })
