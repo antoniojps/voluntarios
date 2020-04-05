@@ -13,3 +13,13 @@ export const SEND_MESSAGE_MUTATION = gql`
     }
   }
 `;
+
+export const SEND_MESSAGE_SUPPORT_MUTATION = gql`
+  mutation sendMessageToSupport( $input: MessageInput!){
+    sendMessageToSupport(input: $input) {
+      email
+      name
+      message
+    }
+  }
+`;

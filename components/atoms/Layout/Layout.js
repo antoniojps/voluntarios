@@ -12,6 +12,7 @@ const Layout = ({
   showPublicNav = false,
   showFooter = true,
   showFooterCallToAction = false,
+  classNameMain = "",
 }) => {
   return (
     <>
@@ -24,7 +25,7 @@ const Layout = ({
           </div>
         </div>
 
-        <main>
+        <main className={classNameMain}>
           {children}
         </main>
         {showFooter && (

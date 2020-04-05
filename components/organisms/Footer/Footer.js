@@ -39,6 +39,9 @@ const Footer = ({ showCallToAction = false }) => {
               </div>
               <div className='footer__col col col-12 col-md-3'>
                 <h4>Contactos</h4>
+                <Link href='/contact'>
+                    <a>Formulário online</a>
+                </Link>
                 {contactsData.map(contact => (
                   <a className='contact-item' href={`${contact.type}${contact.content}`}>
                     <Icon icon={contact.icon} />

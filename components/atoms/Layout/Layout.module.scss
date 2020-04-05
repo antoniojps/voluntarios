@@ -65,4 +65,9 @@ main {
     margin-left: auto;
     margin-right: auto;
   }
+  &.mini {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

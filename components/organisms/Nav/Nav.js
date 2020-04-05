@@ -83,7 +83,7 @@ const Nav = ({ skipAuth = false }) => {
           </LinkActive>
         </li>
         <li onClick={toggleMobileNav}>
-          <LinkActive href="/p/contacto" activeClassName='nav--active'>
+          <LinkActive href="/contact" activeClassName='nav--active'>
             <a>Contacto</a>
           </LinkActive>
         </li>

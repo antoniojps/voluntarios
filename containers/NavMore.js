@@ -4,7 +4,7 @@ import { LinkActive } from 'components/atoms'
 
 const links = [
   { label: 'Sobre', to: '/p/sobre' },
-  { label: 'Contactar', to: '/p/contacto' },
+  { label: 'Contactar', to: '/contact' },
   { label: 'Privacidade', to: '/p/politica-de-privacidade' },
   // { label: 'Projeto covindex.pt', to: 'https://www.covindex.pt/', target: '_blank' },
 ]
