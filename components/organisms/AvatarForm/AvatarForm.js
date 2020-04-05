@@ -121,7 +121,7 @@ const AvatarForm = ({
       240,
       240,
       'JPEG',
-      80,
+      100,
       0,
       blob => {
         setFiles({ large: new File([blob], file.name || 'avatar.jpg', { type: 'image/jpeg' }) })
@@ -130,10 +130,10 @@ const AvatarForm = ({
     );
     Resizer.imageFileResizer(
       file,
-      58,
-      58,
-      'JPEG',
       80,
+      80,
+      'JPEG',
+      100,
       0,
       blob => {
         setFiles({ medium: new File([blob], file.name || 'avatar.jpg', { type: 'image/jpeg' }) })
@@ -142,10 +142,10 @@ const AvatarForm = ({
     );
     Resizer.imageFileResizer(
       file,
-      42,
-      42,
+      60,
+      60,
       'JPEG',
-      80,
+      100,
       0,
       blob => {
         setFiles({ small: new File([blob], file.name || 'avatar.jpg', { type: 'image/jpeg' }) })
@@ -227,15 +227,6 @@ const AvatarForm = ({
       (initialImage && initialImage.large && initialImage.large === src)
       && !((initialImage && initialImage.large !== null) !== useImage)
     )
-
-  useEffect(() => {
-    console.log({
-      src,
-      loading,
-      loadingUpload,
-      initialImage,
-    })
-  }, [src, loading, loadingUpload, initialImage])
 
   return (
     <div className="avatar-form__wrapper">
