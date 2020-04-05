@@ -1,16 +1,21 @@
 ---
 title: "Sobre"
-description: "Qual é a missão do Voluntários?"
+description: "voluntarios.app"
 author: António & Sónia
 date: "2020-04-02"
 ---
+
 Estás disposto a utilizar as tuas competências para **melhorar a sociedade**?
 **Queres ajudar** mas não sabes por onde começar?
 **Precisas de voluntários** para um projeto solidário?
 
 Se respondeste *“Sim”* a alguma das perguntas anteriores, a plataforma voluntários é ideal para ti!
 
+
 ## Missão
+
+!["Gráfico ilustrativo da missão da plataforma"](/voluntarios-graph.jpg)
+
 A nossa missão é **facilitar a comunicação entre voluntários dispostos a ajudar e projetos sem fins lucrativos**, que visam a melhoria da sociedade.
 
 Em tempos de angústia, percebemos que a solidariedade é essencial para uma sociedade próspera e que pequenos atos fazem toda a diferença.
