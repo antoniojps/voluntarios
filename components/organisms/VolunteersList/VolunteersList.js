@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import InfiniteScroll from 'react-infinite-scroller';
 import Volunteer from '../../../containers/Volunteer'
 import './VolunteersList.module.scss'
+import { ButtonZeit } from 'components/atoms'
 import { Note, Button, Spacer, Text } from '@zeit-ui/react'
 
 // for loading purposes
@@ -59,7 +60,8 @@ const VolunteersList = ({
           )}
         </div>
       )}
-      {hasNextPage && <button onClick={handleFetchMore}>Carregar mais</button>}
+      {hasNextPage && <ButtonZeit onClick={handleFetchMore} disabled={loading}>Carregar mais</ButtonZeit>}
+      {!hasNextPage && volunteers.length !== 0&& (<p>Final dos resultados</p>)}
     </InfiniteScroll>
   )
 }
