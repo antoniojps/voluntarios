@@ -19,7 +19,7 @@ const Description = ({ path, categories = [] }) => {
   return (
     <div className="description-user">
       <p>
-        Está pronto a ajudar
+        Disponível para ajudar
         {' '}
         {categories.length > 0 ? ` na${categories.length > 1 ? 's' : ''} área${categories.length > 1 ? 's' : ''} de ${categories.map(opt => opt.name).join(', ')}` : ''}
         .
@@ -63,9 +63,9 @@ function Profile({ user }) {
     <Layout title={user.name} description={<Description path={asPath} categories={user.categories} />}>
       <Seo
         title={user.name}
-        description={`Pronto a ajudar${user.categories.length > 0 ? ` na${user.categories.length > 1 ? 's' : ''} área${user.categories.length > 1 ? 's' : ''} de ${user.categories.map(opt => opt.name).join(', ')}` : ''}.`}
+        description={`Disponível para ajudar${user.categories.length > 0 ? ` na${user.categories.length > 1 ? 's' : ''} área${user.categories.length > 1 ? 's' : ''} de ${user.categories.map(opt => opt.name).join(', ')}` : ''}.`}
         shouldAppend={false}
-        ogImageText={`**${user.firstName}** está pronto para ajudar.`}
+        ogImageText={`**${user.firstName}** está disponível para ajudar.`}
       />
       <Volunteer {...user} isClickable={false} hasPerson={false} />
       <Spacer y={5} />

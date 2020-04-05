@@ -6,7 +6,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 import "./Share.module.scss";
 
 const share = {
-    twitter: "https://twitter.com/intent/tweet?text=Estou%20dispon%C3%ADvel%20para%20ajudar%20quem%20precisar!%20",
+    twitter: "https://twitter.com/intent/tweet?text=Estou%20pronto%20para%20ajudar!%20",
     facebook: "https://www.facebook.com/sharer/sharer.php?u=",
     linkedin: "https://www.linkedin.com/sharing/share-offsite/?url=",
 }
