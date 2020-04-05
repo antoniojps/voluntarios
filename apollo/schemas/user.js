@@ -307,6 +307,11 @@ export const resolvers = {
         const slugValid = slugRegex.test(slug)
         if (!slugValid) throw new Error('400');
         const userWithSlug = await User.findOne({ slug })
+
+        // prevent from setting custom user id as an object id
+        const isObjectId = ObjectID.isValid(slug)
+        if (isObjectId) throw new Error('400');
+
         if (
           userWithSlug
           && ObjectID(userWithSlug._id).toString() !== ObjectID(userId).toString()
