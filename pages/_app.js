@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import NProgress from 'nprogress';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import 'assets/styles/bootstrap-grid.css'
 import { CSSBaseline, ZEITUIProvider } from '@zeit-ui/react'
+import registerGoogleTracking from 'services/ga-tracking';
 
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
@@ -13,6 +15,12 @@ Router.events.on('routeChangeComplete', () => {
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+  useEffect(() => {
+    const unregisterGoogleTracking = registerGoogleTracking(router);
+    return unregisterGoogleTracking();
+  }, []);
+
   return (
     <ZEITUIProvider theme={{ type: 'light' }}>
       <CSSBaseline />

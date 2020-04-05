@@ -4,5 +4,6 @@
   "description": "A Plataforma Online do Voluntariado Português",
   "keywords": ["voluntarios", "voluntariado", "covid", "voluntariar"],
   "image": { "src": "/seo.jpg", "width": 1200, "height": 630 },
-  "fb-app-id": "912769122507467"
+  "fb-app-id": "912769122507467",
+  "google-analytics": "UA-96747943-7"
 }
