@@ -54,6 +54,9 @@ const Nav = ({ skipAuth = false }) => {
           </LinkActive>
         </li>
         <li>
+          <a href="https://www.covindex.pt/" rel="noreferrer noopener" target="_blank">Projetos</a>
+        </li>
+        <li>
           <NavMore />
         </li>
       </ul>
@@ -70,6 +73,9 @@ const Nav = ({ skipAuth = false }) => {
           <LinkActive href="/" activeClassName='nav--active'>
             <a>Voluntários</a>
           </LinkActive>
+        </li>
+        <li>
+          <a href="https://www.covindex.pt/" rel="noreferrer noopener" target="_blank">Projetos</a>
         </li>
         <li onClick={toggleMobileNav}>
           <LinkActive href="/p/sobre" activeClassName='nav--active'>
