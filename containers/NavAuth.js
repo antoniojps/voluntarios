@@ -4,7 +4,7 @@ import { LinkActive, Avatar } from 'components/atoms'
 
 
 const links = [
-  { label: 'Perfil', to: '/profile' },
+  { label: 'Editar perfil', to: '/profile' },
   { label: 'Avatar', to: '/avatar' },
   { label: 'Sair', to: '/sign-out' },
 ]

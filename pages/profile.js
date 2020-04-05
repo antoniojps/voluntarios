@@ -85,7 +85,7 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
 
     return (
         <Layout title={`${currentUser.firstName} ${currentUser.lastName}`} description={<Description {...avatarProps} slug={user.slug || user._id} />}>
-            <Seo title="Dashboard" />
+            <Seo title="Editar perfil" />
             <div className="container">
                 <div className="row flex-column justify-content-md-center">
                     {submitError && (

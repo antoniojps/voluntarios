@@ -8,7 +8,6 @@ import { FormSteps, SignupSubmit } from '../components/organisms';
 import { Steps } from '../components/molecules';
 import { Layout } from '../components/atoms';
 import { getErrorMessage } from '../utils/form';
-import { useRouter } from 'next/router';
 import * as yup from 'yup'
 import { withAuth } from 'utils/auth'
 import { withApollo } from '../apollo/client';
@@ -170,7 +169,12 @@ function SignUp() {
         title={title}
         description={
           hasRegistered
-            ? <p>Obrigado por fazeres parte do Voluntários</p>
+            ? (
+              <p>
+                Obrigado por fazeres parte do Voluntários!
+                <span role="img" aria-label="praise">🙌</span>
+              </p>
+            )
             : (
               <Steps
                 steps={form.length - 1}

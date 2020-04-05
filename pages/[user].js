@@ -12,12 +12,18 @@ import { useToasts } from '@zeit-ui/react'
 
 const { DOMAIN } = process.env
 
-const Description = ({ path }) => {
+const Description = ({ path, categories = [] }) => {
   const profileUrl = `${DOMAIN}${path}`
   const [, setToast] = useToasts()
 
   return (
-    <div>
+    <div className="description-user">
+      <p>
+        Está pronto a ajudar
+        {' '}
+        {categories.length > 0 ? ` na${categories.length > 1 ? 's' : ''} área${categories.length > 1 ? 's' : ''} de ${categories.map(opt => opt.name).join(', ')}` : ''}
+        .
+      </p>
       <Share
         facebookUrl={profileUrl}
         twitterUrl={profileUrl}
@@ -27,6 +33,13 @@ const Description = ({ path }) => {
           text: 'Endereço copiado',
         })}
       />
+      <style jsx>{`
+        .description-user {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      `}</style>
     </div>
   )
 }
@@ -47,10 +60,10 @@ function Profile({ user }) {
   const { asPath } = useRouter()
 
   if (user) return (
-    <Layout title={user.name} description={<Description path={asPath} />}>
+    <Layout title={user.name} description={<Description path={asPath} categories={user.categories} />}>
       <Seo
         title={user.name}
-        description={`Voluntário pronto a ajudar${user.categories.length > 0 ? ` na(s) área(s) de ${user.categories.map(opt => opt.name).join(', ')}` : ''}.`}
+        description={`Voluntário pronto a ajudar${user.categories.length > 0 ? ` na${user.categories.length > 1 ? 's' : ''} área${user.categories.length > 1 ? 's' : ''} de ${user.categories.map(opt => opt.name).join(', ')}` : ''}.`}
         shouldAppend={false}
         ogImageText={`**${user.firstName}** está pronto para ajudar.`}
       />

@@ -60,7 +60,7 @@ const UserUpdateSlug = ({ userId = null, initialSlug = 'hey' }) => {
     } catch (error) {
 
         setToast({
-            text: 'Não foi possível gravar o nome de utilizador. Tente outro.',
+            text: 'Não foi possível gravar o nome de utilizador. É provável que já tenha sido utilizado, tente outro.',
             type: 'error',
         })
     }
