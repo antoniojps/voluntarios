@@ -8,6 +8,7 @@ export const linksData = [
     { label: 'Missão', to: '/p/sobre' },
     { label: 'Quem somos?', to: '/p/sobre' },
     { label: 'Como funciona?', to: '/p/sobre' },
+    { label: 'Política de privacidade', to: '/p/politica-de-privacidade' },
 ];
 
 export const contactsData = [
