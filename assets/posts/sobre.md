@@ -2,14 +2,14 @@
 title: "Sobre"
 description: "voluntarios.app"
 author: António & Sónia
-date: "2020-04-02"
+date: "2020-05-02"
 ---
 
 Estás disposto a utilizar as tuas competências para **melhorar a sociedade**?
 **Queres ajudar** mas não sabes por onde começar?
 **Precisas de voluntários** para um projeto solidário?
 
-Se respondeste *“Sim”* a alguma das perguntas anteriores, a plataforma voluntários é ideal para ti!
+Se respondeste *“Sim”* a alguma das perguntas anteriores, o *voluntários* é ideal para ti!
 
 
 ## Missão

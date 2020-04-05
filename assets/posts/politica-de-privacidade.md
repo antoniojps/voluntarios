@@ -1,7 +1,7 @@
 ---
 title: "Política de privacidade"
 description: "voluntarios.app"
-date: "2020-04-02"
+date: "2020-05-02"
 ---
 
 
