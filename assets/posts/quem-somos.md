@@ -1,5 +1,5 @@
 ---
-title: "Quem somos?"
+title: "Quem somos"
 description: "Conhece a equipa e de onde surgiu a ideia."
 date: "2020-04-05"
 ---
