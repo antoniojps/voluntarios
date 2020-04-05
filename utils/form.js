@@ -16,6 +16,8 @@ export function getErrorMessage(error) {
 }
 
 export const mergeLocations = (newLocations = [], userLocations = [], selectedLocations = []) => {
+  if (selectedLocations.length === 0) return []
+
   // find which of the selected are old locations
   const oldLocationsValues = selectedLocations.filter(opt => userLocations.filter(userLocation => userLocation._id === opt.value))
   const oldLocations = userLocations.filter(savedLocation => oldLocationsValues.filter(opt => opt.value === savedLocation._id))
@@ -27,6 +29,7 @@ export const mergeLocations = (newLocations = [], userLocations = [], selectedLo
           long: location.geolocation.long,
       },
   })) : []
+
   // merge
   const locationsMerged = [
       ...oldLocationsClean,
