@@ -43,7 +43,7 @@ const Posts = ({ frontmatter, markdownBody }) => {
         <Note label={false}>
           Atualizado {postDate}
         </Note>
-        <Spacer y={5}/>
+        <Spacer y={3}/>
       </article>
       <style jsx>{`
         article {
