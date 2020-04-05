@@ -27,7 +27,7 @@ export const sendVerificationEmail = async ({ to, name, token }) => {
       },
     });
   } catch (err) {
-    if (process.env !== "production") console.log(err.message)
+    if (process.env.NODE_ENV !== "production") console.log(err.message)
     throw new Error(err.message || 'error sending email');
   }
 }
@@ -45,7 +45,7 @@ export const sendMessageEmail = async ({ to, name, email, message }) => {
       },
     });
   } catch (err) {
-    if (process.env !== "production") console.log(err.message)
+    if (process.env.NODE_ENV !== "production") console.log(err.message)
     throw new Error(err.message || 'error sending email');
   }
 }
