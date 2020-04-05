@@ -11,9 +11,9 @@ export const linksData = [
 ];
 
 export const contactsData = [
-    { icon: faPhone, content: '+351 914 290 986' },
-    { icon: faPhone, content: '+351 912 817 861' },
-    { icon: faEnvelope, content: 'voluntarios.app@gmail.com' },
+    { icon: faPhone, content: '+351 914 290 986', type: 'tel:' },
+    { icon: faPhone, content: '+351 912 817 861', type: 'tel:'},
+    { icon: faEnvelope, content: 'voluntarios.app@gmail.com', type: 'mailto:' },
 ]
 
 export const socialData = [

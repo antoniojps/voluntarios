@@ -1,27 +1,35 @@
-import React from 'react'
-import { linksData, contactsData, socialData } from './FooterData';
+import React, { useMemo } from 'react'
+import { linksData, contactsData, socialData } from './data';
 import Link from 'next/link';
 import { Icon } from 'components/atoms'
+import { Spacer } from '@zeit-ui/react'
 
-const Footer = () => {
+const Footer = ({ showCallToAction = false }) => {
+  const year = useMemo(() => new Date().getFullYear(), [])
   return (
-    <>
+    <footer>
       <div className='footer'>
-        {/* <div className='footer__cta'>
-          <h3>Pronto para ajudar?</h3>
-          <p>Inscreve-te como voluntario</p>
-          <Link href="/sign-up">
-            <button className='btn btn--primary'>Inscrever</button>
-          </Link>
-        </div> */}
+        {showCallToAction && (
+          <div className='footer__cta'>
+            <h3>Pronto para ajudar?</h3>
+            <p>Inscreve-te como voluntario</p>
+            <Link href="/sign-up">
+              <button className='btn btn--primary'>Inscrever</button>
+            </Link>
+          </div>
+        )}
         <div className='footer__plus'>
           <div className='container'>
             <div className='row'>
-              <div className='col col-12 col-md-6'>
-                <h4>Misssão</h4>
+              <div className='footer__col col col-12 col-md-6'>
+                <h4 className="title-logo">
+                  <img src="/voluntarios-dark.svg" height="24px" alt="Logótipo de voluntários: Letra V, na zona inferior encontram-se duas mãos apertadas" />
+                  Missão
+                </h4>
                 <p>Vamos <strong>facilitar a comunicação</strong> entre <strong>voluntários</strong> dispostos a ajudar e <strong>projetos</strong> sem fins lucrativos, que visam melhorar a sociedade.</p>
+
               </div>
-              <div className='col col-12 col-md-3'>
+              <div className='footer__col col col-12 col-md-3'>
                 <h4>Plataforma</h4>
                 {linksData.map(link => (
                   <Link href={link.to}>
@@ -29,13 +37,13 @@ const Footer = () => {
                   </Link>
                 ))}
               </div>
-              <div className='col col-12 col-md-3'>
+              <div className='footer__col col col-12 col-md-3'>
                 <h4>Contactos</h4>
                 {contactsData.map(contact => (
-                  <div className='contact-item'>
+                  <a className='contact-item' href={`${contact.type}${contact.content}`}>
                     <Icon icon={contact.icon} />
                     <span>{contact.content}</span>
-                  </div>
+                  </a>
                 ))}
               </div>
 
@@ -46,19 +54,20 @@ const Footer = () => {
         <div className='footer__social'>
           <div>
             {socialData.map(social => (
-              <a href={social.to} target='_blank'>
-                <Icon icon={social.icon} />
-              </a>
+                <a href={social.to} target='_blank' rel="noreferrer noopener">
+                  <Icon icon={social.icon} />
+                </a>
             ))}
+            <Spacer y={1} />
+            <span>Voluntários @{year}</span>
           </div>
-          <span>Voluntários @2020</span>
         </div>
       </div>
       <style jsx global>{`
         .footer {
           width: 100%;
           padding: var(--spacing-xs);
-          margin-top: var(--spacing-xl1); 
+          margin: var(--spacing-xl1) 0;
         }
         .footer__cta {
           text-align: center;
@@ -72,6 +81,11 @@ const Footer = () => {
         .footer__cta > button {
           margin-top: var(--spacing-xs4);
         }
+
+        .footer__col {
+          margin-bottom: var(--spacing-s);
+        }
+
         .footer__plus {
           border-top: 1px solid var(--border);
           padding: var(--spacing-m) 0;
@@ -89,7 +103,7 @@ const Footer = () => {
           display: inline-block;
           width: 100%;
           color: var(--base40);
-          padding: var(--spacing--xs3) 0;
+          padding: var(--spacing-xs4) 0;
         }
         .footer__plus a:hover {
           color: var(--base);
@@ -98,6 +112,7 @@ const Footer = () => {
           display: flex;
           align-items: center;
           color: var(--base);
+          padding: var(--spacing-xs4) 0;
         }
         .contact-item svg {
           height: 12px;
@@ -112,23 +127,31 @@ const Footer = () => {
           margin-top: var(--spacing-xs4);
         }
         .footer__social a {
-          color: var(--base)
+          color: var(--base);
+          padding: var(--spacing-xs2);
+          border-radius: var(--borderRadius);
         }
         .footer__social a:hover {
-          color: var(--base40)
+          background-color: var(--bgDarker);
         }
         .footer__social a svg {
           width: 20px;
           height: 20px;
-          margin: var(--spacing-xs5);
         }
         .footer__social span {
          color: var(--base40);
          font-size: var(--size-xs1);
         }
-      `}</style>
-    </>
 
+        .title-logo {
+          display: flex;
+          align-items: center;
+          img {
+            padding-right: var(--spacing-xs2);
+          }
+        }
+      `}</style>
+    </footer>
   )
 }
 

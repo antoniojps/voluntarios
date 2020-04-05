@@ -105,7 +105,6 @@ const Profile = ({ user = { firstName: null, lastName: null, email: null, job: n
                         loading={loadingSubmit}
                         onSubmit={handleSave}
                     />
-                    <Spacer y={5} />
                 </div>
             </div>
         </Layout >

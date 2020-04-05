@@ -24,7 +24,7 @@ const Posts = ({ frontmatter, markdownBody }) => {
   }, [frontmatter])
 
   return (
-    <Layout title={frontmatter.title} description={frontmatter.description}>
+    <Layout title={frontmatter.title} description={frontmatter.description} showFooterCallToAction>
       <Seo title={frontmatter.title} description={frontmatter.description} />
       <article>
           <ReactMarkdown
@@ -39,11 +39,10 @@ const Posts = ({ frontmatter, markdownBody }) => {
               }
             }
           />
-          <Spacer y={5}/>
+          <Spacer y={1}/>
         <Note label={false}>
           Atualizado {postDate}
         </Note>
-        <Spacer y={3}/>
       </article>
       <style jsx>{`
         article {

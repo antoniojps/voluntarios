@@ -216,6 +216,6 @@ function SignUp() {
 }
 
 // redirect authenticated users on the server side to index
-SignUp.getInitialProps = (ctx) => withAuth(ctx, {redirectAuthenticated: true})
+SignUp.getInitialProps = (ctx) => withAuth(ctx, {redirectAuthenticated: true, to: '/profile'})
 
 export default withApollo({ ssr: true })(SignUp);

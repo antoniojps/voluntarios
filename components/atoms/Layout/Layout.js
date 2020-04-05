@@ -10,6 +10,8 @@ const Layout = ({
   description = <DescriptionDefault />,
   className = '',
   showPublicNav = false,
+  showFooter = true,
+  showFooterCallToAction = false,
 }) => {
   return (
     <>
@@ -25,7 +27,9 @@ const Layout = ({
         <main>
           {children}
         </main>
-        <Footer />
+        {showFooter && (
+          <Footer showCallToAction={showFooterCallToAction} />
+        )}
       </div>
     </>
   )

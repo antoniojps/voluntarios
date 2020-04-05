@@ -2,7 +2,6 @@ import React from 'react';
 import { withApollo } from '../apollo/client';
 import Seo from 'containers/Seo'
 import { Layout } from 'components/atoms'
-import { Spacer } from '@zeit-ui/react'
 import { USER_SLUG_QUERY } from '../graphql'
 import Volunteer from '../containers/Volunteer'
 import Link from 'next/link'
@@ -60,7 +59,11 @@ function Profile({ user }) {
   const { asPath } = useRouter()
 
   if (user) return (
-    <Layout title={user.name} description={<Description path={asPath} categories={user.categories} />}>
+    <Layout
+      title={user.name}
+      description={<Description path={asPath} categories={user.categories} />}
+      showFooterCallToAction
+    >
       <Seo
         title={user.name}
         description={`Disponível para ajudar${user.categories.length > 0 ? ` na${user.categories.length > 1 ? 's' : ''} área${user.categories.length > 1 ? 's' : ''} de ${user.categories.map(opt => opt.name).join(', ')}` : ''}.`}
@@ -68,7 +71,6 @@ function Profile({ user }) {
         ogImageText={`**${user.firstName}** está disponível para ajudar.`}
       />
       <Volunteer {...user} isClickable={false} hasPerson={false} />
-      <Spacer y={5} />
     </Layout>
   );
 

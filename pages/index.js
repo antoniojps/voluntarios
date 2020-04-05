@@ -186,7 +186,7 @@ const Index = () => {
         shouldAppend={false}
         shouldGenerateImage={false}
       />
-      <Layout title="Voluntários" description={<Description showAction={!user} />}>
+      <Layout title="Voluntários" description={<Description showAction={!user} />} showFooterCallToAction>
         <div className="volunteers">
           {renderFilters()}
           <VolunteersList
