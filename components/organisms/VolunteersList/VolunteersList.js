@@ -40,6 +40,7 @@ const VolunteersList = ({
             {...volunteer}
             loading={(loading && (!data || !data.users || !data.users.list))}
             iframe={iframe}
+            isClickable
           />
         ))
       }

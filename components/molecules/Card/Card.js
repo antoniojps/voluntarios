@@ -13,16 +13,25 @@ const Card = memo(({
     loading,
     avatar,
     onContact = () => { },
+    onClickCard = () => { },
     hasShadow = true,
     hasContact = true,
     hasLocations = true,
     hasCategories = true,
     heightStretch = false,
+    isHoverable = false,
     iframe = false,
+    className = '',
 }) => {
 
     function onIframeContact() {
         window.parent.postMessage(JSON.stringify({'action': 'OPEN_URL', 'url': "https://voluntarios.app"}), "https://www.covindex.pt")
+    }
+
+    const handleContact = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        onContact()
     }
 
     const avatarProps = useMemo(() => {
@@ -86,7 +95,7 @@ const Card = memo(({
                         }
                     </div>
                     {hasContact && (
-                        <button onClick={iframe ? onIframeContact : onContact} className="btn btn--secondary btn--stretch" type='secondary'>
+                        <button onClick={iframe ? onIframeContact : handleContact} className="btn btn--secondary btn--stretch" type='secondary'>
                             contactar
                         </button>
                     )}
@@ -96,7 +105,10 @@ const Card = memo(({
     )
 
     return (
-        <div className={`card ${hasShadow ? 'card--shadow' : ''} ${heightStretch ? 'card--height-stretch' : ''}`}>
+        <div
+            className={`card ${className} ${hasShadow ? 'card--shadow' : ''} ${heightStretch ? 'card--height-stretch' : ''} ${isHoverable ? 'card--hoverable' : ''}`}
+            onClick={onClickCard}
+        >
             {loading
                 ? renderLoading()
                 : renderDefault()

@@ -12,6 +12,13 @@
   &--height-stretch {
     height: 100%;
   }
+  &--hoverable {
+    transition: transform 160ms;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
   &__top {
     display: flex;
     justify-content: space-between;

@@ -9,10 +9,12 @@ import Confetti from 'react-dom-confetti';
 import { confettiConfig } from '../services/contants'
 import { Icon, Modal } from 'components/atoms'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { useRouter } from 'next/router'
 
-const Volunteer = ({ name, _id, iframe = false, ...props }) => {
+const Volunteer = ({ name, _id, slug, iframe = false, isClickable = false, ...props }) => {
   const [hasVerified, setHasVerified] = useState(false)
   const [isOpen, setOpen] = useState(false)
+  const router = useRouter()
   const [, setToast] = useToasts()
   const toggle = () => {
     setOpen(!isOpen)
@@ -41,9 +43,19 @@ const Volunteer = ({ name, _id, iframe = false, ...props }) => {
     }
   }, [data])
 
+  const userSlug = slug || _id
+
   return (
     <div>
-      <Card name={name} {...props} onContact={toggle} heightStretch iframe={iframe} />
+      <Card
+        name={name}
+        {...props}
+        onClickCard={() => isClickable ? router.push('/[user]',`/${userSlug}`) : null}
+        onContact={toggle}
+        heightStretch
+        isHoverable={isClickable}
+        iframe={iframe}
+      />
       <div className="confetti-wrapper">
         <Confetti active={!loading && data} config={confettiConfig} />
       </div>

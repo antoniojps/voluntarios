@@ -67,7 +67,7 @@ function Profile({ user }) {
         shouldAppend={false}
         ogImageText={`**${user.firstName}** está pronto para ajudar.`}
       />
-      <Volunteer {...user} hasPerson={false} />
+      <Volunteer {...user} isClickable={false} hasPerson={false} />
       <Spacer y={5} />
     </Layout>
   );
