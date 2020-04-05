@@ -83,7 +83,7 @@ const Card = memo(({
                     <div className='card__body__item' >
                         {(hasLocations && locations.length > 0) &&
                             <>
-                                <Icon icon={faMapMarkerAlt} />
+                                <Icon icon={faMapMarkerAlt} height={16} />
                                 <Spacer x={0.4} />
 
                                 <p>
