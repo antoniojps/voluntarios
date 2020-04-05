@@ -205,7 +205,7 @@ const Nav = ({ skipAuth = false }) => {
 
     if (!avatar) return {}
 
-    const src = avatar.image && avatar.image.small ? avatar.image.small : null
+    const src = avatar.image && avatar.image.medium ? avatar.image.medium : null
     const illustration = avatar.illustration
     return {
       src,
