@@ -6,7 +6,7 @@ export const missionData = '<p>Vamos <strong>facilitar a comunicação</strong> 
 export const linksData = [
     { label: 'Website', to: '/' },
     { label: 'Missão', to: '/p/sobre' },
-    { label: 'Quem somos?', to: '/p/sobre' },
+    { label: 'Quem somos?', to: '/p/quem-somos' },
     { label: 'Como funciona?', to: '/p/sobre' },
     { label: 'Política de privacidade', to: '/p/politica-de-privacidade' },
 ];

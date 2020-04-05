@@ -2,15 +2,14 @@
 title: "Sobre"
 description: "voluntarios.app"
 author: António & Sónia
-date: "2020-05-02"
+date: "2020-04-05"
 ---
 
-Estás disposto a utilizar as tuas competências para **melhorar a sociedade**?
-**Queres ajudar** mas não sabes por onde começar?
-**Precisas de voluntários** para um projeto solidário?
+O **encontro entre pessoas com espírito de entreajuda e associações/instituições de cariz social, nem sempre é uma tarefa fácil**. As tecnologias e as redes sociais apresentam um conjunto de oportunidades que, por sua vez, podem auxiliar e beneficiar tanto a procura de ações de voluntariado por parte dos voluntários, como a procura ativa de voluntários, por parte das instituições/entidades sociais.
 
-Se respondeste *“Sim”* a alguma das perguntas anteriores, o *voluntários* é ideal para ti!
-
+Desta forma, o *voluntarios* é uma plataforma que, nesta fase inicial, procura oferecer:
+- Aos **voluntários**, uma forma fácil, rápida e prática de manifestar a sua disponibilidade de auxílio em situações nas várias áreas de atuação.
+- Às **instituições/particulares** uma alternativa fácil de encontrar, selecionar e de comunicação rápida e simples com os voluntários.
 
 ## Missão
 
