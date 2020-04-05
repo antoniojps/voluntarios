@@ -1,7 +1,7 @@
 import React from 'react'
 import Popover from './../components/molecules/Popover/Popover'
 import { LinkActive, Avatar } from 'components/atoms'
-
+import Link from 'next/link'
 
 const links = [
   { label: 'Editar perfil', to: '/profile' },
@@ -9,8 +9,13 @@ const links = [
   { label: 'Sair', to: '/sign-out' },
 ]
 
-const List = () => (
+const List = ({ userSlug = null }) => (
   <div className="list">
+    {userSlug && (
+      <Link href="/[user]" as={`/${userSlug}`} activeClassName='active'>
+        <a>Ver perfil</a>
+      </Link>
+    )}
     {links.map(({ label, to }) => (
       <LinkActive key={label} href={to} activeClassName='active'>
         <a>{label}</a>
@@ -41,10 +46,10 @@ const List = () => (
   </div>
 )
 
-const NavAuth = ({ avatar = {} }) => {
+const NavAuth = ({ avatar = {}, userSlug = null }) => {
   return (
       <Popover
-        content={<List />}
+        content={<List userSlug={userSlug} />}
         handlerWidth={15}
         position="bottom"
         align="end"

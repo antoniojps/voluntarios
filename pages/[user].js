@@ -1,17 +1,19 @@
 import React from 'react';
 import { withApollo } from '../apollo/client';
 import Seo from 'containers/Seo'
-import { Layout } from 'components/atoms'
-import { USER_SLUG_QUERY } from '../graphql'
+import { Layout, ButtonAction } from 'components/atoms'
+import { USER_SLUG_QUERY, CURRENT_USER_QUERY } from '../graphql'
 import Volunteer from '../containers/Volunteer'
 import Link from 'next/link'
 import { Share } from 'components/molecules'
 import { useRouter } from 'next/router'
 import { useToasts } from '@zeit-ui/react'
+import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { useQuery } from '@apollo/react-hooks'
 
 const { DOMAIN } = process.env
 
-const Description = ({ path, categories = [] }) => {
+const Description = ({ path, categories = [], showEdit = false }) => {
   const profileUrl = `${DOMAIN}${path}`
   const [, setToast] = useToasts()
 
@@ -23,20 +25,39 @@ const Description = ({ path, categories = [] }) => {
         {categories.length > 0 ? ` na${categories.length > 1 ? 's' : ''} área${categories.length > 1 ? 's' : ''} de ${categories.map(opt => opt.name).join(', ')}` : ''}
         .
       </p>
-      <Share
-        facebookUrl={profileUrl}
-        twitterUrl={profileUrl}
-        linkedinUrl={profileUrl}
-        url={profileUrl}
-        onCopy={() => setToast({
-          text: 'Endereço copiado',
-        })}
-      />
+      <div className="description-actions">
+        {showEdit && (
+          <>
+            <Link href="/profile">
+              <a>
+                  <ButtonAction icon={faPen} className="btn--secondary btn--small">
+                  Editar perfil
+                  </ButtonAction>
+              </a>
+            </Link>
+          </>
+        )}
+        <Share
+          facebookUrl={profileUrl}
+          twitterUrl={profileUrl}
+          linkedinUrl={profileUrl}
+          url={profileUrl}
+          onCopy={() => setToast({
+            text: 'Endereço copiado',
+          })}
+        />
+      </div>
       <style jsx>{`
         .description-user {
           display: flex;
           flex-direction: column;
           align-items: center;
+        }
+        .description-actions {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          justify-content: center;
         }
       `}</style>
     </div>
@@ -57,11 +78,12 @@ const DescriptionNotFound = () => (
 
 function Profile({ user }) {
   const { asPath } = useRouter()
+  const { data } = useQuery(CURRENT_USER_QUERY, { fetchPolicy: 'cache-only'})
 
   if (user) return (
     <Layout
       title={user.name}
-      description={<Description path={asPath} categories={user.categories} />}
+      description={<Description path={asPath} categories={user.categories} showEdit={data && data.currentUser._id && data.currentUser._id  === user._id} />}
       showFooterCallToAction
     >
       <Seo
@@ -108,7 +130,7 @@ Profile.getInitialProps = async (ctx) => {
 
     // pass user to page
     return {
-      user:  userBySlug,
+      user: userBySlug,
     }
   } catch (err) {
     return {

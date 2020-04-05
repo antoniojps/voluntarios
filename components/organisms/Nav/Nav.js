@@ -174,7 +174,7 @@ const Nav = ({ skipAuth = false }) => {
     >
       {renderList()}
       <Spacer x={1} />
-      <NavAuth avatar={avatarProps} />
+      <NavAuth avatar={avatarProps} userSlug={userSlug} />
     </motion.div>
   )
 
@@ -188,8 +188,8 @@ const Nav = ({ skipAuth = false }) => {
         transition={{ duration: 0.1 }}
         key="authenticated"
       >
-      <Spacer x={1} />
-      <NavAuth avatar={avatarProps} />
+        <Spacer x={1} />
+        <NavAuth avatar={avatarProps} userSlug={userSlug} />
       </motion.div>
     )
   }
@@ -218,6 +218,7 @@ const Nav = ({ skipAuth = false }) => {
       ...illustration,
     }
   }, [data])
+  const userSlug =  data && data.currentUser && (data.currentUser.slug || data.currentUser._id)
 
   const renderNavRight = () => {
     const cachedUser = cachedData && cachedData.currentUser
