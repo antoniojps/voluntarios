@@ -38,6 +38,7 @@
     "cookie": "0.4.0",
     "date-fns": "^2.11.1",
     "dotenv": "^8.2.0",
+    "emoji-dictionary": "^1.0.10",
     "framer-motion": "^1.10.0",
     "graphql": "^14.0.2",
     "graphql-scalars": "^1.0.7",

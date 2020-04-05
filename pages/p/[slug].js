@@ -4,12 +4,15 @@ import { withApollo } from 'apollo/client'
 import Seo from 'containers/Seo'
 import matter from 'gray-matter'
 import ReactMarkdown from 'react-markdown'
+import emoji from 'emoji-dictionary'
 const glob = require('glob')
 import { parse, format } from 'date-fns'
 import { pt } from 'date-fns/locale'
 import { Spacer, Note, Display, Image } from '@zeit-ui/react'
 
+
 const dateFormat = 'y-MM-dd'
+const emojiSupport = text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name))
 
 const Posts = ({ frontmatter, markdownBody }) => {
   const postDate = useMemo(() => {
@@ -35,7 +38,8 @@ const Posts = ({ frontmatter, markdownBody }) => {
                     <Display shadow caption={alt}>
                       <Image src={src} />
                     </Display>
-                  ),
+                ),
+                text: emojiSupport,
               }
             }
           />
