@@ -218,7 +218,7 @@ const Index = () => {
       <Layout
         title="Voluntários"
         description={<Description showAction={!user} count={count} />}
-        showFooterCallToAction
+        showFooter={false}
       >
         <div className="volunteers">
           {renderFilters()}
