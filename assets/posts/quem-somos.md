@@ -15,7 +15,7 @@ Desta forma, o *voluntarios* é uma plataforma que, nesta fase inicial, procura 
 Pretendemos, assim, contribuir e **ajudar a promover a prática social de voluntariado** entre a comunidade portuguesa. Uma comunidade que, cada vez mais se tem vindo a manifestar solidária, generosa e unida, especialmente circunstâncias complicadas, como as que vivemos nos dias de hoje.
 
 ## A equipa
-- António Santos :computer: `Fullstack Developer` [@antoniojmsps](https://twitter.com/antoniojmsps)
+- António Santos :computer: `Fullstack Developer` [@antoniojmps](https://twitter.com/antoniojmps)
 - Bruno Gameiro :mega: `Comunicação e Conteúdos`  [@BrunoGameiro4](https://twitter.com/BrunoGameiro4)
 - Henrique Silva :computer: `Fullstack Developer` [@jhenrsilva](https://twitter.com/jhenrsilva)
 - Sónia Machado :nail_care: :mega: `Comunicação e Design` [@scsm_m](https://twitter.com/scsm_m)
