@@ -118,8 +118,8 @@ const AvatarForm = ({
   const generateImageFiles = (file) => {
     Resizer.imageFileResizer(
       file,
-      240,
-      240,
+      500,
+      500,
       'JPEG',
       100,
       0,
@@ -130,8 +130,8 @@ const AvatarForm = ({
     );
     Resizer.imageFileResizer(
       file,
-      80,
-      80,
+      240,
+      240,
       'JPEG',
       100,
       0,
@@ -142,8 +142,8 @@ const AvatarForm = ({
     );
     Resizer.imageFileResizer(
       file,
-      60,
-      60,
+      100,
+      100,
       'JPEG',
       100,
       0,
