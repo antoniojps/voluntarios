@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import './Placeholder.module.scss'
 
-const Placeholder = ({ x = 1, y = 1 }) => {
+const Placeholder = ({ x = 1, y = 1, invisible = false }) => {
   const {height, width} = useMemo(() => {
     if (x < 0 || y < 0) {
       console.warning('Props "x","y" must be greater than or equal to 0', 'Spacer')
@@ -14,7 +14,7 @@ const Placeholder = ({ x = 1, y = 1 }) => {
   }, [x, y])
 
   return (
-    <div className="placeholder" style={{height, width}} />
+    <div className={`placeholder ${invisible ? 'placeholder--invisible' : ''}`} style={{height, width}} />
   )
 }
 

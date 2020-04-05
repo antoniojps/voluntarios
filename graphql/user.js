@@ -45,6 +45,7 @@ export const USERS_QUERY = gql`
       }
       pageInfo {
         hasNextPage
+        totalDocs
       }
     }
   }

@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { Spacer } from '@zeit-ui/react'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
+import Placeholder from '../components/atoms/Placeholder/Placeholder'
 import Seo from 'containers/Seo'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
@@ -179,6 +180,8 @@ const Index = () => {
     )
   }
 
+  const count = data && data.users && data.users.pageInfo && data.users.pageInfo.totalDocs ? data.users.pageInfo.totalDocs : null
+
   return (
     <>
       <Seo
@@ -186,7 +189,11 @@ const Index = () => {
         shouldAppend={false}
         shouldGenerateImage={false}
       />
-      <Layout title="Voluntários" description={<Description showAction={!user} />} showFooterCallToAction>
+      <Layout
+        title="Voluntários"
+        description={<Description showAction={!user} count={count} />}
+        showFooterCallToAction
+      >
         <div className="volunteers">
           {renderFilters()}
           <VolunteersList
@@ -205,10 +212,28 @@ const Index = () => {
   );
 };
 
-const Description = ({ showAction = true }) => {
+const Description = ({ showAction = true, count = null }) => {
   return (
     <div className={showAction && 'hero__description--action'}>
-      <p>Encontre um voluntário disposto a ajudar</p>
+      <p>
+        Encontre um voluntário disposto a ajudar.
+        {' '}
+        <span className="count">
+        Já somos
+        <Spacer x={0.15} />
+        {count
+          ? (
+            <span style={{ fontWeight: 'bold' }}>
+            {count}
+            </span>
+          ): (
+            <Placeholder x={0.1} y={1} invisible />
+          )
+            }
+            <Spacer x={0.15} />
+            voluntários!
+            </span>
+      </p>
       {showAction && (
         <Link href="/sign-up">
           <a>
@@ -231,6 +256,9 @@ const Description = ({ showAction = true }) => {
             .btn--action {
               width: 100% !important;
             }
+          }
+          .count {
+            display: inline-flex;
           }
         `}
       </style>
