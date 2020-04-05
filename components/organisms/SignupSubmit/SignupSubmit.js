@@ -1,13 +1,19 @@
 import React from 'react'
 import { ButtonZeit } from 'components/atoms'
-import { Card } from 'components/molecules'
-import { Spinner, Spacer } from '@zeit-ui/react'
+import { Card, Share } from 'components/molecules'
+import { Spinner, Spacer, useToasts } from '@zeit-ui/react'
 import Confetti from 'react-dom-confetti';
 import { useRouter } from 'next/router'
 import { confettiConfig } from '../../../services/contants'
 
+const { DOMAIN } = process.env
+
+
 const LoaderSignUp = ({ successToggle = false, user = null }) => {
   const router = useRouter()
+  const [, setToast] = useToasts()
+  const profileUrl = user && user._id ? `${DOMAIN}/${user._id}` : DOMAIN
+
   return (
     <div className="loader-signup">
       <Confetti active={successToggle} config={confettiConfig} />
@@ -15,6 +21,22 @@ const LoaderSignUp = ({ successToggle = false, user = null }) => {
         <>
           {user && (
             <>
+              <p>
+                Partilha o teu perfil e divulga este movimento
+                {" "}
+                <span role="img" aria-label="strong">💪</span>
+                .
+              </p>
+              <Share
+                facebookUrl={profileUrl}
+                twitterUrl={profileUrl}
+                linkedinUrl={profileUrl}
+                url={profileUrl}
+                onCopy={() => setToast({
+                  text: 'Endereço copiado',
+                })}
+              />
+              <Spacer y={0.5} />
               <Card {...user} hasContact={false} />
               <Spacer y={1} />
             </>
