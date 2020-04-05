@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const links = [
   { label: 'Editar perfil', to: '/profile' },
-  { label: 'Avatar', to: '/avatar' },
+  { label: 'Editar Avatar', to: '/avatar' },
   { label: 'Sair', to: '/sign-out' },
 ]
 
