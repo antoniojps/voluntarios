@@ -306,16 +306,18 @@ export const resolvers = {
         const slug = input.slug.toLowerCase()
         const slugValid = slugRegex.test(slug)
         if (!slugValid) throw new Error('400');
-        const userWithSlug = await User.findOne({ slug })
 
         // prevent from setting custom user id as an object id
         const isObjectId = ObjectID.isValid(slug)
         if (isObjectId) throw new Error('400');
 
+        // check if slug already exists
+        const userWithSlug = await User.findOne({ slug })
         if (
           userWithSlug
           && ObjectID(userWithSlug._id).toString() !== ObjectID(userId).toString()
         ) throw new Error('409');
+
         const updatedUser = await User.findOneAndUpdate(
           {
             _id: userId,
