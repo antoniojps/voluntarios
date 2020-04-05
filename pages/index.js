@@ -208,7 +208,7 @@ const Index = () => {
 const Description = ({ showAction = true }) => {
   return (
     <div className={showAction && 'hero__description--action'}>
-      <p>Plataforma Online do Voluntariado Português</p>
+      <p>Encontre um voluntário disposto a ajudar</p>
       {showAction && (
         <Link href="/sign-up">
           <a>

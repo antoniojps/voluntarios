@@ -63,7 +63,7 @@ function Profile({ user }) {
     <Layout title={user.name} description={<Description path={asPath} categories={user.categories} />}>
       <Seo
         title={user.name}
-        description={`Voluntário pronto a ajudar${user.categories.length > 0 ? ` na${user.categories.length > 1 ? 's' : ''} área${user.categories.length > 1 ? 's' : ''} de ${user.categories.map(opt => opt.name).join(', ')}` : ''}.`}
+        description={`Pronto a ajudar${user.categories.length > 0 ? ` na${user.categories.length > 1 ? 's' : ''} área${user.categories.length > 1 ? 's' : ''} de ${user.categories.map(opt => opt.name).join(', ')}` : ''}.`}
         shouldAppend={false}
         ogImageText={`**${user.firstName}** está pronto para ajudar.`}
       />
