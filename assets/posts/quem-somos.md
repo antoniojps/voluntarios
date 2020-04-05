@@ -17,7 +17,7 @@ Pretendemos, assim, contribuir e **ajudar a promover a prática social de volunt
 ## A equipa
 - António Santos :computer: `Fullstack Developer` [@antoniojmps](https://twitter.com/antoniojmps)
 - Bruno Gameiro :mega: `Comunicação e Conteúdos`  [@BrunoGameiro4](https://twitter.com/BrunoGameiro4)
+- Fracisco Regalado :mega: `Comunicação e Conteúdos`  [@fsfregalado](https://twitter.com/fsfregalado)
 - Henrique Silva :computer: `Fullstack Developer` [@jhenrsilva](https://twitter.com/jhenrsilva)
 - Sónia Machado :nail_care: :mega: `Comunicação e Design` [@scsm_m](https://twitter.com/scsm_m)
 - Vasco Silva :bulb: :computer: `Frontend Developer` [@vascorsilva](https://twitter.com/vascorsilva)
-
