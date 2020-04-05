@@ -1,6 +1,6 @@
 import React from 'react'
 import './Layout.module.scss'
-import Nav from '../../organisms/Nav/Nav'
+import { Nav, Footer } from 'components/organisms';
 
 const DescriptionDefault = () => (<p>Descrição</p>)
 
@@ -25,6 +25,7 @@ const Layout = ({
         <main>
           {children}
         </main>
+        <Footer />
       </div>
     </>
   )
