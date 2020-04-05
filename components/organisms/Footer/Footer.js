@@ -32,7 +32,7 @@ const Footer = ({ showCallToAction = false }) => {
               <div className='footer__col col col-12 col-md-3'>
                 <h4>Plataforma</h4>
                 {linksData.map(link => (
-                  <Link href={link.to}>
+                  <Link href={link.to} key={link.label}>
                     <a>{link.label}</a>
                   </Link>
                 ))}
@@ -43,7 +43,7 @@ const Footer = ({ showCallToAction = false }) => {
                     <a>Formulário online</a>
                 </Link>
                 {contactsData.map(contact => (
-                  <a className='contact-item' href={`${contact.type}${contact.content}`}>
+                  <a key={contact.content} className='contact-item' href={`${contact.type}${contact.content}`}>
                     <Icon icon={contact.icon} />
                     <span>{contact.content}</span>
                   </a>
@@ -57,7 +57,7 @@ const Footer = ({ showCallToAction = false }) => {
         <div className='footer__social'>
           <div>
             {socialData.map(social => (
-                <a href={social.to} target='_blank' rel="noreferrer noopener">
+                <a key={social.to}  href={social.to} target='_blank' rel="noreferrer noopener">
                   <Icon icon={social.icon} />
                 </a>
             ))}
