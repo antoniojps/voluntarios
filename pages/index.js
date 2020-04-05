@@ -11,10 +11,9 @@ import FilterPlaces from '../hocs/FilterPlaces/FilterPlaces';
 import cleanDeep from 'clean-deep'
 import { withApollo } from '../apollo/client';
 import Link from 'next/link'
-import { Spacer } from '@zeit-ui/react'
+import { Spacer, Badge } from '@zeit-ui/react'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { Icon } from 'components/atoms'
-import Placeholder from '../components/atoms/Placeholder/Placeholder'
 import Seo from 'containers/Seo'
 
 const orderByDefault = { field: 'createdAt', sort: 'desc' }
@@ -156,6 +155,33 @@ const Index = () => {
         <FilterPlaces title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearchPlaces} geoLocation={null} ref={filterPlacesRef} />
         <FilterCategories searchEnabled handleChange={handleChangeCategories} title='competências' ref={filterCategoriesRef} />
         <Search title='procurar por' desc='todos os voluntários' handleChange={handleChangeSearch} ref={searchRef} />
+        {count && (
+          <div className="results-info">
+            <span className="results-info--bold">
+              <Badge>
+              {count}
+              </Badge>
+            </span>
+            voluntários
+            <span className="results-info--inline" role="img" aria-label="praise">🙌</span>
+          </div>
+        )}
+        <Spacer y={1} />
+        <style jsx>{`
+          .results-info {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-xs);
+            &--bold {
+              font-weight: bold;
+              padding: 0 var(--spacing-xs5);
+            }
+            &--inline {
+              padding: 0 var(--spacing-xs4);
+            }
+          }
+        `}</style>
       </div>
     )
 
@@ -212,27 +238,11 @@ const Index = () => {
   );
 };
 
-const Description = ({ showAction = true, count = null }) => {
+const Description = ({ showAction = true }) => {
   return (
     <div className={showAction && 'hero__description--action'}>
       <p>
         Encontre um voluntário disposto a ajudar.
-        {' '}
-        <span className="count">
-        Já somos
-        <Spacer x={0.15} />
-        {count
-          ? (
-            <span style={{ fontWeight: 'bold' }}>
-            {count}
-            </span>
-          ): (
-            <Placeholder x={0.1} y={1} invisible />
-          )
-            }
-            <Spacer x={0.15} />
-            voluntários!
-            </span>
       </p>
       {showAction && (
         <Link href="/sign-up">
