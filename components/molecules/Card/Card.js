@@ -88,7 +88,7 @@ const Card = memo(({
 
                                 <p>
                                     {locations.map((location, i) => (
-                                        <span key={location._id}>{i === 0 ? '' : ', '}{location.name}</span>
+                                        <span key={location._id}>{i === 0 ? '' : '; '}{location.name}</span>
                                     ))}
                                 </p>
                             </>

@@ -186,6 +186,7 @@ function SignUp() {
             )
         }
         skipAuth
+        showFooter={false}
       >
         <div className="form-fullscreen">
             {hasSubmitted ? (
