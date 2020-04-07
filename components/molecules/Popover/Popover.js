@@ -20,7 +20,6 @@ const PopoverBase = ({
   const [isOpen, setOpen] = useState(false);
   const handleClick = (e) => {
     e.preventDefault()
-    e.stopPropagation();
     setOpen(!isOpen)
   };
 
