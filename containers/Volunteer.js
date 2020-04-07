@@ -50,7 +50,7 @@ const Volunteer = ({ name, _id, slug, iframe = false, isClickable = false, ...pr
       <Card
         name={name}
         {...props}
-        onClickCard={() => isClickable ? router.push('/[user]',`/${userSlug}`) : null}
+        onClickCard={() => !props.loading && isClickable ? router.push('/[user]',`/${userSlug}`) : null}
         onContact={toggle}
         heightStretch
         isHoverable={isClickable}
