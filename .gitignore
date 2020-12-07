@@ -31,3 +31,4 @@ build/
 dummy
 
 .now
+.vercel

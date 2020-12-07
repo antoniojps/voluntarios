@@ -1,5 +1,5 @@
 {
-  "scope": "me-myself-and-i",
+  "scope": "ytrank",
   "env": {
     "MONGODB_URI": "@voluntarios_mongodb_uri",
     "JWT_SECRET": "@voluntarios_jwt_secret",
