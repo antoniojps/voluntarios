@@ -1,7 +1,7 @@
 {
   "scope": "ytrank",
   "env": {
-    "MONGODB_URI": "@voluntarios_mongodb_uri",
+    "MONGODB_URI": "@voluntarios_mongodb_uri_atlas",
     "JWT_SECRET": "@voluntarios_jwt_secret",
     "JWT_AUDIENCE": "@voluntarios_jwt_audience",
     "JWT_ISSUER": "@voluntarios_jwt_issuer",
