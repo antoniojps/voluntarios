@@ -78,7 +78,7 @@
     "react-tiny-popover": "^4.0.0",
     "react-use": "^13.27.0",
     "uuid": "^7.0.2",
-    "validator": "^12.2.0",
+    "validator": "^13.7.0",
     "yup": "^0.28.3"
   },
   "author": "",
