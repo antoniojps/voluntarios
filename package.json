@@ -102,7 +102,7 @@
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "micro": "^9.3.4",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "sass-loader": "^8.0.2",
     "styled-jsx-plugin-sass": "^1.0.0",
     "supertest": "^4.0.2"
